@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory.h                                           :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/05 22:35:26 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/08 12:06:41 by kostya           ###   ########.fr       */
+/*   Created: 2021/09/08 13:12:43 by kostya            #+#    #+#             */
+/*   Updated: 2021/09/08 13:17:17 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MEMORY_H
-#define MEMORY_H
+#include "minishell.h"
+#include "enviroment.h"
+#include "global.h"
 
-#include <malloc.h>
-#include <stdlib.h>
+extern g_main_st_t g_main;
 
-void	*xmalloc(size_t size) __attribute__((malloc)) __attribute__((warn_unused_result));
-
-#endif
+int	builtin_env(__attribute__((unused)) const char *path, const char **argv)
+{
+	if (*argv)
+	{
+		xperror("env", ETMA, NULL);
+		return (EXIT_FAILURE);
+	}
+	print_list(g_main.env);
+	return (EXIT_SUCCESS);
+}

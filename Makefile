@@ -2,23 +2,28 @@
 CC		=	gcc
 RM		=	rm -rf
 NAME	=	minishell
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror -D__USE_GNU
 
 SRCS	=	builtin_cd.c \
 			builtin_echo.c \
+			builtin_env.c \
 			builtin_export.c \
+			builtin_pwd.c \
+			builtin_unset.c \
 			enviroment.c \
 			ft_split.c \
 			memory.c \
 			minishell.c \
-			pwd.c
+			ft_atoi_s.c \
+			builtin_exit.c
+
 
 HDRS	=	enviroment.h \
 			global.h \
 			memory.h \
 			minishell.h
 		
-OBJS	=	${SRCS:=.o}
+OBJS	=	${SRCS:.c=.o}
 LIBRARY	=	-lreadline
 
 .c.o:
@@ -30,10 +35,12 @@ $(NAME):	${OBJS}
 	${CC}	-o ${NAME} ${CFLAGS} ${COPTIONS} ${OBJS} ${LIBRARY}
 
 clean:
-	${RM}	OBJS
+	${RM}	${OBJS}
 
-fclean:		${CLEAN}
+fclean:		clean
 	${RM} 	${NAME}
+
+re:			fclean all
 
 pvs:
 	pvs-studio-analyzer trace -- make

@@ -1,27 +1,12 @@
 /**
  *	Author:		kostya
  *	Created:	2021-09-05 16:48:48
- *	Modified:	2021-09-05 20:37:58
+ *	Modified:	2021-09-06 22:51:46
  **/
 
-#include <zconf.h>
-
-#ifdef DEBUG
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-int builtin_echo(const char *path, const char **argv);
-const char **builtin_echo_arg_check(const char **argv,
-int * restrict n_opt);
-int main(int argc, const char **argv)
-{
-	(void)argc;
-	builtin_echo(argv[0], argv + 1);
-}
-#endif
-//#ifndef DEBUG
 # include "minishell.h"
-//#endif
+
+static const char **builtin_echo_arg_check(const char **argv, int * restrict n_opt) __attribute__((warn_unused_result));
 
 int builtin_echo(__attribute__((unused)) const char *path, const char **argv)
 {

@@ -1,10 +1,11 @@
 /**
  *	Author:		kostya
  *	Created:	2021-09-05 19:35:50
- *	Modified:	2021-09-05 19:35:52
+ *	Modified:	2021-09-07 10:56:58
  **/
 
 #include "minishell.h"
+#include "enviroment.h"
 
 int	builtin_cd(__attribute__((unused)) const char *path, const char **argv)
 {
@@ -16,7 +17,7 @@ int	builtin_cd(__attribute__((unused)) const char *path, const char **argv)
 	if (togo == NULL)
 		togo = "~";
 	if (!ft_memcmp("~", togo, 2))
-		togo = xgetenv("HOME");
+		togo = ft_getenv("HOME", NULL);
 	// if we want to go $HOME, but it deleted - we qre not going anywhere
 	if (togo == NULL)
 		togo = "";

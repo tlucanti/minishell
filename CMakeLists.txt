@@ -7,9 +7,13 @@ link_libraries(readline)
 add_executable(Minishell
         global.h
 
-        builtin_cd.c
         builtin_echo.c
+        builtin_cd.c
+        builtin_pwd.c
         builtin_export.c
+        builtin_unset.c
+        builtin_env.c
+        builtin_exit.c
 
         enviroment.c
         enviroment.h
@@ -21,6 +25,6 @@ add_executable(Minishell
         minishell.h
 
         ft_split.c
-        pwd.c
+        ft_atoi_s.c
 )
 
