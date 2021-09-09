@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kostya <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 11:16:40 by tlucanti          #+#    #+#             */
-/*   Updated: 2021/03/20 18:20:33 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/09 14:45:06 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	**ft_error_test_ft_split(char **ret) __attribute__((warn_unused_result));
+static char	**ft_str_append_sized(char **arr, char *str, size_t size, size_t arrlen) __attribute__((warn_unused_result));
+static char	**ft_push_back_char_ss(char **arr, char *new_s, size_t arrlen) __attribute__((warn_unused_result));
+static void	*ft_arr_clear(char **arr);
 
 char	**ft_split(char const *s, int (*f)(int))
 {
@@ -41,7 +46,7 @@ char	**ft_split(char const *s, int (*f)(int))
 	return (ft_error_test_ft_split(ret));
 }
 
-char	**ft_error_test_ft_split(char **ret)
+static char	**ft_error_test_ft_split(char **ret)
 {
 	if (ret == NULL)
 		return (NULL);
@@ -52,7 +57,7 @@ char	**ft_error_test_ft_split(char **ret)
 	return (ret);
 }
 
-char	**ft_str_append_sized(char **arr, char *str, size_t size, size_t arrlen)
+static char	**ft_str_append_sized(char **arr, char *str, size_t size, size_t arrlen)
 {
 	char	*new_s;
 
@@ -64,7 +69,7 @@ char	**ft_str_append_sized(char **arr, char *str, size_t size, size_t arrlen)
 	return (ft_push_back_char_ss(arr, new_s, arrlen));
 }
 
-char	**ft_push_back_char_ss(char **arr, char *new_s, size_t arrlen)
+static char	**ft_push_back_char_ss(char **arr, char *new_s, size_t arrlen)
 {
 	char	**new_arr;
 	char	**new_arr_ptr;
@@ -93,10 +98,13 @@ char	**ft_push_back_char_ss(char **arr, char *new_s, size_t arrlen)
 	return (new_arr);
 }
 
-void	*ft_arr_clear(char **arr)
+static void	*ft_arr_clear(char **arr)
 {
+	char	**ptr_init;
+
+	ptr_init = arr;
 	while (*arr)
 		free(*arr++);
-	free(arr);
+	free(ptr_init);
 	return (0);
 }

@@ -6,13 +6,14 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 20:05:35 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/08 12:06:35 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/09 14:45:03 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "enviroment.h"
 #include "global.h"
 #include "memory.h"
+#include "minishell.h"
 
 extern g_main_st_t	g_main;
 #define ft_memcmp memcmp
@@ -20,6 +21,7 @@ extern g_main_st_t	g_main;
 
 static t__internal_env_list *f__internal_new_node() __attribute__((warn_unused_result));
 static void					f__internal_rm_node(t__internal_env_list *_node);
+static char	*mas_gen_str_sum(const char *str1, const char *str2, size_t size1, size_t size2) __attribute__((warn_unused_result));
 
 const char	*ft_getenv(const char *name, size_t *size)
 {
@@ -51,22 +53,22 @@ const char	*ft_getenv_s(const char *name, size_t *size)
 	return (ret);
 }
 
-t_env * env_init(void) {
+t_env *env_init(void) {
 	t_env	*new_env;
-	// char	*restrict key;
-	// char	*restrict value;
-	// size_t	it;
+	 char	*restrict key;
+	 char	*restrict value;
+	 size_t	it;
 
 	new_env = xmalloc(sizeof(t_env));
 	new_env->root = f__internal_new_node();
 	new_env->back = new_env->root;
-	// it = 0;
-	// while (__environ[it])
-	// {
-	// 	builtin_export_split(__environ[it], &key, &value);
-	// 	list_insert(new_env, key, value);
-	// 	++it;
-	// }
+	 it = 0;
+	 while (__environ[it])
+	 {
+	 	builtin_export_split(__environ[it], &key, &value);
+	 	list_insert(new_env, key, value);
+	 	++it;
+	 }
 	return (new_env);
 }
 
@@ -155,6 +157,44 @@ void	print_list(t_env *env)
 		printf("%s=%s\n", ptr->key, ptr->value);
 		ptr = ptr->next;
 	}
+}
+
+char	**mas_gen(t_env *env)
+{
+	t__internal_env_list	*ptr;
+	size_t					size;
+	char					**mas;
+
+	ptr = env->root;
+	size = 0;
+	while (ptr->next)
+	{
+		++size;
+		ptr = ptr->next;
+	}
+	mas = xmalloc(sizeof(char *) * (size + 1));
+	ptr = env->root;
+	size = 0;
+	while (ptr->next)
+	{
+		mas[size] = mas_gen_str_sum(ptr->key, ptr->value, ptr->key_size, ptr->value_size);
+		++size;
+		ptr = ptr->next;
+	}
+	mas[size] = NULL;
+	return (mas);
+}
+
+static char	*mas_gen_str_sum(const char *str1, const char *str2, size_t size1, size_t size2)
+{
+	char	*sum;
+
+	sum = xmalloc(sizeof(char) * (size1 + size2 + 2));
+	ft_memcpy(sum, str1, size1);
+	sum[size1] = '=';
+	ft_memcpy(sum + size1 + 1, str2, size2);
+	sum[size1 + size2 + 1] = '\0';
+	return (sum);
 }
 
 static t__internal_env_list *f__internal_new_node()

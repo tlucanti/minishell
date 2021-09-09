@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 18:02:16 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/08 11:32:27 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/09 14:45:00 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 
 extern g_main_st_t g_main;
 
-int	builtin_unset(__attribute__((unused)) const char *path, const char **argv)
+int	builtin_unset(char *const *argv)
 {
 	char *restrict key;
 	char *restrict value;
 
+	++argv;
 	if (!*argv)
 	{
 		xperror("unset", ENEA, NULL);

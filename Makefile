@@ -1,3 +1,14 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
+#    Updated: 2021/09/09 14:45:12 by kostya           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 CC		=	gcc
 RM		=	rm -rf
@@ -15,7 +26,8 @@ SRCS	=	builtin_cd.c \
 			memory.c \
 			minishell.c \
 			ft_atoi_s.c \
-			builtin_exit.c
+			builtin_exit.c \
+			builtin_execve.c
 
 
 HDRS	=	enviroment.h \

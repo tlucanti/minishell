@@ -1,18 +1,25 @@
-/**
- *	Author:		kostya
- *	Created:	2021-09-05 16:48:48
- *	Modified:	2021-09-06 22:51:46
- **/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/09 13:05:54 by kostya            #+#    #+#             */
+/*   Updated: 2021/09/09 14:44:53 by kostya           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 # include "minishell.h"
 
-static const char **builtin_echo_arg_check(const char **argv, int * restrict n_opt) __attribute__((warn_unused_result));
+static char * const*builtin_echo_arg_check(char *const *argv, int * restrict n_opt) __attribute__((warn_unused_result));
 
-int builtin_echo(__attribute__((unused)) const char *path, const char **argv)
+int builtin_echo(char *const *argv)
 {
 	int n_opt;
 
 	n_opt = 0;
+	++argv;
 	argv = builtin_echo_arg_check(argv, &n_opt);
 	if (*argv)
 	{
@@ -29,7 +36,7 @@ int builtin_echo(__attribute__((unused)) const char *path, const char **argv)
 	return (EXIT_SUCCESS);
 }
 
-static const char **builtin_echo_arg_check(const char **argv, int * restrict n_opt)
+static char * const*builtin_echo_arg_check(char *const *argv, int * restrict n_opt)
 {
 	size_t	it;
 	int		got_n;

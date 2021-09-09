@@ -1,8 +1,14 @@
-/**
- *	Author:		kostya
- *	Created:	2021-09-05 19:36:31
- *	Modified:	2021-09-08 13:17:54
- **/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/09 13:56:55 by kostya            #+#    #+#             */
+/*   Updated: 2021/09/09 14:45:19 by kostya           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 #include "global.h"
@@ -61,30 +67,28 @@ static int	update_promt()
 	return (0);
 }
 
-#define CALL NULL, (const char **)(arr + 1)
 int	simple_parcer(const char *input)
 {
 	char **arr = ft_split(input, ft_isspace);
 
 	if (!strcmp(arr[0], "echo"))
-		return (builtin_echo(CALL));
+		return (builtin_echo(arr));
 	else if (!strcmp(arr[0], "cd"))
-		return (builtin_cd(CALL));
+		return (builtin_cd(arr));
 	else if (!strcmp(arr[0], "pwd"))
-		return (builtin_pwd(CALL));
+		return (builtin_pwd(arr));
 	else if (!strcmp(arr[0], "export"))
-		return (builtin_export(CALL));
+		return (builtin_export(arr));
 	else if (!strcmp(arr[0], "unset"))
-		return (builtin_unset(CALL));
+		return (builtin_unset(arr));
 	else if (!strcmp(arr[0], "env"))
-		return (builtin_env(CALL));
+		return (builtin_env(arr));
 	else if (!strcmp(arr[0], "exit"))
-		return (builtin_exit(CALL));
+		return (builtin_exit(arr));
 	else
-	{
-		xperror("minishell", ECNF, arr[0]);
-		return (127);
-	}
+		builtin_execve(arr);
+	xperror("minishell", ECNF, arr[0]);
+	return (1);
 //	clear_split(arr);
 //	return (0);
 }
@@ -98,15 +102,18 @@ size_t	putsfd(int fd, const char *str)
 	return (size);
 }
 
-//void clear_split(char **array)
-//{
-//	while (*array)
-//	{
-//		free(*array);
-//		++array;
-//	}
-//	free(array);
-//}
+void clear_split(char **array)
+{
+	char	**ptr;
+
+	ptr = array;
+	while (*array)
+	{
+		free(*array);
+		++array;
+	}
+	free(ptr);
+}
 
 void xperror(const char *parent, int errorcode, const char *arg)
 {

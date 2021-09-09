@@ -1,8 +1,14 @@
-/**
- *	Author:		kostya
- *	Created:	2021-09-05 19:33:59
- *	Modified:	2021-09-08 11:07:57
- **/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/09 12:38:52 by kostya            #+#    #+#             */
+/*   Updated: 2021/09/09 14:44:57 by kostya           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 #include "enviroment.h"
@@ -11,11 +17,12 @@
 
 extern g_main_st_t g_main;
 
-int	builtin_export(__attribute__((unused)) const char *path, const char **argv)
+int	builtin_export(char *const *argv)
 {
 	char	*restrict key;
 	char	*restrict value;
 
+	++argv;
 	if (!*argv)
 	{
 		print_list(g_main.env);

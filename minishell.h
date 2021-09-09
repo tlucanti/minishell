@@ -1,8 +1,14 @@
-/**
- *    author:  kostya
- *    created: 2021-08-30 20:15:18
- *    modified 2021-08-30 20:16:09
- **/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/09 13:53:32 by kostya            #+#    #+#             */
+/*   Updated: 2021/09/09 14:45:22 by kostya           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
@@ -16,6 +22,9 @@
 #include <readline/history.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
 
 #ifndef EXIT_FAILURE
 # define EXIT_FAILURE 1
@@ -30,7 +39,7 @@
 #define ENEA -5		// ERROR NOT ENOUGH ARGUMENTS
 #define ENUMR -6	// ERROR NUMERIC ARGUMENT REQUIRED
 
-char	**ft_split(char const *s, int (*is_space)(int));
+char	**ft_split(char const *s, int (*is_space)(int)) __attribute__((warn_unused_result));
 long long	ft_atol_s(const char *str, int *error);
 int		ft_atoi_s(const char *str, int *error);
 void	clear_split(char **array);
@@ -38,19 +47,16 @@ size_t	putsfd(int fd, const char *str);
 void	xperror(const char *parent, int errorcode, const char *arg);
 int		simple_parcer(const char *input);
 
-int		builtin_echo(__attribute__((unused)) __attribute__((unused)) const char *name, const char **args);
-int		builtin_cd(__attribute__((unused)) const char *path, const char **argv);
-int		builtin_pwd(__attribute__((unused)) char *path, const char **argv);
-int		builtin_export(__attribute__((unused)) const char *path, const char **argv);
+int		builtin_echo(char *const *argv);
+int		builtin_cd(char *const *argv);
+int		builtin_pwd(char *const *argv);
+int		builtin_export(char *const *argv);
 int		builtin_export_split(const char *string, char *restrict  *key, char *restrict *value);
-int		builtin_unset(__attribute__((unused)) const char *path, const char **argv);
-int		builtin_env(__attribute__((unused)) const char *path, const char **argv);
-int		builtin_exit(__attribute__((unused)) const char *path, const char **argv);
+int		builtin_unset(char *const *argv);
+int		builtin_env(char *const *argv);
+int		builtin_exit(char *const *argv);
+int		builtin_execve(char *const *argv);
 
-char	**ft_error_test_ft_split(char **ret);
-char	**ft_str_append_sized(char **arr, char *str, size_t size, size_t arrlen);
-char	**ft_push_back_char_ss(char **arr, char *new_s, size_t arrlen);
-void	*ft_arr_clear(char **arr);
 void 	xexit(int status) __attribute__((noreturn));
 
 
