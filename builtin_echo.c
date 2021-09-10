@@ -6,11 +6,12 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:05:54 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/09 14:44:53 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/10 16:29:07 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "error.h"
+#include "minishell.h"
 
 static char * const*builtin_echo_arg_check(char *const *argv, int * restrict n_opt) __attribute__((warn_unused_result));
 
@@ -38,8 +39,8 @@ int builtin_echo(char *const *argv)
 
 static char * const*builtin_echo_arg_check(char *const *argv, int * restrict n_opt)
 {
-	size_t	it;
-	int		got_n;
+	unsigned int	it;
+	int				got_n;
 
 	while (*argv)
 	{

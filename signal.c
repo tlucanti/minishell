@@ -1,30 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/09 13:05:54 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/10 21:14:28 by kostya           ###   ########.fr       */
+/*   Created: 2021/09/10 16:34:34 by kostya            #+#    #+#             */
+/*   Updated: 2021/09/10 21:14:39 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "signal.h"
 #include "error.h"
+#include "minishell.h"
 
-int	builtin_pwd(char * const *argv)
+#include <stdio.h>
+void	handler_signint_fork(int signum)
 {
-	char	buff[PATH_MAX];
-	char	*_;
+	(void)signum;
+	exit(EXIT_FAILURE);
+}
 
-	if (argv[1])
-	{
-		ft_perror("cd", ETMA, NULL);
-		return (EXIT_FAILURE);
-	}
-	_ = getcwd(buff, PATH_MAX);
-	(void)_;
-	printf("%s\n", buff);
-	return (EXIT_SUCCESS);
+void	handler_signint_minishell(int signum)
+{
+	(void)signum;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void	handler_sigquit_minishell(int signum)
+{
+	(void)signum;
 }

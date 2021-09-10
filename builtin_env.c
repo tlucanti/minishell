@@ -6,23 +6,20 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 13:12:43 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/09 14:44:54 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/10 21:14:32 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "enviroment.h"
-#include "global.h"
-
-extern g_main_st_t g_main;
+#include "error.h"
 
 int	builtin_env(char *const *argv)
 {
 	if (argv[1])
 	{
-		xperror("env", ETMA, NULL);
+		ft_perror("env", ETMA, NULL);
 		return (EXIT_FAILURE);
 	}
-	print_list(g_main.env);
+	print_env();
 	return (EXIT_SUCCESS);
 }

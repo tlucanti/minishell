@@ -6,55 +6,75 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/09/09 14:45:12 by kostya           ###   ########.fr        #
+#    Updated: 2021/09/10 21:14:36 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC		=	gcc
-RM		=	rm -rf
-NAME	=	minishell
-CFLAGS	=	-Wall -Wextra -Werror -D__USE_GNU
+CC			=	gcc
+NAME		=	minishell
+CFLAGS		=	-Wall -Wextra -Werror
+COPTIONS	=	-O1
+DEPS		=	fract-ol.h
+RM			=	rm -f
+LIBRARY		=	-lreadline
+# ------------------------------------------------------------------------------
+SRCS		=	\
+				builtin_cd \
+				builtin_echo \
+				builtin_env \
+				builtin_export \
+				builtin_pwd \
+				builtin_unset \
+				enviroment \
+				ft_split \
+				memory \
+				minishell \
+				ft_atoi_s \
+				builtin_exit \
+				builtin_execve \
+				error \
+				signal \
+# ------------------------------------------------------------------------------
+HDRS		=	\
+				enviroment.h \
+				global.h \
+				memory.h \
+				minishell.h \
+				error.h \
+				colors.h
+# ------------------------------------------------------------------------------
+OBJS_DIR	=	.objects
+OBJS		=	${SRCS:=.o}
+LIBRARY		=	-lreadline
 
-SRCS	=	builtin_cd.c \
-			builtin_echo.c \
-			builtin_env.c \
-			builtin_export.c \
-			builtin_pwd.c \
-			builtin_unset.c \
-			enviroment.c \
-			ft_split.c \
-			memory.c \
-			minishell.c \
-			ft_atoi_s.c \
-			builtin_exit.c \
-			builtin_execve.c
-
-
-HDRS	=	enviroment.h \
-			global.h \
-			memory.h \
-			minishell.h
-		
-OBJS	=	${SRCS:.c=.o}
-LIBRARY	=	-lreadline
-
-.c.o:
-	${CC}	${CFLAGS} ${COPTIONS} -c $< -o ${<:.c=.o}
-
-all:		${NAME}
+%.o: %.c
+	${CC} ${CFLAGS}  ${COPTIONS} -c -o $@ $<
 
 $(NAME):	${OBJS}
+# 	${MAKE}		-C libft
 	${CC}	-o ${NAME} ${CFLAGS} ${COPTIONS} ${OBJS} ${LIBRARY}
 
+# ------------------------------------------------------------------------------
+all:		${NAME}
+
+# ------------------------------------------------------------------------------
 clean:
-	${RM}	${OBJS}
+# 	${MAKE}		-C libft clean
+	${RM}		${OBJS}
 
-fclean:		clean
-	${RM} 	${NAME}
+# ------------------------------------------------------------------------------
+fclean:			clean
+# 	${MAKE}		fclean -C libft
+	${RM}		${NAME}
 
+# ------------------------------------------------------------------------------
 re:			fclean all
 
+# ------------------------------------------------------------------------------
 pvs:
 	pvs-studio-analyzer trace -- make
 	pvs-studio-analyzer analyze --disableLicenseExpirationCheck --compiler gcc -l/home/kostya/.config/PVS-Studio/PVS-Studio.lic -o /media/kostya/Data/CLion/Minishell/project.log -j2
 	plog-converter -a GA:1,2 -t tasklist -o /media/kostya/Data/CLion/Minishell/project.tasks /media/kostya/Data/CLion/Minishell/project.log
+
+# ------------------------------------------------------------------------------
+.PHONY:			all clean fclean re pvs

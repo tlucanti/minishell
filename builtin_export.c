@@ -6,16 +6,21 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:38:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/09 14:44:57 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/10 21:14:30 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "enviroment.h"
-#include "global.h"
 #include "memory.h"
+#include "error.h"
 
-extern g_main_st_t g_main;
+int builtin_export_split(const char *string, char *restrict  *key, char *restrict *value);
+
+#include <ctype.h>
+#define ft_isalpha isalpha
+#define ft_isalnum isalnum
+#define ft_memcpy memcpy
+#define ft_strlen strlen
 
 int	builtin_export(char *const *argv)
 {
@@ -25,17 +30,17 @@ int	builtin_export(char *const *argv)
 	++argv;
 	if (!*argv)
 	{
-		print_list(g_main.env);
+		print_env();
 		return (0);
 	}
 	while (*argv)
 	{
 		if (builtin_export_split(*argv, &key, &value))
 		{
-			xperror("export", ENAVI, *argv);
+			ft_perror("export", ENAVI, *argv);
 			return (1);
 		}
-		list_insert(g_main.env, key, value);
+		list_insert(ft_env_storage(), key, value);
 		++argv;
 	}
 	return (0);

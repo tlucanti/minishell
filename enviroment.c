@@ -6,16 +6,14 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 20:05:35 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/09 14:45:03 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/10 16:32:06 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "enviroment.h"
-#include "global.h"
 #include "memory.h"
 #include "minishell.h"
 
-extern g_main_st_t	g_main;
 #define ft_memcmp memcmp
 #define ft_strlen strlen
 
@@ -27,7 +25,7 @@ const char	*ft_getenv(const char *name, size_t *size)
 {
 	t__internal_env_list	*ptr;
 
-	ptr = ((t_env *)g_main.env)->root;
+	ptr = ft_env_storage()->root;
 	while (ptr->next)
 	{
 		if (!ft_memcmp(name, ptr->key, ptr->key_size))
@@ -147,11 +145,11 @@ void	list_remove(t_env *env, char *key)
 	}
 }
 
-void	print_list(t_env *env)
+void	print_env(void)
 {
 	t__internal_env_list	*ptr;
 
-	ptr = env->root;
+	ptr = ft_env_storage()->root;
 	while (ptr->next)
 	{
 		printf("%s=%s\n", ptr->key, ptr->value);
@@ -159,13 +157,13 @@ void	print_list(t_env *env)
 	}
 }
 
-char	**mas_gen(t_env *env)
+char	**mas_gen()
 {
 	t__internal_env_list	*ptr;
 	size_t					size;
 	char					**mas;
 
-	ptr = env->root;
+	ptr = ft_env_storage()->root;
 	size = 0;
 	while (ptr->next)
 	{
@@ -173,7 +171,7 @@ char	**mas_gen(t_env *env)
 		ptr = ptr->next;
 	}
 	mas = xmalloc(sizeof(char *) * (size + 1));
-	ptr = env->root;
+	ptr = ft_env_storage()->root;
 	size = 0;
 	while (ptr->next)
 	{
@@ -183,6 +181,15 @@ char	**mas_gen(t_env *env)
 	}
 	mas[size] = NULL;
 	return (mas);
+}
+
+t_env	*ft_env_storage(void)
+{
+	static t_env	*env = NULL;
+
+	if (!env)
+		env = env_init();
+	return (env);
 }
 
 static char	*mas_gen_str_sum(const char *str1, const char *str2, size_t size1, size_t size2)

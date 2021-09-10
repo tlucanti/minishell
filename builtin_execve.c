@@ -6,20 +6,19 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 22:22:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/09 14:44:55 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/10 21:14:37 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "global.h"
 #include "enviroment.h"
 #include "minishell.h"
 #include "memory.h"
-
-extern	g_main_st_t g_main;
+#include "signal.h"
+#include "error.h"
 
 static char	*ft_execve_strsum(const char *str1, const char *str2) __attribute__((warn_unused_result));
 static int	ft_iscolon(int c);
-static int	builtin_execve__no_ret(char *const *argv) __attribute__((noreturn));
+static void	builtin_execve__no_ret(char *const *argv) __attribute__((noreturn));
 
 int	builtin_execve(char *const *argv)
 {
@@ -30,7 +29,10 @@ int	builtin_execve(char *const *argv)
 	if (p_id < 0)
 		return (EXIT_FAILURE);
 	else if (p_id == (pid_t)0)
+	{
+		signal(SIGINT, handler_signint_fork);
 		builtin_execve__no_ret(argv);
+	}
 	else
 	{
 		waitpid(p_id, &status, 0);
@@ -38,7 +40,7 @@ int	builtin_execve(char *const *argv)
 	}
 }
 
-static int	builtin_execve__no_ret(char *const *argv)
+static void	builtin_execve__no_ret(char *const *argv)
 {
 	char	**path_argv;
 	char	**env;
@@ -47,29 +49,30 @@ static int	builtin_execve__no_ret(char *const *argv)
 
 	path_argv = ft_split(ft_getenv_s("PATH", NULL), ft_iscolon);
 	path_argv_init = path_argv;
-	env = mas_gen(g_main.env);
+	env = mas_gen();
 	if (**argv == '.' || **argv == '/')
 	{
 		execve(*argv, argv, env);
-		xperror("minishell", errno, *argv);
+		ft_perror("minishell", errno, *argv);
 		clear_split(path_argv_init);
 		exit(1);
 	}
 	while (*path_argv)
 	{
 		next_path = ft_execve_strsum(*path_argv, *argv);
-		execve(next_path, argv, env);
+		int ret = execve(next_path, argv, env);
+		printf("%s: %d (%s)\n", next_path, ret, strerror(errno));
 		++path_argv;
 		if (errno != ENOENT)
 		{
-			xperror("minishell", errno, next_path);
+			ft_perror("minishell", errno, next_path);
 			free(next_path);
 			clear_split(path_argv_init);
 			exit(1);
 		}
 		free(next_path);
 	}
-	xperror("minishell", ECNF, *argv);
+	ft_perror("minishell", ECNF, *argv);
 	clear_split(path_argv_init);
 	exit(1);
 }

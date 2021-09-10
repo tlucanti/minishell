@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   global.h                                           :+:      :+:    :+:   */
+/*   signal.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/05 23:59:15 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/09 14:45:08 by kostya           ###   ########.fr       */
+/*   Created: 2021/09/10 16:34:56 by kostya            #+#    #+#             */
+/*   Updated: 2021/09/10 21:14:40 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GLOBAL_H
-#define GLOBAL_H
+#ifndef SIGNAL_H
+# define SIGNAL_H
 
-#ifndef PATH_MAX
-# define PATH_MAX 4096
-#endif
-typedef struct g_main_st_s
-{
-	char			promt[PATH_MAX];
-	void			(*at_exit) (const char *);
-	void			*env;
-} g_main_st_t;
+#include <signal.h>
+
+void	handler_signint_fork(int signum) __attribute__((noreturn));
+void	handler_signint_minishell(int signum);
+void	handler_sigquit_minishell(int signum);
 
 #endif

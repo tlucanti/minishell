@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:53:32 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/09 14:45:22 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/10 21:14:41 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,16 @@
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <string.h>
-#include <errno.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-
-
-#ifndef EXIT_FAILURE
-# define EXIT_FAILURE 1
-#endif
-#ifndef EXIT_SUCCESS
-# define EXIT_SUCCESS 0
-#endif
-
-#define ECNF -2		// ERROR COMMAND NOT FOUND
-#define ETMA -3		// ERROR TOO MANY ARGUMENTS
-#define ENAVI -4	// ERROR NOT A VALID IDENTIFIER
-#define ENEA -5		// ERROR NOT ENOUGH ARGUMENTS
-#define ENUMR -6	// ERROR NUMERIC ARGUMENT REQUIRED
+#include <unistd.h>
+#include <termios.h>
 
 char	**ft_split(char const *s, int (*is_space)(int)) __attribute__((warn_unused_result));
 long long	ft_atol_s(const char *str, int *error);
 int		ft_atoi_s(const char *str, int *error);
 void	clear_split(char **array);
 size_t	putsfd(int fd, const char *str);
-void	xperror(const char *parent, int errorcode, const char *arg);
 int		simple_parcer(const char *input);
 
 int		builtin_echo(char *const *argv);
@@ -56,9 +41,6 @@ int		builtin_unset(char *const *argv);
 int		builtin_env(char *const *argv);
 int		builtin_exit(char *const *argv);
 int		builtin_execve(char *const *argv);
-
-void 	xexit(int status) __attribute__((noreturn));
-
 
 #define ft_strlen strlen
 #define ft_memcpy memcpy

@@ -37,7 +37,8 @@ const char	*ft_getenv(const char *name, size_t *size) __attribute__((warn_unused
 t_env		*env_init(void) __attribute__((warn_unused_result));
 void		list_insert(t_env *env, const char *key, const char *value);
 void		list_remove(t_env *env, char *key);
-void		print_list(t_env *env);
-char		**mas_gen(t_env *env) __attribute__((warn_unused_result));
+void		print_env(void);
+t_env		*ft_env_storage(void);
+char		**mas_gen() __attribute__((warn_unused_result));
 
 #endif

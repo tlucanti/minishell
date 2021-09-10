@@ -14,13 +14,19 @@ add_executable(Minishell
         builtin_unset.c
         builtin_env.c
         builtin_exit.c
-        ft_execve.c
+        builtin_execve.c
 
         enviroment.c
         enviroment.h
 
         memory.c
         memory.h
+
+        error.c
+        error.h
+
+        signal.c
+        signal.h
 
         minishell.c
         minishell.h

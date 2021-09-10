@@ -6,12 +6,14 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:22:41 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/09 14:44:51 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/10 21:14:33 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "enviroment.h"
+#include "error.h"
+
+#define ft_memcmp memcmp
 
 int	builtin_cd(char *const *argv)
 {
@@ -33,6 +35,6 @@ int	builtin_cd(char *const *argv)
 	ret = chdir(togo);
 	if (ret == 0)
 		return (EXIT_SUCCESS);
-	xperror("cd", errno, *argv);
+	ft_perror("cd", errno, *argv);
 	return (EXIT_FAILURE);
 }
