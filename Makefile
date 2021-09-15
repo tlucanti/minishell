@@ -6,13 +6,13 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/09/10 21:14:36 by kostya           ###   ########.fr        #
+#    Updated: 2021/09/15 22:07:23 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			=	gcc
 NAME		=	minishell
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra
 COPTIONS	=	-O1
 DEPS		=	fract-ol.h
 RM			=	rm -f
@@ -48,14 +48,14 @@ OBJS		=	${SRCS:=.o}
 LIBRARY		=	-lreadline
 
 %.o: %.c
-	${CC} ${CFLAGS}  ${COPTIONS} -c -o $@ $<
+	${CC}		${CFLAGS}  ${COPTIONS} -c -o $@ $<
 
-$(NAME):	${OBJS}
+$(NAME):		${OBJS}
 # 	${MAKE}		-C libft
-	${CC}	-o ${NAME} ${CFLAGS} ${COPTIONS} ${OBJS} ${LIBRARY}
+	${CC}		-o ${NAME} ${CFLAGS} ${COPTIONS} ${OBJS} ${LIBRARY}
 
 # ------------------------------------------------------------------------------
-all:		${NAME}
+all:			${NAME}
 
 # ------------------------------------------------------------------------------
 clean:

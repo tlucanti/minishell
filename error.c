@@ -6,20 +6,22 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:59:44 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/10 21:14:33 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/15 23:10:21 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error.h"
 #include "colors.h"
+#include "enviroment.h"
+#include "minishell.h"
 
-static void	putsfd(int fd, const char *str);
-static const char *xstrerror(int errorcode);
+static void			putsfd(int fd, const char *str);
+static const char	*xstrerror(int errorcode);
 
 #include <string.h>
 #define ft_strlen strlen
 
-void ft_perror(const char *parent, int errorcode, const char *arg)
+void	ft_perror(const char *parent, int errorcode, const char *arg)
 {
 	putsfd(2, ERROR);
 	putsfd(2, parent);
@@ -37,6 +39,8 @@ void ft_perror(const char *parent, int errorcode, const char *arg)
 
 void	xexit(int status)
 {
+	list_clear(internal_env_storage());
+	set_autoattr(0, 1, ECHOCTL);
 	exit(status);
 }
 
@@ -48,7 +52,7 @@ static void	putsfd(int fd, const char *str)
 	size = write(fd, str, size);
 }
 
-static const char *xstrerror(int errorcode)
+static const char	*xstrerror(int errorcode)
 {
 	if (errorcode == ECNF)
 		return ("command not found");
@@ -60,5 +64,5 @@ static const char *xstrerror(int errorcode)
 		return ("not enough arguments");
 	else if (errorcode == ENUMR)
 		return ("numeric argument required");
-	return strerror(errorcode);
+	return (strerror(errorcode));
 }

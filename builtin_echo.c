@@ -6,18 +6,18 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:05:54 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/10 16:29:07 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/15 22:05:16 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error.h"
 #include "minishell.h"
 
-static char * const*builtin_echo_arg_check(char *const *argv, int * restrict n_opt) __attribute__((warn_unused_result));
+static char *const	*builtin_echo_arg_check(char *const *argv, int *restrict n_opt) __attribute__((warn_unused_result));
 
-int builtin_echo(char *const *argv)
+int	builtin_echo(char *const *argv)
 {
-	int n_opt;
+	int		n_opt;
 
 	n_opt = 0;
 	++argv;
@@ -37,7 +37,7 @@ int builtin_echo(char *const *argv)
 	return (EXIT_SUCCESS);
 }
 
-static char * const*builtin_echo_arg_check(char *const *argv, int * restrict n_opt)
+static char *const	*builtin_echo_arg_check(char *const *argv, int *restrict n_opt)
 {
 	unsigned int	it;
 	int				got_n;

@@ -5,8 +5,6 @@ set(CMAKE_C_STANDARD 99)
 #set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 link_libraries(readline)
 add_executable(Minishell
-        global.h
-
         builtin_echo.c
         builtin_cd.c
         builtin_pwd.c

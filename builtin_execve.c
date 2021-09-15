@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 22:22:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/10 21:14:37 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/15 22:54:50 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ static int	ft_iscolon(int c);
 static void	builtin_execve__no_ret(char *const *argv) __attribute__((noreturn));
 
 int	builtin_execve(char *const *argv)
+// type commands in gdb to enable child debugging
+// set follow-fork-mode child
+// set detach-on-fork off
 {
 	pid_t	p_id;
 	int		status;
@@ -36,7 +39,7 @@ int	builtin_execve(char *const *argv)
 	else
 	{
 		waitpid(p_id, &status, 0);
-		return (EXIT_SUCCESS);
+		return (status);
 	}
 }
 
@@ -60,8 +63,8 @@ static void	builtin_execve__no_ret(char *const *argv)
 	while (*path_argv)
 	{
 		next_path = ft_execve_strsum(*path_argv, *argv);
-		int ret = execve(next_path, argv, env);
-		printf("%s: %d (%s)\n", next_path, ret, strerror(errno));
+		execve(next_path, argv, env);
+		// printf("%s: %d (%s)\n", next_path, ret, strerror(errno));
 		++path_argv;
 		if (errno != ENOENT)
 		{

@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 20:05:35 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/10 16:32:06 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/15 22:15:32 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@
 #define ft_memcmp memcmp
 #define ft_strlen strlen
 
-static t__internal_env_list *f__internal_new_node() __attribute__((warn_unused_result));
+static t__internal_env_list	*f__internal_new_node(void) __attribute__((warn_unused_result));
 static void					f__internal_rm_node(t__internal_env_list *_node);
-static char	*mas_gen_str_sum(const char *str1, const char *str2, size_t size1, size_t size2) __attribute__((warn_unused_result));
+static char					*mas_gen_str_sum(const char *str1, const char *str2, size_t size1, size_t size2) __attribute__((warn_unused_result));
 
 const char	*ft_getenv(const char *name, size_t *size)
 {
 	t__internal_env_list	*ptr;
 
-	ptr = ft_env_storage()->root;
+	ptr = internal_env_storage()->root;
 	while (ptr->next)
 	{
 		if (!ft_memcmp(name, ptr->key, ptr->key_size))
@@ -51,22 +51,23 @@ const char	*ft_getenv_s(const char *name, size_t *size)
 	return (ret);
 }
 
-t_env *env_init(void) {
-	t_env	*new_env;
-	 char	*restrict key;
-	 char	*restrict value;
-	 size_t	it;
+t_env	*env_init(void)
+{
+	char	*restrict	key;
+	char	*restrict	value;
+	t_env				*new_env;
+	size_t				it;
 
 	new_env = xmalloc(sizeof(t_env));
 	new_env->root = f__internal_new_node();
 	new_env->back = new_env->root;
-	 it = 0;
-	 while (__environ[it])
-	 {
-	 	builtin_export_split(__environ[it], &key, &value);
-	 	list_insert(new_env, key, value);
-	 	++it;
-	 }
+	it = 0;
+	while (__environ[it])
+	{
+		builtin_export_split(__environ[it], &key, &value);
+		list_insert(new_env, key, value);
+		++it;
+	}
 	return (new_env);
 }
 
@@ -77,6 +78,7 @@ void	list_insert(t_env *env, const char *key, const char *value)
 	t__internal_env_list	*new_node;
 	int						cmp;
 
+	++env->size;
 	new_node = f__internal_new_node();
 	new_node->key = (char *)key;
 	new_node->value = (char *)value;
@@ -100,6 +102,7 @@ void	list_insert(t_env *env, const char *key, const char *value)
 			prev->next = new_node;
 			new_node->next = ptr->next;
 			f__internal_rm_node(ptr);
+			--env->size;
 			return ;
 		}
 		if (cmp > 0)
@@ -114,6 +117,21 @@ void	list_insert(t_env *env, const char *key, const char *value)
 	}
 	prev->next = new_node;
 	new_node->next = ptr;
+}
+
+void	list_clear(t_env *env)
+{
+	t__internal_env_list	*ptr;
+	t__internal_env_list	*next;
+
+	ptr = env->root;
+	while (ptr->next)
+	{
+		next = ptr->next;
+		f__internal_rm_node(ptr);
+		ptr = next;
+	}
+	free(env);
 }
 
 void	list_remove(t_env *env, char *key)
@@ -138,6 +156,7 @@ void	list_remove(t_env *env, char *key)
 		{
 			prev->next = ptr->next;
 			f__internal_rm_node(ptr);
+			--env->size;
 			return ;
 		}
 		ptr = ptr->next;
@@ -149,7 +168,7 @@ void	print_env(void)
 {
 	t__internal_env_list	*ptr;
 
-	ptr = ft_env_storage()->root;
+	ptr = internal_env_storage()->root;
 	while (ptr->next)
 	{
 		printf("%s=%s\n", ptr->key, ptr->value);
@@ -157,21 +176,14 @@ void	print_env(void)
 	}
 }
 
-char	**mas_gen()
+char	**mas_gen(void)
 {
 	t__internal_env_list	*ptr;
 	size_t					size;
 	char					**mas;
 
-	ptr = ft_env_storage()->root;
-	size = 0;
-	while (ptr->next)
-	{
-		++size;
-		ptr = ptr->next;
-	}
-	mas = xmalloc(sizeof(char *) * (size + 1));
-	ptr = ft_env_storage()->root;
+	mas = xmalloc(sizeof(char *) * (internal_env_storage()->size + 1));
+	ptr = internal_env_storage()->root;
 	size = 0;
 	while (ptr->next)
 	{
@@ -183,7 +195,7 @@ char	**mas_gen()
 	return (mas);
 }
 
-t_env	*ft_env_storage(void)
+t_env	*internal_env_storage(void)
 {
 	static t_env	*env = NULL;
 
@@ -204,7 +216,7 @@ static char	*mas_gen_str_sum(const char *str1, const char *str2, size_t size1, s
 	return (sum);
 }
 
-static t__internal_env_list *f__internal_new_node()
+static t__internal_env_list	*f__internal_new_node()
 {
 	t__internal_env_list	*new_node;
 

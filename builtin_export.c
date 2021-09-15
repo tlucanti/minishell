@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:38:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/10 21:14:30 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/15 22:09:50 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "memory.h"
 #include "error.h"
 
-int builtin_export_split(const char *string, char *restrict  *key, char *restrict *value);
+int	builtin_export_split(const char *string, char *restrict *key, char *restrict *value);
 
 #include <ctype.h>
 #define ft_isalpha isalpha
@@ -24,8 +24,9 @@ int builtin_export_split(const char *string, char *restrict  *key, char *restric
 
 int	builtin_export(char *const *argv)
 {
-	char	*restrict key;
-	char	*restrict value;
+	char	*restrict	key;
+	char	*restrict	value;
+	t_env				*env;
 
 	++argv;
 	if (!*argv)
@@ -33,26 +34,29 @@ int	builtin_export(char *const *argv)
 		print_env();
 		return (0);
 	}
+	env = internal_env_storage();
 	while (*argv)
 	{
 		if (builtin_export_split(*argv, &key, &value))
 		{
+			free(key);
+			free(value);
 			ft_perror("export", ENAVI, *argv);
 			return (1);
 		}
-		list_insert(ft_env_storage(), key, value);
+		list_insert(env, key, value);
 		++argv;
 	}
 	return (0);
 }
 
-int builtin_export_split(const char *string, char *restrict  *key, char *restrict *value)
+int	builtin_export_split(const char *string, char *restrict *key, char *restrict *value)
 {
 	size_t	it;
 
 	it = 0;
 	if (!ft_isalpha(string[0]) && string[0] != '_')
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	while (string[it])
 	{
 		if (!ft_isalnum(string[it]) && string[it] != '_' && string[it] != '=')

@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 18:02:16 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/10 16:04:46 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/15 22:11:11 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 
 int	builtin_unset(char *const *argv)
 {
-	char *restrict key;
-	char *restrict value;
+	char	*restrict	key;
+	char	*restrict	value;
+	t_env				*env;
 
 	++argv;
 	if (!*argv)
@@ -25,14 +26,17 @@ int	builtin_unset(char *const *argv)
 		ft_perror("unset", ENEA, NULL);
 		return (EXIT_FAILURE);
 	}
+	env = internal_env_storage();
 	while (*argv)
 	{
 		if (builtin_export_split(*argv, &key, &value))
 		{
+			free(key);
+			free(value);
 			ft_perror("unset", ENAVI, *argv);
 			return (EXIT_FAILURE);
 		}
-		list_remove(ft_env_storage(), key);
+		list_remove(env, key);
 		free(value);
 		free(key);
 		++argv;
