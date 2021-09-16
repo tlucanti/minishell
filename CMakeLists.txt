@@ -31,5 +31,6 @@ add_executable(Minishell
 
         ft_split.c
         ft_atoi_s.c
+        split_smart.c
 )
 

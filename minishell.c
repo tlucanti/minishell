@@ -86,12 +86,16 @@ int	update_promt(char *promt)
 	return (0);
 }
 
+void print_my_cool_split(char **p);
+
 int	simple_parcer(const char *input)
 {
 	char	**arr;
 	int		ret;
 
-	arr = ft_split(input, ft_isspace);
+	arr = smart_split(input, ft_isspace);
+	print_my_cool_split(arr);
+	return (0);
 	if (!*arr)
 		return (0);
 	else if (!strcmp(arr[0], "echo"))

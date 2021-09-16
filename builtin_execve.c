@@ -20,7 +20,7 @@ static char	*ft_execve_strsum(const char *str1, const char *str2) __attribute__(
 static int	ft_iscolon(int c);
 static void	builtin_execve__no_ret(char *const *argv) __attribute__((noreturn));
 
-int	builtin_execve(char *const *argv)
+int	builtin_execve(__attribute__((unused)) char *const *argv)
 // type commands in gdb to enable child debugging
 // set follow-fork-mode child
 // set detach-on-fork off

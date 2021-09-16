@@ -25,7 +25,7 @@
 # include <unistd.h>
 # include <termios.h>
 
-char		**ft_split(char const *s, int (*is_space)(int)) __attribute__((warn_unused_result));
+char	**smart_split(const char *input, int (*skip)(int));
 long long	ft_atol_s(const char *str, int *error);
 int			ft_atoi_s(const char *str, int *error);
 void		clear_split(char **array);
