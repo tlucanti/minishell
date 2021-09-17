@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 18:15:13 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/17 00:27:48 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/17 13:39:36 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <string.h>
@@ -86,13 +86,13 @@ static char **push_back_token(char **array, const char **input, size_t *size)
 	if (input[0][0] == '>')
 		if (input[0][1] == '>')
 			(array[*size] = OUT_APPEND), (*input += 2);
-	else
-		(array[*size] = OUT_WRITE), (*input += 1);
+		else
+			(array[*size] = OUT_WRITE), (*input += 1);
 	else if (input[0][0] == '<')
 		if (input[0][1] == '<')
 			(array[*size] = HEREDOC), (*input += 2);
-	else
-		(array[*size] = INPUT), (*input += 1);
+		else
+			(array[*size] = INPUT), (*input += 1);
 	else if (input[0][0] == '|')
 		(array[*size] = PIPE), (*input += 1);
 	else if (input[0][0] == '\'')
@@ -100,6 +100,8 @@ static char **push_back_token(char **array, const char **input, size_t *size)
 	else if (input[0][0] == '\"')
 		(array[*size] = DBL_QUOTE), (*input += 1);
 	*size += 1;
+	if (input[0][-1] == **input && (input[0][-1] == '"' || **input == '\''))
+		array = push_back_string(array, &"\000\000"[1], 1, size);
 	return (array);
 }
 
