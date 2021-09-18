@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 22:22:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/15 22:54:50 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/18 18:58:14 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	builtin_execve(__attribute__((unused)) char *const *argv)
 	else
 	{
 		waitpid(p_id, &status, 0);
+		ft_psignal(p_id, status & 0x7f, argv[0]);
 		return (status);
 	}
 }

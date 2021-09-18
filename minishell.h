@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:53:32 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/15 23:16:32 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/18 18:40:06 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 # include <unistd.h>
 # include <termios.h>
 
-char	**smart_split(const char *input, int (*skip)(int));
+char	**ft_split(char const *s, int (*f)(int));
+char		**smart_split(const char *input, int (*skip)(int));
 long long	ft_atol_s(const char *str, int *error);
 int			ft_atoi_s(const char *str, int *error);
 void		clear_split(char **array);
@@ -41,15 +42,18 @@ int			builtin_unset(char *const *argv);
 int			builtin_env(char *const *argv);
 int			builtin_exit(char *const *argv);
 int			builtin_execve(char *const *argv);
+char		*builtin_heredoc(const char *end);
 
 # define ft_strlen strlen
 # define ft_memcpy memcpy
 # define ft_memcmp memcmp
 # define ft_calloc calloc
 # define ft_atoi(n) strtol((n), NULL, 10)
+# define ft_itoa(n) ({char __ans[12]; int __n = (n); sprintf(__ans, "%d", __n); __ans;})
 # define ft_isalnum isalnum
 # define ft_isdigit isdigit
 # define ft_isalpha isalpha
 # define ft_isspace isspace
+# define ft_strcmp strcmp
 
 #endif

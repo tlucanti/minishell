@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:56:55 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/15 23:17:42 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/18 18:28:36 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@ int	main(void)
 {
 	char	*input;
 	char	promt[PATH_MAX];
-	int		exit_status;
 
-	exit_status = 0;
-	signal(SIGINT, handler_signint_minishell);
-	signal(SIGQUIT, handler_sigquit_minishell);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
 	set_autoattr(0, 0, ECHOCTL);
 	internal_env_storage();
 	while (1)
 	{
 		update_promt(promt);
+		signal(SIGINT, handler_signint_readline);
 		input = readline(promt);
+		signal(SIGINT, SIG_IGN);
 		if (!input)
 		{
 			printf("exit\n");
@@ -41,13 +41,13 @@ int	main(void)
 		}
 		rl_bind_key('\t', rl_complete);
 		add_history(input);
-		exit_status = simple_parcer(input);
+		simple_parcer(input);
 		free(input);
 	}
 }
 
 int	__update_promt(char *promt)
-// "\033[1;92mkostya\033[0m:/media/kostya/Data/CLion/Minishell/cmake-build-debug $ "
+// "kostya:/media/kostya/Data/CLion/Minishell/cmake-build-debug $ "
 {
 	snprintf(promt, PATH_MAX, "%s%s%s:%s%s%s %s\001➜\002%s ",
 		READLINE_GREEN, ft_getenv_s("USER", NULL), READLINE_RESET,
@@ -88,30 +88,37 @@ int	update_promt(char *promt)
 
 void print_my_cool_split(char **p);
 
+#define HEREDOC		(char *)3
 int	simple_parcer(const char *input)
 {
 	char	**arr;
 	int		ret;
 
-	arr = smart_split(input, ft_isspace);
-	print_my_cool_split(arr);
-	return (0);
+	// arr = smart_split(input, ft_isspace);
+	arr = ft_split(input, ft_isspace);
+	// print_my_cool_split(arr);
+	// return (0);
 	if (!*arr)
 		return (0);
-	else if (!strcmp(arr[0], "echo"))
+	else if (!ft_strcmp(arr[0], "echo"))
 		ret = builtin_echo(arr);
-	else if (!strcmp(arr[0], "cd"))
+	else if (!ft_strcmp(arr[0], "cd"))
 		ret = builtin_cd(arr);
-	else if (!strcmp(arr[0], "pwd"))
+	else if (!ft_strcmp(arr[0], "pwd"))
 		ret = builtin_pwd(arr);
-	else if (!strcmp(arr[0], "export"))
+	else if (!ft_strcmp(arr[0], "export"))
 		ret = builtin_export(arr);
-	else if (!strcmp(arr[0], "unset"))
+	else if (!ft_strcmp(arr[0], "unset"))
 		ret = builtin_unset(arr);
-	else if (!strcmp(arr[0], "env"))
+	else if (!ft_strcmp(arr[0], "env"))
 		ret = builtin_env(arr);
-	else if (!strcmp(arr[0], "exit"))
+	else if (!ft_strcmp(arr[0], "exit"))
 		ret = builtin_exit(arr);
+	else if (arr[1] == HEREDOC)
+	{
+		ret = 0;
+		printf("heredoc > %s\n", builtin_heredoc(arr[2]));
+	}
 	else
 		ret = builtin_execve(arr);
 	clear_split(arr);

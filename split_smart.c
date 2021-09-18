@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 18:15:13 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/17 13:39:36 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/18 12:48:48 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <string.h>
@@ -17,16 +17,16 @@
 static char	**push_back_null(char **array, size_t size) __attribute__((warn_unused_result));
 static char	**push_back_string(char **array, const char *input, size_t str_size, size_t *array_size) __attribute__((warn_unused_result));
 static char	**push_back_token(char **array, const char **input, size_t *size) __attribute__((warn_unused_result));
-static char	**clear_split(char **array);
+static char	**clear_split_smart(char **array);
 static int	is_token(int c);
 
-#define OUT_APPEND (char *)1
-#define OUT_WRITE (char *)2
-#define HEREDOC (char *)3
-#define INPUT (char *)4
-#define PIPE (char *)5
-#define UNO_QUOTE (char *)6
-#define DBL_QUOTE (char *)7
+#define OUT_APPEND	(char *)1
+#define OUT_WRITE	(char *)2
+#define HEREDOC		(char *)3
+#define INPUT		(char *)4
+#define PIPE		(char *)5
+#define UNO_QUOTE	(char *)6
+#define DBL_QUOTE	(char *)7
 
 void print_my_cool_split(char **p)
 {
@@ -69,7 +69,7 @@ char	**smart_split(const char *input, int (*skip)(int))
 			while (*input != quote && *input && ++size)
 				++input;
 			if (!*input++)
-				return (NULL);
+				return (clear_split_smart(ret));
 			ret = push_back_string(ret, input - 1, size, &array_size);
 		}
 		size = 0;
@@ -128,13 +128,18 @@ static char	**push_back_null(char **array, size_t size)
 	return (_new);
 }
 
-static char	**clear_split(char **array)
+static char	**clear_split_smart(char **array)
 {
 	char	**ptr;
 
 	ptr = array;
 	while (array)
-		free(array++);
+	{
+		if (*array != OUT_APPEND && *array != OUT_WRITE && *array != HEREDOC
+			&& *array != INPUT && *array != PIPE && *array != UNO_QUOTE
+			&& *array != DBL_QUOTE)
+		free(*array++);
+	}
 	free(ptr);
 	return (NULL);
 }
