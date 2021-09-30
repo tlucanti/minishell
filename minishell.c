@@ -225,26 +225,27 @@ static char *make_dollar_great_again(char *src)
 {
 	char *temp;
 	int i;
-	int env_len;
+	int env_name_len;
 	char *res;
 	size_t env_res_len;
 
-	env_len = 0;
+	env_name_len = 0;
 	i = 0;
 	env_res_len= 0;
 
-	while (src[env_len] != '=')
-		env_len++;
-	src[env_len] = 0;
+	while (src[env_name_len] != '=')
+		env_name_len++;
+	src[env_name_len] = 0;
 	res = ft_getenv_s(src, &env_res_len);
-	src[env_len] = '=';
-	i = ft_strlen(src) + env_res_len + 1;
+	src[env_name_len] = '=';
+	i = ft_strlen(src) + env_res_len - env_name_len + (!env_name_len) + 1;
 	temp = malloc(i);
-	if (!env_len)
+	if (!env_name_len)
 		ft_memcpy(temp, "$", 1);
-	else
+	else if(env_res_len)
 		ft_memcpy(temp, res, env_res_len);
-	ft_memcpy(temp + (!env_res_len), src + env_len, i);
+	ft_memcpy(temp + env_res_len + (!env_name_len), src + env_name_len, i);
+	temp[i] = 0;
 	return (temp);
 }
 
@@ -262,6 +263,7 @@ static char *get_all_env(char *arr)
 	temp2 = 0;
 
 	temp = ft_split_special(arr, is_env_token);
+	print_my_cool_split(temp);
 	while (temp[++i])
 	{
 		if (temp[i][0] == '?')
