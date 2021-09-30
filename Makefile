@@ -6,13 +6,13 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/09/15 22:07:23 by kostya           ###   ########.fr        #
+#    Updated: 2021/09/18 00:03:33 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			=	gcc
 NAME		=	minishell
-CFLAGS		=	-Wall -Wextra
+CFLAGS		=	-Wall -Wextra -g3
 COPTIONS	=	-O1
 DEPS		=	fract-ol.h
 RM			=	rm -f
@@ -23,6 +23,7 @@ SRCS		=	\
 				builtin_echo \
 				builtin_env \
 				builtin_export \
+				builtin_heredoc \
 				builtin_pwd \
 				builtin_unset \
 				enviroment \
@@ -34,6 +35,7 @@ SRCS		=	\
 				builtin_execve \
 				error \
 				signal \
+				split_smart
 # ------------------------------------------------------------------------------
 HDRS		=	\
 				enviroment.h \
