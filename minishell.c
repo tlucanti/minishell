@@ -135,6 +135,7 @@ int check_arr_length(char **arr)
 /*
 edit this all
 */
+
 static char		*ft_strcpy(char *dest, const char *src)
 {
 	char	*ptr;
@@ -153,9 +154,7 @@ static char		*ft_strcpy(char *dest, const char *src)
 char			*ft_strdup(const char *src)
 {
 	char *dup;
-	char a;
 
-	a = ft_strlen(src);
 	if ((dup = malloc(ft_strlen(src) + 1)))
 		return (ft_strcpy(dup, src));
 	else
@@ -217,7 +216,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		free(to_free);
 	return (new_s);
 }
-
+/*
+	derrick comment: optimize (0) for debugging purpose, remove on release
+*/
 static char *get_all_env(char *arr) __attribute__((optimize(0)));
 
 static char *make_dollar_great_again(char *src)
@@ -226,24 +227,24 @@ static char *make_dollar_great_again(char *src)
 	int i;
 	int env_len;
 	char *res;
-	size_t why;
+	size_t env_res_len;
 
 	env_len = 0;
 	i = 0;
-	why = 0;
+	env_res_len= 0;
 
 	while (src[env_len] != '=')
 		env_len++;
 	src[env_len] = 0;
-	res = ft_getenv_s(src, &why);
+	res = ft_getenv_s(src, &env_res_len);
 	src[env_len] = '=';
-	i = ft_strlen(src) + why + 1;
+	i = ft_strlen(src) + env_res_len + 1;
 	temp = malloc(i);
 	if (!env_len)
 		ft_memcpy(temp, "$", 1);
 	else
-		ft_memcpy(temp, res, why);
-	ft_memcpy(temp + why, src + env_len, i);
+		ft_memcpy(temp, res, env_res_len);
+	ft_memcpy(temp + (!env_res_len), src + env_len, i);
 	return (temp);
 }
 
@@ -264,7 +265,7 @@ static char *get_all_env(char *arr)
 	while (temp[++i])
 	{
 		if (temp[i][0] == '?')
-			temp2 = '?'; //get_q_mark();
+			temp2 = '?'; //derrick comment: later add get_q_mark();
 		else if (ft_strchr(temp[i], '='))
 			temp2 = make_dollar_great_again(temp[i]);
 		else
