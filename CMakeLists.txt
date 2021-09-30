@@ -9,6 +9,7 @@ add_executable(Minishell
         builtin_cd.c
         builtin_pwd.c
         builtin_export.c
+        builtin_heredoc.c
         builtin_unset.c
         builtin_env.c
         builtin_exit.c
@@ -31,5 +32,6 @@ add_executable(Minishell
 
         ft_split.c
         ft_atoi_s.c
+        split_smart.c
 )
 
