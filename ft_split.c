@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 11:16:40 by tlucanti          #+#    #+#             */
-/*   Updated: 2021/09/10 16:32:20 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/17 14:30:08 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,52 @@ char	**ft_split(char const *s, int (*f)(int))
 	arrlen = 0;
 	while (*s)
 	{
+		while (f(*s) && *s)
+			s++;
+		if (!*s)
+			break ;
+		size = 0;
+		while (!f(*s) && *s)
+		{
+			size++;
+			s++;
+		}
+		ret = ft_str_append_sized(ret, (char *)(s - size), size, arrlen++);
+		if (ret == NULL)
+			return (NULL);
+	}
+	return (ft_error_test_ft_split(ret));
+}
+
+/*
+	special for env
+*/
+
+int		check_double_env(char const *s)
+{
+	if (*s && *(s + 1) && *s == '$' && *(s + 1) == '$')
+		return (1);
+	return (0);
+}
+
+char	**ft_split_special(char const *s, int (*f)(int))
+{
+	char	**ret;
+	size_t	arrlen;
+	size_t	size;
+
+	ret = (char **)ft_calloc(1, sizeof(char **));
+	if (s == NULL || ret == NULL)
+		return (NULL);
+	arrlen = 0;
+	while (*s)
+	{
+		if (check_double_env(s))
+		{
+			ret = ft_str_append_sized(ret, (char *)(s), 1, arrlen++);
+			s += 2;
+			continue ;
+		}
 		while (f(*s) && *s)
 			s++;
 		if (!*s)

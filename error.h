@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 16:00:14 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/15 22:19:07 by kostya           ###   ########.fr       */
+/*   Updated: 2021/09/18 18:22:10 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 
 void	ft_perror(const char *parent, int errorcode, const char *arg);
+void	ft_psignal(int pid, int signum, const char *parent);
 void	xexit(int status) __attribute__((noreturn));
 
 # define ECNF -2		// ERROR COMMAND NOT FOUND
