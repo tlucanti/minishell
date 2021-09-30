@@ -12,7 +12,7 @@
 
 CC			=	gcc
 NAME		=	minishell
-CFLAGS		=	-Wall -Wextra
+CFLAGS		=	-Wall -Wextra -g3
 COPTIONS	=	-O1
 DEPS		=	fract-ol.h
 RM			=	rm -f

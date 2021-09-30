@@ -46,6 +46,52 @@ char	**ft_split(char const *s, int (*f)(int))
 	return (ft_error_test_ft_split(ret));
 }
 
+/*
+	special for env
+*/
+
+int		check_double_env(char const *s)
+{
+	if (*s && *(s + 1) && *s == '$' && *(s + 1) == '$')
+		return (1);
+	return (0);
+}
+
+char	**ft_split_special(char const *s, int (*f)(int))
+{
+	char	**ret;
+	size_t	arrlen;
+	size_t	size;
+
+	ret = (char **)ft_calloc(1, sizeof(char **));
+	if (s == NULL || ret == NULL)
+		return (NULL);
+	arrlen = 0;
+	while (*s)
+	{
+		if (check_double_env(s))
+		{
+			ret = ft_str_append_sized(ret, (char *)(s), 1, arrlen++);
+			s += 2;
+			continue ;
+		}
+		while (f(*s) && *s)
+			s++;
+		if (!*s)
+			break ;
+		size = 0;
+		while (!f(*s) && *s)
+		{
+			size++;
+			s++;
+		}
+		ret = ft_str_append_sized(ret, (char *)(s - size), size, arrlen++);
+		if (ret == NULL)
+			return (NULL);
+	}
+	return (ft_error_test_ft_split(ret));
+}
+
 static char	**ft_error_test_ft_split(char **ret)
 {
 	if (ret == NULL)

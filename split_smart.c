@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include <string.h>
+#include "minishell.h"
 #define ft_memcpy memcpy
 
 #include "memory.h"
@@ -20,13 +21,10 @@ static char	**push_back_token(char **array, const char **input, size_t *size) __
 static char	**clear_split_smart(char **array);
 static int	is_token(int c);
 
-#define OUT_APPEND	(char *)1
-#define OUT_WRITE	(char *)2
-#define HEREDOC		(char *)3
-#define INPUT		(char *)4
-#define PIPE		(char *)5
-#define UNO_QUOTE	(char *)6
-#define DBL_QUOTE	(char *)7
+
+
+
+
 
 void print_my_cool_split(char **p)
 {

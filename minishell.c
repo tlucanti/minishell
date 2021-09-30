@@ -41,7 +41,7 @@ int	main(void)
 		}
 		rl_bind_key('\t', rl_complete);
 		add_history(input);
-		simple_parcer(input);
+		not_so_simple_parser(input);
 		free(input);
 	}
 }
@@ -57,7 +57,7 @@ int	__update_promt(char *promt)
 }
 
 int	update_promt(char *promt)
-// tlucanti:/home/tlucanti $ 
+// tlucanti:/home/tlucanti $
 {
 	const char		*env;
 	size_t			user_size;
@@ -86,21 +86,16 @@ int	update_promt(char *promt)
 	return (0);
 }
 
+
 void print_my_cool_split(char **p);
 
 #define HEREDOC		(char *)3
-int	simple_parcer(const char *input)
-{
-	char	**arr;
-	int		ret;
 
-	// arr = smart_split(input, ft_isspace);
-	arr = ft_split(input, ft_isspace);
-	// print_my_cool_split(arr);
-	// return (0);
-	if (!*arr)
-		return (0);
-	else if (!ft_strcmp(arr[0], "echo"))
+int builtin (char **arr)
+{
+	static int ret;
+
+	 if (!ft_strcmp(arr[0], "echo"))
 		ret = builtin_echo(arr);
 	else if (!ft_strcmp(arr[0], "cd"))
 		ret = builtin_cd(arr);
@@ -121,6 +116,208 @@ int	simple_parcer(const char *input)
 	}
 	else
 		ret = builtin_execve(arr);
+	return (ret);
+}
+
+/*
+int check_arr_length(char **arr)
+{
+	int i;
+
+	i = 0;
+	while (arr[i])
+		i++;
+	if (i > 3)
+		return (0);
+	return (1);
+}
+*/
+/*
+edit this all
+*/
+static char		*ft_strcpy(char *dest, const char *src)
+{
+	char	*ptr;
+
+	ptr = dest;
+	while (*src != '\0')
+	{
+		*dest = *src;
+		dest++;
+		src++;
+	}
+	*dest = '\0';
+	return (ptr);
+}
+
+char			*ft_strdup(const char *src)
+{
+	char *dup;
+	char a;
+
+	a = ft_strlen(src);
+	if ((dup = malloc(ft_strlen(src) + 1)))
+		return (ft_strcpy(dup, src));
+	else
+		return (0);
+}
+
+static int is_token(char *arr)
+{
+	if (arr != OUT_APPEND && arr != OUT_WRITE && arr != HEREDOC
+		 && arr != INPUT && arr != PIPE && arr != UNO_QUOTE && arr != DBL_QUOTE)
+		return (0);
+	return (1);
+}
+
+int is_env_token(int c)
+{
+	return (c == '$');
+}
+
+int		ft_strhaschr(const char *str, int ch)
+{
+	unsigned char	cc;
+	int				ret;
+
+	ret = 0;
+	cc = (unsigned char)ch;
+	while (*str)
+	{
+		if (*str == cc)
+		{
+			ret = 1;
+			return (ret);
+		}
+		str++;
+	}
+	if (*str == 0 && ch == 0)
+		ret = 1;
+	return (ret);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	s1_len;
+	size_t	s2_len;
+	char	*new_s;
+	char	*to_free;
+
+	to_free = s1;
+	if (!s1 || !s2)
+		return (NULL);
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	new_s = (char *)malloc(s1_len + s2_len + 1);
+	if (new_s == 0)
+		return (NULL);
+	ft_memcpy(new_s, s1, s1_len);
+	ft_memcpy(new_s + s1_len, s2, s2_len + 1);
+	if (to_free)
+		free(to_free);
+	return (new_s);
+}
+
+static char *get_all_env(char *arr) __attribute__((optimize(0)));
+
+static char *make_dollar_great_again(char *src)
+{
+	char *temp;
+	int i;
+	int env_len;
+	char *res;
+	size_t why;
+
+	env_len = 0;
+	i = 0;
+	why = 0;
+
+	while (src[env_len] != '=')
+		env_len++;
+	src[env_len] = 0;
+	res = ft_getenv_s(src, &why);
+	src[env_len] = '=';
+	i = ft_strlen(src) + why + 1;
+	temp = malloc(i);
+	if (!env_len)
+		ft_memcpy(temp, "$", 1);
+	else
+		ft_memcpy(temp, res, why);
+	ft_memcpy(temp + why, src + env_len, i);
+	return (temp);
+}
+
+static char *get_all_env(char *arr)
+{
+	char *res;
+	char **temp;
+	char *temp2;
+	int i;
+	size_t why;
+
+	i = -1;
+	res = malloc(1);
+	*res = '\0';
+	temp2 = 0;
+
+	temp = ft_split_special(arr, is_env_token);
+	while (temp[++i])
+	{
+		if (temp[i][0] == '?')
+			temp2 = '?'; //get_q_mark();
+		else if (ft_strchr(temp[i], '='))
+			temp2 = make_dollar_great_again(temp[i]);
+		else
+			temp2 = ft_getenv_s(temp[i], &why);
+		res = ft_strjoin(res, temp2);
+	}
+	clear_split(temp);
+	return (res);
+}
+
+static void expand_env(char **arr)
+{
+	int		i;
+	char	*temp;
+	temp = 0;
+
+	i = -1;
+	while (arr[++i])
+	{
+		if (is_token(arr[i]))
+		{
+			printf("istoken");
+			continue ;
+		}
+		if (ft_strhaschr(arr[i], '$') && (i == 0 || arr[i - 1] != UNO_QUOTE))
+		{
+			temp = get_all_env(arr[i]);
+			free(arr[i]);
+			if (temp)
+				arr[i] = ft_strdup(temp);
+			else
+				arr[i] = NULL;
+		}
+	}
+}
+
+
+int	not_so_simple_parser(const char *input)
+{
+	char	**arr;
+	static int		ret;
+
+	 arr = smart_split(input, ft_isspace);
+	//arr = ft_split(input, ft_isspace);
+	 print_my_cool_split(arr);
+	 expand_env(arr);
+	 print_my_cool_split(arr);
+	//exit(0);
+	// return (0);
+	if (!*arr)
+		return (0);
+	else if (1)
+		ret = builtin(arr);
 	clear_split(arr);
 	return (ret);
 }
