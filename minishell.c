@@ -15,6 +15,7 @@
 #include "error.h"
 #include "signal.h"
 #include "colors.h"
+#include "parser.h"
 
 static int	update_promt(char *promt);
 
@@ -119,24 +120,14 @@ int builtin (char **arr)
 	return (ret);
 }
 
-/*
-int check_arr_length(char **arr)
-{
-	int i;
 
-	i = 0;
-	while (arr[i])
-		i++;
-	if (i > 3)
-		return (0);
-	return (1);
-}
-*/
 /*
 edit this all
 */
 
-static char		*ft_strcpy(char *dest, const char *src)
+
+
+char		*ft_strcpy(char *dest, const char *src)
 {
 	char	*ptr;
 
@@ -166,10 +157,10 @@ static int is_token(char *arr)
 	if (arr != OUT_APPEND && arr != OUT_WRITE && arr != HEREDOC
 		 && arr != INPUT && arr != PIPE && arr != UNO_QUOTE && arr != DBL_QUOTE)
 		return (0);
-	return (1);
+	return ((int)arr);
 }
 
-int is_env_token(int c)
+static int is_env_token(int c)
 {
 	return (c == '$');
 }
@@ -195,7 +186,7 @@ int		ft_strhaschr(const char *str, int ch)
 	return (ret);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin_s1free(char const *s1, char const *s2)
 {
 	size_t	s1_len;
 	size_t	s2_len;
@@ -219,9 +210,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 /*
 	derrick comment: optimize (0) for debugging purpose, remove on release
 */
-static char *get_all_env(char *arr) __attribute__((optimize(0)));
 
-static char *make_dollar_great_again(char *src)
+char *make_dollar_great_again(char *src)
 {
 	char *temp;
 	int i;
@@ -232,7 +222,6 @@ static char *make_dollar_great_again(char *src)
 	env_name_len = 0;
 	i = 0;
 	env_res_len= 0;
-
 	while (src[env_name_len] != '=')
 		env_name_len++;
 	src[env_name_len] = 0;
@@ -249,7 +238,7 @@ static char *make_dollar_great_again(char *src)
 	return (temp);
 }
 
-static char *get_all_env(char *arr)
+char *get_all_env(char *arr)
 {
 	char *res;
 	char **temp;
@@ -261,7 +250,6 @@ static char *get_all_env(char *arr)
 	res = malloc(1);
 	*res = '\0';
 	temp2 = 0;
-
 	temp = ft_split_special(arr, is_env_token);
 	print_my_cool_split(temp);
 	while (temp[++i])
@@ -272,13 +260,13 @@ static char *get_all_env(char *arr)
 			temp2 = make_dollar_great_again(temp[i]);
 		else
 			temp2 = ft_getenv_s(temp[i], &why);
-		res = ft_strjoin(res, temp2);
+		res = ft_strjoin_s1free(res, temp2);
 	}
 	clear_split(temp);
 	return (res);
 }
 
-static void expand_env(char **arr)
+void expand_env(char **arr)
 {
 	int		i;
 	char	*temp;
@@ -288,32 +276,132 @@ static void expand_env(char **arr)
 	while (arr[++i])
 	{
 		if (is_token(arr[i]))
-		{
-			printf("istoken");
 			continue ;
-		}
 		if (ft_strhaschr(arr[i], '$') && (i == 0 || arr[i - 1] != UNO_QUOTE))
 		{
 			temp = get_all_env(arr[i]);
 			free(arr[i]);
-			if (temp)
-				arr[i] = ft_strdup(temp);
-			else
-				arr[i] = NULL;
+			arr[i] = ft_strdup(temp);
 		}
 	}
 }
 
+int exit_fatal(void)
+{
+	printf("error: fatal\n");
+	exit(EXIT_FAILURE);
+	return (EXIT_FAILURE);
+}
+
+int add_arg(t_list *cmd, char *arg)
+{
+	char	**tmp;
+	int		i;
+
+	i = 0;
+	tmp = NULL;
+	if (!(tmp = (char**)malloc(sizeof(*tmp) * (cmd->len + 2))))
+		return (exit_fatal());
+	while (i < cmd->len)
+	{
+		tmp[i] = cmd->args[i];
+		i++;
+	}
+	if (cmd->len > 0)
+		free(cmd->args);
+	cmd->args = tmp;
+	cmd->args[i++] = ft_strdup(arg);
+	cmd->args[i] = 0;
+	cmd->len++;
+	return (EXIT_SUCCESS);
+}
+
+int list_push(t_list **list, char *arg)
+{
+	t_list	*new;
+
+	if (!(new = (t_list*)malloc(sizeof(*new))))
+		return (exit_fatal());
+	new->args = NULL;
+	new->len = 0;
+	new->token = NULL;
+	new->previous = NULL;
+	new->next = NULL;
+	if (*list)
+	{
+		(*list)->next = new;
+		new->previous = *list;
+	}
+	*list = new;
+	return (add_arg(new, arg));
+}
+
+int list_rewind(t_list **list)
+{
+	while (*list && (*list)->previous)
+		*list = (*list)->previous;
+	return (EXIT_SUCCESS);
+}
+
+int parser_list_clear(t_list **cmds)
+{
+	t_list	*tmp;
+	int		i;
+
+	list_rewind(cmds);
+	while (*cmds)
+	{
+		tmp = (*cmds)->next;
+		i = 0;
+		while (i < (*cmds)->len)
+			free((*cmds)->args[i++]);
+		free((*cmds)->args);
+		free(*cmds);
+		*cmds = tmp;
+	}
+	*cmds = NULL;
+	return (EXIT_SUCCESS);
+}
+
+int parse_arg(t_list **cmds, char *arg)
+{
+	if (!*cmds)
+		return (list_push(cmds, arg));
+	else if (is_token(arg))
+		(*cmds)->token = arg;
+	else
+		return (add_arg(*cmds, arg));
+	return (EXIT_SUCCESS);
+}
+
+void setup_pipeline(t_list **pipeline, char **arr)
+{
+	static int i;
+
+	while (arr[i] && *arr[i])
+	{
+		if (arr[i] == DBL_QUOTE || arr[i] == UNO_QUOTE)
+			continue ;
+		while (!is_token(arr[i] && *arr[i] && arr[i]))
+			list_push(pipeline, arr[i++]);
+		//(*pipeline)->token = arr[i++];
+		i++;
+	}
+
+}
 
 int	not_so_simple_parser(const char *input)
 {
 	char	**arr;
 	static int		ret;
+	t_list *pipeline;
 
+	pipeline = NULL;
 	 arr = smart_split(input, ft_isspace);
 	//arr = ft_split(input, ft_isspace);
 	 print_my_cool_split(arr);
 	 expand_env(arr);
+     setup_pipeline(&pipeline, arr);
 	 print_my_cool_split(arr);
 	//exit(0);
 	// return (0);

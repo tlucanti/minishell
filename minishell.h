@@ -25,13 +25,6 @@
 # include <unistd.h>
 # include <termios.h>
 
-#define OUT_APPEND	(char *)1
-#define OUT_WRITE	(char *)2
-#define HEREDOC		(char *)3
-#define INPUT		(char *)4
-#define PIPE		(char *)5
-#define UNO_QUOTE	(char *)6
-#define DBL_QUOTE	(char *)7
 
 # define ft_strlen strlen
 # define ft_strcat strcat
