@@ -16,6 +16,7 @@
 #include "include/handler.h"
 #include "include/color.h"
 #include "include/libft.h"
+#include "include/parser.h"
 
 static int	update_promt(char *promt);
 
@@ -42,7 +43,7 @@ int	main(void)
 		}
 		rl_bind_key('\t', rl_complete);
 		add_history(input);
-		simple_parcer(input);
+		complex_parser(input);
 		free(input);
 	}
 }
@@ -61,7 +62,7 @@ int	__update_promt(char *promt)
 
 int	update_promt(char *promt)
 /*
-** tlucanti:/home/tlucanti $ 
+** tlucanti:/home/tlucanti $
 */
 {
 	const char		*env;
@@ -94,7 +95,7 @@ int	update_promt(char *promt)
 void		print_my_cool_split(char **p);
 
 #define HEREDOC		(char *)3
-
+/*
 int	simple_parcer(const char *input)
 {
 	char	**arr;
@@ -127,7 +128,7 @@ int	simple_parcer(const char *input)
 	clear_split(arr);
 	return (ret);
 }
-
+*/
 void	clear_split(char **array)
 {
 	char	**ptr;

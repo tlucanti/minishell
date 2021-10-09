@@ -39,7 +39,8 @@ SRCS		=	\
 				signal			\
 				split_smart		\
 				stack1			\
-				stack
+				stack			\
+				parser
 # ------------------------------------------------------------------------------
 HDRS		=	\
 				enviroment		\
@@ -47,7 +48,8 @@ HDRS		=	\
 				memory			\
 				minishell		\
 				error			\
-				colors
+				colors			\
+				parser
 # ------------------------------------------------------------------------------
 OBJS		=	$(addprefix ${OBJS_DIR}/,${SRCS:=.o})
 DEPS		=	$(addprefix ${INCLUDE_DIR}/,${HDRS:=.h})
