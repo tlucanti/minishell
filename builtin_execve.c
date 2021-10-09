@@ -6,24 +6,38 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 22:22:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/18 18:58:14 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/08 14:03:50 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "enviroment.h"
-#include "minishell.h"
-#include "memory.h"
-#include "signal.h"
-#include "error.h"
+#include "include/enviroment.h"
+#include "include/minishell.h"
+#include "include/memory.h"
+#include "include/handler.h"
+#include "include/error.h"
+#include "include/libft.h"
 
-static char	*ft_execve_strsum(const char *str1, const char *str2) __attribute__((warn_unused_result));
-static int	ft_iscolon(int c);
-static void	builtin_execve__no_ret(char *const *argv) __attribute__((noreturn));
+int			ft_iscolon(int c);
+static char	*__builtin_execve_strsum(const char *str1, const char *str2)
+			__attribute__((warn_unused_result));
+static void	__builtin_execve_no_ret(char *const *argv)
+			__attribute__((noreturn));
+static void	__builtin_execve_current_dir(char *const *argv,
+				char **path_argv_init, char *const *env)
+			__attribute__((noreturn));
 
-int	builtin_execve(__attribute__((unused)) char *const *argv)
-// type commands in gdb to enable child debugging
-// set follow-fork-mode child
-// set detach-on-fork off
+int	builtin_execve(char *const *argv)
+/*
+** function statrts program provided in argv[0] with arguments provided in
+** argv[1:] with enviroment variables array argenv
+** function searches binaries in $PATH enviroment variable or in current
+** working directory (CWD)
+** errno errors printed to STDERR
+**
+** type commands in gdb to enable child debugging
+** set follow-fork-mode child
+** set detach-on-fork off
+*/
 {
 	pid_t	p_id;
 	int		status;
@@ -34,7 +48,7 @@ int	builtin_execve(__attribute__((unused)) char *const *argv)
 	else if (p_id == (pid_t)0)
 	{
 		signal(SIGINT, handler_signint_fork);
-		builtin_execve__no_ret(argv);
+		__builtin_execve_no_ret(argv);
 	}
 	else
 	{
@@ -44,7 +58,7 @@ int	builtin_execve(__attribute__((unused)) char *const *argv)
 	}
 }
 
-static void	builtin_execve__no_ret(char *const *argv)
+static void	__builtin_execve_no_ret(char *const *argv)
 {
 	char	**path_argv;
 	char	**env;
@@ -55,33 +69,33 @@ static void	builtin_execve__no_ret(char *const *argv)
 	path_argv_init = path_argv;
 	env = mas_gen();
 	if (**argv == '.' || **argv == '/')
-	{
-		execve(*argv, argv, env);
-		ft_perror("minishell", errno, *argv);
-		clear_split(path_argv_init);
-		exit(1);
-	}
+		__builtin_execve_current_dir(argv, path_argv_init, env);
 	while (*path_argv)
 	{
-		next_path = ft_execve_strsum(*path_argv, *argv);
+		next_path = __builtin_execve_strsum(*path_argv++, *argv);
+		if (access(next_path, F_OK) != 0 && xfree(next_path))
+			continue ;
 		execve(next_path, argv, env);
-		// printf("%s: %d (%s)\n", next_path, ret, strerror(errno));
-		++path_argv;
-		if (errno != ENOENT)
-		{
-			ft_perror("minishell", errno, next_path);
-			free(next_path);
-			clear_split(path_argv_init);
-			exit(1);
-		}
+		ft_perror("minishell", errno, next_path);
 		free(next_path);
+		clear_split(path_argv_init);
+		exit(1);
 	}
 	ft_perror("minishell", ECNF, *argv);
 	clear_split(path_argv_init);
 	exit(1);
 }
 
-static char	*ft_execve_strsum(const char *str1, const char *str2)
+static void	__builtin_execve_current_dir(char *const *argv,
+				char **path_argv_init, char *const *env)
+{
+	execve(*argv, argv, env);
+	ft_perror("minishell", errno, *argv);
+	clear_split(path_argv_init);
+	exit(1);
+}
+
+static char	*__builtin_execve_strsum(const char *str1, const char *str2)
 {
 	size_t	size1;
 	size_t	size2;
@@ -97,7 +111,7 @@ static char	*ft_execve_strsum(const char *str1, const char *str2)
 	return (sum);
 }
 
-static int	ft_iscolon(int c)
+inline int	ft_iscolon(int c)
 {
 	return (c == ':');
 }

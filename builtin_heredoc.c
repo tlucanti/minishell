@@ -6,14 +6,19 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 13:58:07 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/17 14:18:01 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/08 14:04:06 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "memory.h"
-#include "minishell.h"
+#include "include/memory.h"
+#include "include/minishell.h"
+#include "include/libft.h"
 
 char	*builtin_heredoc(const char *end)
+/*
+** function reads from STDIN data for function run with `heredoc` syntax
+** heredoc syntax: [end_symbol]\n[data]\n[end_symbol]
+*/
 {
 	char	*input;
 	char	*out;

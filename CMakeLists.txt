@@ -3,35 +3,37 @@ project(Minishell C)
 
 set(CMAKE_C_STANDARD 99)
 #set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-link_libraries(readline)
 add_executable(Minishell
-        builtin_echo.c
-        builtin_cd.c
-        builtin_pwd.c
-        builtin_export.c
-        builtin_heredoc.c
-        builtin_unset.c
-        builtin_env.c
-        builtin_exit.c
-        builtin_execve.c
+    builtin_cd.c
+    builtin_echo.c
+    builtin_env.c
+    builtin_execve.c
+    builtin_exit.c
+    builtin_export.c
+    builtin_heredoc.c
+    builtin_pwd.c
+    builtin_unset.c
+    enviroment.c
+    error.c
+    ft_atoi_s.c
+    ft_split.c
+    handler.c
+    memory.c
+    minishell.c
+    signal.c
+    split_smart.c
+    stack1.c
+    stack.c
 
-        enviroment.c
-        enviroment.h
-
-        memory.c
-        memory.h
-
-        error.c
-        error.h
-
-        signal.c
-        signal.h
-
-        minishell.c
-        minishell.h
-
-        ft_split.c
-        ft_atoi_s.c
-        split_smart.c
+    include/color.h
+    include/enviroment.h
+    include/error.h
+    include/handler.h
+    include/libft.h
+    include/memory.h
+    include/minishell.h
 )
 
+target_link_libraries(Minishell
+        readline
+        /media/kostya/Data/CLion/Minishell/libft/libft.a)

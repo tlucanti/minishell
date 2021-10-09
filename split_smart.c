@@ -6,17 +6,18 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 18:15:13 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/18 12:48:48 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/08 16:50:17 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <string.h>
-#define ft_memcpy memcpy
+#include "include/memory.h"
+#include "include/libft.h"
 
-#include "memory.h"
-
-static char	**push_back_null(char **array, size_t size) __attribute__((warn_unused_result));
-static char	**push_back_string(char **array, const char *input, size_t str_size, size_t *array_size) __attribute__((warn_unused_result));
-static char	**push_back_token(char **array, const char **input, size_t *size) __attribute__((warn_unused_result));
+static char	**push_back_null(char **array, size_t size)
+			__attribute__((warn_unused_result));
+static char	**push_back_string(char **array, const char *input, size_t str_size,
+				size_t *array_size) __attribute__((warn_unused_result));
+static char	**push_back_token(char **array, const char **input, size_t *size)
+			__attribute__((warn_unused_result));
 static char	**clear_split_smart(char **array);
 static int	is_token(int c);
 
@@ -28,20 +29,21 @@ static int	is_token(int c);
 #define UNO_QUOTE	(char *)6
 #define DBL_QUOTE	(char *)7
 
-void print_my_cool_split(char **p)
+void	print_my_cool_split(char **p)
 {
-	if (!p || !*p) {
+	if (!p || !*p)
+	{
 		printf("syntax error\n");
-		return;
+		return ;
 	}
-	if ((size_t)*p > 100)
+	if ((size_t) * p > 100)
 		printf("['%s'", *p);
 	else
 		printf("[%p", *p);
 	++p;
 	while (*p)
 	{
-		if ((size_t)*p > 100)
+		if ((size_t) * p > 100)
 			printf(", '%s'", *p);
 		else
 			printf(", %p", *p);
@@ -53,8 +55,13 @@ void print_my_cool_split(char **p)
 // echo hello > lol << kek | lololol|lol<f>e
 char	**smart_split(const char *input, int (*skip)(int))
 {
-	__attribute__(()) size_t size, array_size = 0;
-	__attribute__(()) char **ret = (char **)xmalloc(sizeof(char *)), quote;
+	size_t	size;
+	size_t	array_size;
+	char	**ret;
+	char	quote;
+
+	array_size = 0;
+	ret = (char **)xmalloc(sizeof(char *));
 	*ret = NULL;
 	while (*input)
 	{
@@ -65,7 +72,8 @@ char	**smart_split(const char *input, int (*skip)(int))
 		size = 0;
 		if (*input == '\'' || *input == '\"')
 		{
-			(quote = *input), (ret = push_back_token(ret, &input, &array_size));
+			quote = *input;
+			ret = push_back_token(ret, &input, &array_size);
 			while (*input != quote && *input && ++size)
 				++input;
 			if (!*input++)
@@ -80,32 +88,58 @@ char	**smart_split(const char *input, int (*skip)(int))
 	return (ret);
 }
 
-static char **push_back_token(char **array, const char **input, size_t *size)
+static char	**push_back_token(char **array, const char **input, size_t *size)
 {
 	array = push_back_null(array, *size);
 	if (input[0][0] == '>')
+	{
 		if (input[0][1] == '>')
-			(array[*size] = OUT_APPEND), (*input += 2);
+		{
+			array[*size] = OUT_APPEND;
+			*input += 2;
+		}
 		else
-			(array[*size] = OUT_WRITE), (*input += 1);
+		{
+			array[*size] = OUT_WRITE;
+			*input += 1;
+		}
+	}
 	else if (input[0][0] == '<')
+	{
 		if (input[0][1] == '<')
-			(array[*size] = HEREDOC), (*input += 2);
+		{
+			array[*size] = HEREDOC;
+			*input += 2;
+		}
 		else
-			(array[*size] = INPUT), (*input += 1);
+		{
+			array[*size] = INPUT;
+			*input += 1;
+		}
+	}
 	else if (input[0][0] == '|')
-		(array[*size] = PIPE), (*input += 1);
+	{
+		array[*size] = PIPE;
+		*input += 1;
+	}
 	else if (input[0][0] == '\'')
-		(array[*size] = UNO_QUOTE), (*input += 1);
+	{
+		array[*size] = UNO_QUOTE;
+		*input += 1;
+	}
 	else if (input[0][0] == '\"')
-		(array[*size] = DBL_QUOTE), (*input += 1);
+	{
+		array[*size] = DBL_QUOTE;
+		*input += 1;
+	}
 	*size += 1;
 	if (input[0][-1] == **input && (input[0][-1] == '"' || **input == '\''))
 		array = push_back_string(array, &"\000\000"[1], 1, size);
 	return (array);
 }
 
-static char	**push_back_string(char **array, const char *input, size_t str_size, size_t *array_size)
+static char	**push_back_string(char **array, const char *input, size_t str_size,
+				size_t *array_size)
 {
 	if (!str_size)
 		return (array);
@@ -138,7 +172,7 @@ static char	**clear_split_smart(char **array)
 		if (*array != OUT_APPEND && *array != OUT_WRITE && *array != HEREDOC
 			&& *array != INPUT && *array != PIPE && *array != UNO_QUOTE
 			&& *array != DBL_QUOTE)
-		free(*array++);
+			free(*array++);
 	}
 	free(ptr);
 	return (NULL);

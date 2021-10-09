@@ -6,15 +6,19 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 11:16:40 by tlucanti          #+#    #+#             */
-/*   Updated: 2021/09/17 14:30:08 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/08 14:04:47 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "include/minishell.h"
+#include "include/libft.h"
 
-static char	**ft_error_test_ft_split(char **ret) __attribute__((warn_unused_result));
-static char	**ft_str_append_sized(char **arr, char *str, size_t size, size_t arrlen) __attribute__((warn_unused_result));
-static char	**ft_push_back_char_ss(char **arr, char *new_s, size_t arrlen) __attribute__((warn_unused_result));
+static char	**ft_error_test_ft_split(char **ret)
+			__attribute__((warn_unused_result));
+static char	**ft_str_append_sized(char **arr, char *str, size_t size,
+				size_t arrlen) __attribute__((warn_unused_result));
+static char	**ft_push_back_char_ss(char **arr, char *new_s, size_t arrlen)
+			__attribute__((warn_unused_result));
 static void	*ft_arr_clear(char **arr);
 
 char	**ft_split(char const *s, int (*f)(int))
@@ -57,7 +61,8 @@ static char	**ft_error_test_ft_split(char **ret)
 	return (ret);
 }
 
-static char	**ft_str_append_sized(char **arr, char *str, size_t size, size_t arrlen)
+static char	**ft_str_append_sized(char **arr, char *str, size_t size,
+				size_t arrlen)
 {
 	char	*new_s;
 

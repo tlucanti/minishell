@@ -6,15 +6,16 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:56:55 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/18 18:28:36 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/08 17:03:56 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "enviroment.h"
-#include "error.h"
-#include "signal.h"
-#include "colors.h"
+#include "include/minishell.h"
+#include "include/enviroment.h"
+#include "include/error.h"
+#include "include/handler.h"
+#include "include/color.h"
+#include "include/libft.h"
 
 static int	update_promt(char *promt);
 
@@ -47,7 +48,9 @@ int	main(void)
 }
 
 int	__update_promt(char *promt)
-// "kostya:/media/kostya/Data/CLion/Minishell/cmake-build-debug $ "
+/*
+** "kostya:/media/kostya/Data/CLion/Minishell/cmake-build-debug $ "
+*/
 {
 	snprintf(promt, PATH_MAX, "%s%s%s:%s%s%s %s\001➜\002%s ",
 		READLINE_GREEN, ft_getenv_s("USER", NULL), READLINE_RESET,
@@ -57,7 +60,9 @@ int	__update_promt(char *promt)
 }
 
 int	update_promt(char *promt)
-// tlucanti:/home/tlucanti $ 
+/*
+** tlucanti:/home/tlucanti $ 
+*/
 {
 	const char		*env;
 	size_t			user_size;
@@ -81,23 +86,21 @@ int	update_promt(char *promt)
 		promt[shift] = '~';
 	else
 		shift += cwd_size - 1;
-	ft_memcpy(promt + shift + 1, " " READLINE_YELLOW "\001➜\002" READLINE_RESET " ",
-		sizeof(READLINE_YELLOW) + sizeof(READLINE_RESET) + 6);
+	ft_memcpy(promt + shift + 1, " " READLINE_YELLOW "\001➜\002" READLINE_RESET
+		" ", sizeof(READLINE_YELLOW) + sizeof(READLINE_RESET) + 6);
 	return (0);
 }
 
-void print_my_cool_split(char **p);
+void		print_my_cool_split(char **p);
 
 #define HEREDOC		(char *)3
+
 int	simple_parcer(const char *input)
 {
 	char	**arr;
 	int		ret;
 
-	// arr = smart_split(input, ft_isspace);
 	arr = ft_split(input, ft_isspace);
-	// print_my_cool_split(arr);
-	// return (0);
 	if (!*arr)
 		return (0);
 	else if (!ft_strcmp(arr[0], "echo"))

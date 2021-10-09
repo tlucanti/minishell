@@ -6,14 +6,17 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 13:18:44 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/10 21:14:31 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/08 14:03:56 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "error.h"
+#include "include/minishell.h"
+#include "include/error.h"
 
 int	builtin_exit(char *const *argv)
+/*
+** function termitates work of current shell and clearing memory
+*/
 {
 	int	status;
 	int	error;

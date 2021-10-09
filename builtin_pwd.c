@@ -6,14 +6,18 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:05:54 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/15 22:10:49 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/08 14:04:13 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "error.h"
+#include "include/minishell.h"
+#include "include/error.h"
 
 int	builtin_pwd(char *const *argv)
+/*
+** function prints to STDOUT current working directory (CWD)
+** if arguments provided - prints error to STDERR
+*/
 {
 	char	buff[PATH_MAX];
 	char	*_;

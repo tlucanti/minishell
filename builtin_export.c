@@ -6,23 +6,23 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:38:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/09/15 22:09:50 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/08 14:49:02 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "enviroment.h"
-#include "memory.h"
-#include "error.h"
+#include "include/enviroment.h"
+#include "include/memory.h"
+#include "include/error.h"
+#include "include/libft.h"
 
-int	builtin_export_split(const char *string, char *restrict *key, char *restrict *value);
-
-#include <ctype.h>
-#define ft_isalpha isalpha
-#define ft_isalnum isalnum
-#define ft_memcpy memcpy
-#define ft_strlen strlen
+int	builtin_export_split(const char *string, char *restrict *key,
+		char *restrict *value);
 
 int	builtin_export(char *const *argv)
+/*
+** function adds new enviroment variables provided in argv to internal shell
+** storage with syntax [VAR_NAME]=[VALUE]
+*/
 {
 	char	*restrict	key;
 	char	*restrict	value;
@@ -50,7 +50,8 @@ int	builtin_export(char *const *argv)
 	return (0);
 }
 
-int	builtin_export_split(const char *string, char *restrict *key, char *restrict *value)
+int	builtin_export_split(const char *string, char *restrict *key,
+		char *restrict *value)
 {
 	size_t	it;
 
