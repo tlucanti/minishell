@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 16:00:14 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 18:43:54 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/25 20:46:55 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	xexit(int status) __attribute__((noreturn));
 # define ENEA		-5		// ERROR NOT ENOUGH ARGUMENTS
 # define ENUMR		-6		// ERROR NUMERIC ARGUMENT REQUIRED
 # define ETOKEN		-7		// ERROR UNEXPECTED TOKEN IN PARSE
+# define ESYNT		-8		// ERROR INVALID SYNTAX
 
 # ifndef EXIT_FAILURE
 #  define EXIT_FAILURE 1

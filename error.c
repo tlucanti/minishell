@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:59:44 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 18:43:37 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/25 20:57:26 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,7 @@ static const char	*xstrerror(int errorcode)
 		return ("numeric argument required");
 	else if (errorcode == ETOKEN)
 		return ("syntax error, unexpected token");
+	else if (errorcode == ESYNT)
+		return ("syntax error");
 	return (strerror(errorcode));
 }

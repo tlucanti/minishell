@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:32:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 19:58:00 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/25 20:49:54 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static char	**redirect_sharp(char **ptr, uint *argv_size, int _in_out[2], int *w
 static int	pipe_sharp(char **ptr, int _in_out[2], int *_do_pipe, int was_redirect) __attribute__((warn_unused_result));
 static int	fork_sharp(char **array, int _in_out[2], char **end, uint argv_size) __attribute__((warn_unused_result));
 static int complex_parser(char **array, int _do_pipe) __attribute__((warn_unused_result));
-static char	*token_to_string(const char *token);
 
 int complex_parser_decorator(char **array, int _do_pipe)
 {
@@ -39,7 +38,7 @@ int complex_parser_decorator(char **array, int _do_pipe)
 	if (_backup_in_out[0] == -1 || _backup_in_out[1] == -1)
 	{
 		ft_perror("dup", errno, NULL);
-		return (EXIT_FAILURE);
+		return (errno);
 	}
 	ret = complex_parser(array, _do_pipe);
 	_status = 0;
@@ -48,7 +47,7 @@ int complex_parser_decorator(char **array, int _do_pipe)
 	if (_status == -1)
 	{
 		ft_perror("dup2", errno, NULL);
-		return (EXIT_FAILURE);
+		return (errno);
 	}
 	return (ret);
 }
@@ -168,8 +167,6 @@ static char	**implement_redirect(char **ptr, int _in_out[2])
 {
 	const mode_t	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 
-	if ((size_t)(ptr[1]) < ANY_TOKEN)
-		return ((char **)(size_t)ft_perror("minishell", ETOKEN, token_to_string(ptr[1])));
 	if (*ptr == OUT_WRITE_PTR || *ptr == OUT_APPEND_PTR)
 	{
 		close(_in_out[1]);
@@ -220,18 +217,4 @@ static char	**materialize_argv(char **start, uint argv_size)
 		}
 	}
 	return (argv);
-}
-
-static char	*token_to_string(const char *token)
-{
-	if (token == OUT_APPEND_PTR)
-		return (">>");
-	else if (token == OUT_WRITE_PTR)
-		return (">");
-	else if (token == INPUT_PTR)
-		return ("<");
-	else if (token == HEREDOC_PTR)
-		return ("<<");
-	else
-		return ("end of line");
 }

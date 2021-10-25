@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:56:55 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 19:41:25 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/25 21:04:54 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include "include/parser.h"
 
 static int	update_promt(char *promt);
+static int	syntax_check(char **array);
+static char	*token_to_string(const char *token);
 
 int	main(void)
 {
@@ -98,15 +100,57 @@ int	simple_parcer(const char *input)
 	int		ret;
 
 	arr = smart_split(input, ft_isspace);
-	print_my_cool_split(arr);
-	if (!*arr)
-		return (0);
+	ret = syntax_check(arr);
+	if (!ret)
+		return (ret);
 	enforce_env(arr);
-	print_my_cool_split(arr);
 	ret = complex_parser_decorator(arr, -1);
 	clear_split_smart(arr);
 	list_insert(internal_env_storage(), ft_strdup("?"), ft_itoa(ret));
 	return (ret);
+}
+
+static int	syntax_check(char **array)
+{
+	int	not_empty_pipe;
+
+	not_empty_pipe = 0;
+	if (!array)
+		return (ft_perror("minishell", ESYNT, "unclosed quote"));
+	if (*array == PIPE_PTR)
+		return (ft_perror("minishell", ESYNT, "empty pipe"));
+	if ((size_t)(*array) < ANY_TOKEN)
+		return (ft_perror("minishell", ESYNT, "token without command"));
+	while (*array)
+	{
+		if ((size_t)(*array) > ANY_TOKEN && ++array && ++not_empty_pipe)
+			continue ;
+		if (*array == PIPE_PTR && !array[1])
+			return (ft_perror("minishell", ESYNT, "unclosed pipe"));
+		if (*array == PIPE_PTR && !not_empty_pipe++)
+			return (ft_perror("minishell", ESYNT, "empty pipe"));
+		if (array[-1] == PIPE_PTR)
+			return (ft_perror("minishell", ESYNT, "token without command"));
+		else if ((size_t)array[1] < ANY_TOKEN)
+			return (ft_perror("minishell", ETOKEN, token_to_string(array[1])));
+		++array;
+	}
+	return (1);
+}
+
+static char	*token_to_string(const char *token)
+{
+	if (token == OUT_APPEND_PTR)
+		return (">>");
+	else if (token == OUT_WRITE_PTR)
+		return (">");
+	else if (token == INPUT_PTR)
+		return ("<");
+	else if (token == HEREDOC_PTR)
+		return ("<<");
+	else if (token == PIPE_PTR)
+		return ("pipe");
+	return ("end of line");
 }
 
 int	builtin(char **arr)
