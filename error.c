@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:59:44 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 20:57:26 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/25 21:35:39 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "include/minishell.h"
 #include "include/libft.h"
 
-static void			putsfd(int fd, const char *str);
 static const char	*xstrerror(int errorcode);
 
 int	ft_perror(const char *parent, int errorcode, const char *arg)
@@ -52,7 +51,7 @@ void	xexit(int status)
 	exit(status);
 }
 
-static void	putsfd(int fd, const char *str)
+void	putsfd(int fd, const char *str)
 {
 	size_t	size;
 

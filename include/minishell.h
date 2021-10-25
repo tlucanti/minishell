@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:53:32 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/09 21:47:26 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/25 21:26:56 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int			ft_atoi_s(const char *str, int *error);
 void		clear_split(char **array);
 int			simple_parcer(const char *input);
 int			set_autoattr(int desc, int value, int what);
+void		putsfd(int fd, const char *str);
 
 int			builtin_echo(char *const *argv);
 int			builtin_cd(char *const *argv);

@@ -6,7 +6,7 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/10/25 17:28:00 by kostya           ###   ########.fr        #
+#    Updated: 2021/10/25 21:21:45 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,7 @@ ${OBJS_DIR}/%.o: %.c Makefile
 	${CC}		${CFLAGS}  ${COPTIONS} -c -o $@ $<
 
 # ------------------------------------------------------------------------------
-$(NAME):		libft ${OBJS}
+$(NAME):		${OBJS_DIR} libft ${OBJS}
 	${CC}		-o ${NAME} ${CFLAGS} ${COPTIONS} ${OBJS} ${LIBRARY} ${LIBFT}
 
 # ------------------------------------------------------------------------------
@@ -85,6 +85,10 @@ libft:
 	ln			-sf ../${LIBFT_DIR}/libft.h ${INCLUDE_DIR}/libft.h
 
 # ------------------------------------------------------------------------------
+${OBJS_DIR}:
+	mkdir -p	${OBJS_DIR}
+
+# ------------------------------------------------------------------------------
 re:			fclean all
 
 # ------------------------------------------------------------------------------
@@ -94,4 +98,4 @@ pvs:
 	plog-converter -a GA:1,2 -t tasklist -o /media/kostya/Data/CLion/Minishell/project.tasks /media/kostya/Data/CLion/Minishell/project.log
 
 # ------------------------------------------------------------------------------
-.PHONY:			all clean fclean re pvs libft
+.PHONY:			all clean fclean re pvs libft ${OBJS_DIR}

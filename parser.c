@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:32:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 20:49:54 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/25 21:41:01 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "include/memory.h"
 #include "include/error.h"
 #include "include/libft.h"
+#include "include/minishell.h"
 
 // #define dup(n)(n)
 // #define dup2(a, b) ((a) * 0 + (b) * 0)
@@ -82,10 +83,7 @@ static int	pipe_sharp(char **ptr, int _in_out[2], int *_do_pipe, int was_redirec
 	if (*ptr == PIPE_PTR)
 	{
 		if (pipe(_pipes_in_out))
-		{
-			ft_perror("pipe", errno, NULL);
-			return (-1);
-		}
+			return (ft_perror("pipe", errno, NULL) - 1);
 		*_do_pipe = _pipes_in_out[0];
 		if (!was_redirect)
 		{
@@ -94,7 +92,7 @@ static int	pipe_sharp(char **ptr, int _in_out[2], int *_do_pipe, int was_redirec
 		}
 		_frk = fork();
 		if (_frk == -1)
-			ft_perror("fork", errno, NULL);
+			return (ft_perror("fork", errno, NULL) - 1);
 		if (_frk)
 		{
 			/* CHILD process closing reading part of pipe, because it will
@@ -190,7 +188,29 @@ static char	**implement_redirect(char **ptr, int _in_out[2])
 
 static int	implement_heredoc(const char *end)
 {
-	(void)end;
+	char	*heredoc_str;
+	int		_pipes_in_out[2];
+	int		_frk;
+
+	if (pipe(_pipes_in_out))
+		return (ft_perror("pipe", errno, NULL) - 1);
+	_frk = fork();
+	if (_frk == -1)
+		return (ft_perror("fork", errno, NULL) - 1);
+	if (!_frk) // CHILD process
+	{
+		close(_pipes_in_out[0]);
+		heredoc_str = builtin_heredoc(end);
+		putsfd(_pipes_in_out[1], heredoc_str);
+		free(heredoc_str);
+		close(_pipes_in_out[1]);
+		exit(0);
+	}
+	else
+	{
+		close(_pipes_in_out[1]);
+		return (_pipes_in_out[0]);
+	}
 	return 0;
 }
 
