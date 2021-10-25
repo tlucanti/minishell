@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 22:22:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/08 14:03:50 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/25 19:31:36 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	builtin_execve(char *const *argv)
 ** type commands in gdb to enable child debugging
 ** set follow-fork-mode child
 ** set detach-on-fork off
+** type commands in gdb to enable parent debugging
+** set follow-fork-mode parent
 */
 {
 	pid_t	p_id;

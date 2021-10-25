@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 20:05:35 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/08 14:04:25 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/25 14:11:52 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "include/minishell.h"
 #include "include/libft.h"
 
-const char	*ft_getenv(const char *name, size_t *size)
+char	*ft_getenv(const char *name, size_t *size)
 /*
 ** function search and return variable in internal enviroment variable storage
 ** by `name`, size of found veriable saved in `size`
@@ -28,7 +28,7 @@ const char	*ft_getenv(const char *name, size_t *size)
 	ptr = internal_env_storage()->root;
 	while (ptr->next)
 	{
-		if (!ft_memcmp(name, ptr->key, ptr->key_size))
+		if (!ft_memcmp(name, ptr->key, ft_strlen(name) + 1))
 		{
 			if (size)
 				*size = ptr->value_size;
@@ -41,14 +41,14 @@ const char	*ft_getenv(const char *name, size_t *size)
 	return (NULL);
 }
 
-const char	*ft_getenv_s(const char *name, size_t *size)
+char	*ft_getenv_s(const char *name, size_t *size)
 /*
 ** function is safe analog of ft_getenv
 ** difference: if variable not found in internal enviroment variable storage -
 ** empty string ("") retunrned, not null pointer (NULL) unlike in ft_getenv
 */
 {
-	const char	*ret;
+	char	*ret;
 
 	ret = ft_getenv(name, size);
 	if (!ret)

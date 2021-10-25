@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:56:55 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/08 17:03:56 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/25 19:41:25 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "include/handler.h"
 #include "include/color.h"
 #include "include/libft.h"
+#include "include/parser.h"
 
 static int	update_promt(char *promt);
 
@@ -91,19 +92,28 @@ int	update_promt(char *promt)
 	return (0);
 }
 
-void		print_my_cool_split(char **p);
-
-#define HEREDOC		(char *)3
-
 int	simple_parcer(const char *input)
 {
 	char	**arr;
 	int		ret;
 
-	arr = ft_split(input, ft_isspace);
+	arr = smart_split(input, ft_isspace);
+	print_my_cool_split(arr);
 	if (!*arr)
 		return (0);
-	else if (!ft_strcmp(arr[0], "echo"))
+	enforce_env(arr);
+	print_my_cool_split(arr);
+	ret = complex_parser_decorator(arr, -1);
+	clear_split_smart(arr);
+	list_insert(internal_env_storage(), ft_strdup("?"), ft_itoa(ret));
+	return (ret);
+}
+
+int	builtin(char **arr)
+{
+	int	ret;
+
+	if (!ft_strcmp(arr[0], "echo"))
 		ret = builtin_echo(arr);
 	else if (!ft_strcmp(arr[0], "cd"))
 		ret = builtin_cd(arr);
@@ -117,14 +127,8 @@ int	simple_parcer(const char *input)
 		ret = builtin_env(arr);
 	else if (!ft_strcmp(arr[0], "exit"))
 		ret = builtin_exit(arr);
-	else if (arr[1] == HEREDOC)
-	{
-		ret = 0;
-		printf("heredoc > %s\n", builtin_heredoc(arr[2]));
-	}
 	else
 		ret = builtin_execve(arr);
-	clear_split(arr);
 	return (ret);
 }
 

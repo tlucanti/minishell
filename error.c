@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:59:44 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/08 15:42:27 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/25 18:43:37 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 static void			putsfd(int fd, const char *str);
 static const char	*xstrerror(int errorcode);
 
-void	ft_perror(const char *parent, int errorcode, const char *arg)
+int	ft_perror(const char *parent, int errorcode, const char *arg)
 /*
 ** function prints error message to STDOUT by `errorcode` in format:
 ** {RED_COLOR}[`parent`]: {WHITE_COLOR}[ERROR_MESSAGE]: {YELLOW_COLOR}[`arg`]\n
@@ -39,6 +39,7 @@ void	ft_perror(const char *parent, int errorcode, const char *arg)
 		putsfd(2, arg);
 	}
 	putsfd(2, RESET "\n");
+	return (0);
 }
 
 void	xexit(int status)
@@ -71,5 +72,7 @@ static const char	*xstrerror(int errorcode)
 		return ("not enough arguments");
 	else if (errorcode == ENUMR)
 		return ("numeric argument required");
+	else if (errorcode == ETOKEN)
+		return ("syntax error, unexpected token");
 	return (strerror(errorcode));
 }

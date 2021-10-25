@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 22:30:40 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/08 17:03:04 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/25 13:43:00 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ typedef struct s_env
 	size_t					size;
 }	t_env;
 
-const char	*ft_getenv_s(const char *name, size_t *size)
+char	*ft_getenv_s(const char *name, size_t *size)
 			__attribute__((warn_unused_result));
-const char	*ft_getenv(const char *name, size_t *size)
+char	*ft_getenv(const char *name, size_t *size)
 			__attribute__((warn_unused_result));
 t_env		*env_init(void) __attribute__((warn_unused_result));
 void		list_insert(t_env *env, const char *key, const char *value);

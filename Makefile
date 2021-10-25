@@ -6,14 +6,14 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/10/08 16:51:17 by kostya           ###   ########.fr        #
+#    Updated: 2021/10/25 17:28:00 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			=	gcc
+CC			=	clang
 NAME		=	minishell
-CFLAGS		=	-Wall -Wextra -Werror
-COPTIONS	=	-O1
+CFLAGS		=	-Wall -Wextra
+COPTIONS	=	-O0
 RM			=	rm -f
 LIBRARY		=	-lreadline
 LIBFT_DIR	=	libft
@@ -39,7 +39,9 @@ SRCS		=	\
 				signal			\
 				split_smart		\
 				stack1			\
-				stack
+				stack			\
+				parser			\
+				dollar
 # ------------------------------------------------------------------------------
 HDRS		=	\
 				enviroment		\
@@ -47,7 +49,8 @@ HDRS		=	\
 				memory			\
 				minishell		\
 				error			\
-				colors
+				colors			\
+				parser
 # ------------------------------------------------------------------------------
 OBJS		=	$(addprefix ${OBJS_DIR}/,${SRCS:=.o})
 DEPS		=	$(addprefix ${INCLUDE_DIR}/,${HDRS:=.h})
@@ -55,14 +58,16 @@ LIBRARY		=	-lreadline
 LIBFT		=	${LIBFT_DIR}/libft.a
 
 # ------------------------------------------------------------------------------
-${OBJS_DIR}/%.o: %.c
+all:
+	$(MAKE)		${NAME} -j
+
+# ------------------------------------------------------------------------------
+${OBJS_DIR}/%.o: %.c Makefile
 	${CC}		${CFLAGS}  ${COPTIONS} -c -o $@ $<
 
 # ------------------------------------------------------------------------------
 $(NAME):		libft ${OBJS}
 	${CC}		-o ${NAME} ${CFLAGS} ${COPTIONS} ${OBJS} ${LIBRARY} ${LIBFT}
-
-all:			libft ${NAME}
 
 # ------------------------------------------------------------------------------
 clean:

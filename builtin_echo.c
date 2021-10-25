@@ -6,12 +6,13 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:05:54 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/07 22:05:23 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/25 19:10:33 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/error.h"
 #include "include/minishell.h"
+#include "include/libft.h"
 
 static char *const	*__builtin_echo_arg_check(char *const *argv,
 						int *restrict n_opt)
@@ -30,16 +31,17 @@ int	builtin_echo(char *const *argv)
 	argv = __builtin_echo_arg_check(argv, &n_opt);
 	if (*argv)
 	{
-		printf("%s", *argv);
+		write(1, *argv, ft_strlen(*argv));
 		++argv;
 	}
 	while (*argv)
 	{
-		printf(" %s", *argv);
+		write(1, " ", 1);
+		write(1, *argv, ft_strlen(*argv));
 		++argv;
 	}
 	if (!n_opt)
-		printf("\n");
+		write(1, "\n", 1);
 	return (EXIT_SUCCESS);
 }
 

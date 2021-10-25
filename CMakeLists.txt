@@ -16,7 +16,6 @@ add_executable(Minishell
     enviroment.c
     error.c
     ft_atoi_s.c
-    ft_split.c
     handler.c
     memory.c
     minishell.c
@@ -24,6 +23,8 @@ add_executable(Minishell
     split_smart.c
     stack1.c
     stack.c
+    parser.c
+    dollar.c
 
     include/color.h
     include/enviroment.h
@@ -32,6 +33,7 @@ add_executable(Minishell
     include/libft.h
     include/memory.h
     include/minishell.h
+    include/parser.h
 )
 
 target_link_libraries(Minishell

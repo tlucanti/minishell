@@ -6,11 +6,13 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 18:15:13 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/08 16:50:17 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/25 18:29:13 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "include/memory.h"
 #include "include/libft.h"
+#include "include/parser.h"
 
 static char	**push_back_null(char **array, size_t size)
 			__attribute__((warn_unused_result));
@@ -18,25 +20,21 @@ static char	**push_back_string(char **array, const char *input, size_t str_size,
 				size_t *array_size) __attribute__((warn_unused_result));
 static char	**push_back_token(char **array, const char **input, size_t *size)
 			__attribute__((warn_unused_result));
-static char	**clear_split_smart(char **array);
 static int	is_token(int c);
-
-#define OUT_APPEND	(char *)1
-#define OUT_WRITE	(char *)2
-#define HEREDOC		(char *)3
-#define INPUT		(char *)4
-#define PIPE		(char *)5
-#define UNO_QUOTE	(char *)6
-#define DBL_QUOTE	(char *)7
 
 void	print_my_cool_split(char **p)
 {
-	if (!p || !*p)
+	if (!p)
 	{
 		printf("syntax error\n");
 		return ;
 	}
-	if ((size_t) * p > 100)
+	if (!*p)
+	{
+		printf("[%p, %p]\n", p[0], p[1]);
+		return ;
+	}
+	if ((size_t)*p > 100)
 		printf("['%s'", *p);
 	else
 		printf("[%p", *p);
@@ -49,6 +47,7 @@ void	print_my_cool_split(char **p)
 			printf(", %p", *p);
 		++p;
 	}
+	printf(", %p, %p", p[0], p[1]);
 	printf("]\n");
 }
 
@@ -61,8 +60,9 @@ char	**smart_split(const char *input, int (*skip)(int))
 	char	quote;
 
 	array_size = 0;
-	ret = (char **)xmalloc(sizeof(char *));
-	*ret = NULL;
+	ret = (char **)xmalloc(sizeof(char *) * 2);
+	ret[0] = NULL;
+	ret[1] = NULL;
 	while (*input)
 	{
 		while (skip(*input) && *input)
@@ -95,12 +95,12 @@ static char	**push_back_token(char **array, const char **input, size_t *size)
 	{
 		if (input[0][1] == '>')
 		{
-			array[*size] = OUT_APPEND;
+			array[*size] = OUT_APPEND_PTR;
 			*input += 2;
 		}
 		else
 		{
-			array[*size] = OUT_WRITE;
+			array[*size] = OUT_WRITE_PTR;
 			*input += 1;
 		}
 	}
@@ -108,28 +108,28 @@ static char	**push_back_token(char **array, const char **input, size_t *size)
 	{
 		if (input[0][1] == '<')
 		{
-			array[*size] = HEREDOC;
+			array[*size] = HEREDOC_PTR;
 			*input += 2;
 		}
 		else
 		{
-			array[*size] = INPUT;
+			array[*size] = INPUT_PTR;
 			*input += 1;
 		}
 	}
 	else if (input[0][0] == '|')
 	{
-		array[*size] = PIPE;
+		array[*size] = PIPE_PTR;
 		*input += 1;
 	}
 	else if (input[0][0] == '\'')
 	{
-		array[*size] = UNO_QUOTE;
+		array[*size] = UNO_QUOTE_PTR;
 		*input += 1;
 	}
 	else if (input[0][0] == '\"')
 	{
-		array[*size] = DBL_QUOTE;
+		array[*size] = DBL_QUOTE_PTR;
 		*input += 1;
 	}
 	*size += 1;
@@ -155,24 +155,23 @@ static char	**push_back_null(char **array, size_t size)
 {
 	char	**_new;
 
-	_new = (char **)xmalloc(sizeof(char *) * (size + 2));
-	ft_memcpy(_new, array, sizeof(char *) * (size + 1));
-	_new[size + 1] = NULL;
+	_new = (char **)xmalloc(sizeof(char *) * (size + 3));
+	ft_memcpy(_new, array, sizeof(char *) * (size + 2));
+	_new[size + 2] = NULL;
 	free(array);
 	return (_new);
 }
 
-static char	**clear_split_smart(char **array)
+char	**clear_split_smart(char **array)
 {
 	char	**ptr;
 
 	ptr = array;
-	while (array)
+	while (*array)
 	{
-		if (*array != OUT_APPEND && *array != OUT_WRITE && *array != HEREDOC
-			&& *array != INPUT && *array != PIPE && *array != UNO_QUOTE
-			&& *array != DBL_QUOTE)
-			free(*array++);
+		if ((size_t)(*array) > ANY_TOKEN)
+			free(*array);
+		++array;
 	}
 	free(ptr);
 	return (NULL);
