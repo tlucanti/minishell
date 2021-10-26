@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:32:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 21:41:01 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 18:26:28 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,7 @@ static int	fork_sharp(char **array, int _in_out[2], char **end, uint argv_size)
 	}
 	ret = builtin(materialize_argv(array, argv_size));
 	if (*end == PIPE_PTR)
-	{
-		// close(STDOUT);
 		exit(0);
-	}
 	return (ret);
 }
 
@@ -175,9 +172,11 @@ static char	**implement_redirect(char **ptr, int _in_out[2])
 	}
 	else if (*ptr == INPUT_PTR || *ptr == HEREDOC_PTR)
 	{
-		close(_in_out[0]);
 		if (*ptr == INPUT_PTR)
+		{
+			// close(_in_out[0]);
 			_in_out[0] = open(ptr[1], O_RDONLY);
+		}
 		else
 			_in_out[0] = implement_heredoc(ptr[1]);
 	}
@@ -192,6 +191,7 @@ static int	implement_heredoc(const char *end)
 	int		_pipes_in_out[2];
 	int		_frk;
 
+	heredoc_str = builtin_heredoc(end);
 	if (pipe(_pipes_in_out))
 		return (ft_perror("pipe", errno, NULL) - 1);
 	_frk = fork();
@@ -200,7 +200,7 @@ static int	implement_heredoc(const char *end)
 	if (!_frk) // CHILD process
 	{
 		close(_pipes_in_out[0]);
-		heredoc_str = builtin_heredoc(end);
+		// close(STDIN);
 		putsfd(_pipes_in_out[1], heredoc_str);
 		free(heredoc_str);
 		close(_pipes_in_out[1]);

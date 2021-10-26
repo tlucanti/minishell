@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 13:58:07 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 21:21:46 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 17:12:56 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,13 @@ char	*builtin_heredoc(const char *end)
 		new_size = ft_strlen(input);
 		if (!ft_memcmp(input, end, new_size + 1))
 			return (out);
-		str_tmp = xmalloc(sizeof(char) * (size + new_size + 1));
+		str_tmp = xmalloc(sizeof(char) * (size + new_size + 2));
 		ft_memcpy(str_tmp, out, size);
 		ft_memcpy(str_tmp + size, input, new_size + 1);
-		out = str_tmp;
 		free(out);
+		out = str_tmp;
+		size += new_size + 1;
+		out[size - 1] = '\n';
+		out[size] = 0;
 	}
 }
