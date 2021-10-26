@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 13:23:17 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 22:47:16 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 23:44:58 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 #include "include/error.h"
 #include "include/color.h"
 
-static const char	*xstrsignal(int signum) __attribute__((warn_unused_result))
-					__attribute__((__nothrow__));
-static const char	*__xstrsignal_extension(int signum)
-					__attribute__((warn_unused_result))
-					__attribute__((__nothrow__));
+static const char	*xstrsignal(int signum) __attribute__((
+							warn_unused_result)) __attribute__((__nothrow__));
+static const char	*__xstrsignal_extension(int signum)	__attribute__((
+							warn_unused_result)) __attribute__((__nothrow__));
 
 void	ft_psignal(int pid, int signum, const char *__restrict parent)
 /*

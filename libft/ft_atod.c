@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atod.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/08 14:34:38 by kostya            #+#    #+#             */
+/*   Updated: 2021/10/27 00:13:18 by kostya           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 float	ft_atof(const char *str)
@@ -5,7 +17,7 @@ float	ft_atof(const char *str)
 	return ((float)(ft_atod(str)));
 }
 
-double 	ft_atod(const char *str)
+double	ft_atod(const char *str)
 {
 	double	ans;
 	double	sgn;

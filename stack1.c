@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 22:50:35 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 22:48:51 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 23:48:39 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 #include "include/libft.h"
 
 static char	*__mas_gen_extension(const char *str1, const char *str2,
-				size_t size1, size_t size2) __attribute__((warn_unused_result))
-			__attribute__((__nothrow__));
-void		__internal_rm_node(t__internal_env_list *__restrict _node)
-			__attribute__((__nothrow__));
+				size_t size1, size_t size2) __attribute__((
+					warn_unused_result)) __attribute__((__nothrow__));
+void		__internal_rm_node(
+				t__internal_env_list *__restrict _node)	__attribute__((
+					__nothrow__));
 
 void	list_clear(t_env *__restrict env)
 {

@@ -6,7 +6,7 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/10/26 23:17:24 by kostya           ###   ########.fr        #
+#    Updated: 2021/10/26 23:31:50 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS		=	\
 				split_smart		\
 				stack1			\
 				stack			\
+				simple_parser	\
 				complex_parser	\
 				dollar
 # ------------------------------------------------------------------------------
@@ -55,18 +56,17 @@ HDRS		=	\
 # ------------------------------------------------------------------------------
 OBJS		=	$(addprefix ${OBJS_DIR}/,${SRCS:=.o})
 DEPS		=	$(addprefix ${INCLUDE_DIR}/,${HDRS:=.h})
-# LIBFT		=	${LIBFT_DIR}/libft.a
-LIBFT		=
+INCLUDE		=	$(addprefix -I ,${DEPS})
 # ------------------------------------------------------------------------------
 all:
 	$(MAKE)		${NAME} -j
 
 # ------------------------------------------------------------------------------
 ${OBJS_DIR}/%.o: %.c Makefile
-	${CC}		${CFLAGS}  ${COPTIONS} -c -o $@ $<
+	${CC}		${CFLAGS}  ${COPTIONS} -c -o $@ $< ${INCLUDE}
 
 # ------------------------------------------------------------------------------
-$(NAME):		${OBJS_DIR} libft ${OBJS}
+$(NAME):		${OBJS_DIR} ${OBJS} libft
 	${CC}		-o ${NAME} ${CFLAGS} ${COPTIONS} ${OBJS} ${LIB_DIR} ${LIBRARY} ${LIBFT}
 
 # ------------------------------------------------------------------------------
@@ -100,4 +100,4 @@ pvs:
 	plog-converter -a GA:1,2 -t tasklist -o /media/kostya/Data/CLion/Minishell/project.tasks /media/kostya/Data/CLion/Minishell/project.log
 
 # ------------------------------------------------------------------------------
-.PHONY:			all clean fclean re pvs libft ${OBJS_DIR}
+.PHONY:			all clean fclean re pvs libft ${OBJS_DIR} ${NAME}

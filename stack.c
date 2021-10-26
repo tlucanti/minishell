@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 22:46:59 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 22:48:21 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 23:51:34 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 #include "include/libft.h"
 #include "include/minishell.h"
 
-static t__internal_env_list	*__internal_new_node(void)
-							__attribute__((warn_unused_result)) __attribute__((__nothrow__));
-void						__internal_rm_node(t__internal_env_list *__restrict _node)
+static t__internal_env_list	*__internal_new_node(void) __attribute__((
+									warn_unused_result)) __attribute__((
+									__nothrow__));
+void						__internal_rm_node(
+								t__internal_env_list *__restrict _node)
 							__attribute__((__nothrow__));
-// static int					__list_insert_extension(t__internal_env_list *ptr,
-								// t__internal_env_list *new_node,
-								// t__internal_env_list *prev,
-								// t_env *env);
 
 void	list_insert(t_env *env, const char *key, const char *value)
 {
@@ -37,7 +35,8 @@ void	list_insert(t_env *env, const char *key, const char *value)
 	new_node->value = (char *)value;
 	new_node->key_size = ft_strlen(key);
 	new_node->value_size = ft_strlen(value);
-	if (env->root->next == NULL || ft_memcmp(env->root->key, new_node->key, env->root->key_size + 1) > 0)
+	if (env->root->next == NULL || ft_memcmp(env->root->key, new_node->key,
+			env->root->key_size + 1) > 0)
 		// we need to insert node to the beginning of list
 	{
 		new_node->next = env->root;
@@ -133,8 +132,8 @@ void	list_insert(t_env *env, const char *key, const char *value)
 
 t_env	*env_init(void)
 {
-	char	*__restrict	key;
-	char	*__restrict	value;
+	char *__restrict	key;
+	char *__restrict	value;
 	t_env				*new_env;
 	size_t				it;
 

@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 12:16:21 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 21:44:42 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 00:10:54 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,27 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
-int		complex_parser_decorator(char **__restrict array, int _do_pipe) __attribute__((warn_unused_result)) __attribute__((__nothrow__));
+int		complex_parser_decorator(char **__restrict array, int _do_pipe
+			) __attribute__((warn_unused_result)) __attribute__((__nothrow__));
 
 void	print_my_cool_split(char **p) __attribute__((__nothrow__));
-char	**clear_split_smart(char **__restrict array) __attribute__((__nothrow__));
+char	**clear_split_smart(char **__restrict array) __attribute__((
+				__nothrow__));
 void	enforce_env(char **__restrict array) __attribute__((__nothrow__));
-char	*dollar_commutate(char *__restrict string) __attribute__((warn_unused_result)) __attribute__((__nothrow__));
-int		builtin(char **__restrict arr) __attribute__((warn_unused_result)) __attribute__((__nothrow__));
-char	*builtin_heredoc_prompt(int reset) __attribute__((warn_unused_result)) __attribute__((__nothrow__));
+char	*dollar_commutate(char *__restrict string) __attribute__((
+				warn_unused_result)) __attribute__((__nothrow__));
+char	*builtin_heredoc_prompt(int reset) __attribute__((
+				warn_unused_result)) __attribute__((__nothrow__));
+
+char	**redirect_sharp(char **__restrict ptr, uint *__restrict argv_size,
+			int _in_out[2], int *__restrict was_redirect) __attribute__((
+				warn_unused_result));
+int		pipe_sharp(char *__restrict *__restrict ptr, int _in_out[2],
+			int *__restrict _do_pipe, int was_redirect) __attribute__((
+				warn_unused_result));
+int		fork_sharp(char *__restrict *__restrict array, int _in_out[2],
+			char *__restrict *__restrict end,
+			uint argv_size) __attribute__((warn_unused_result));
 
 # define OUT_APPEND_PTR	(char *)OUT_APPEND
 # define OUT_WRITE_PTR	(char *)OUT_WRITE
@@ -53,7 +66,6 @@ char	*builtin_heredoc_prompt(int reset) __attribute__((warn_unused_result)) __at
 
 # define STDIN			STDIN_FILENO
 # define STDOUT			STDOUT_FILENO
-
 
 typedef struct s_dollar
 {

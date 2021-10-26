@@ -6,9 +6,20 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:11:37 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 23:12:46 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 23:45:10 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "include/minishell.h"
+#include "include/libft.h"
+#include "include/parser.h"
+#include "include/enviroment.h"
+#include "include/error.h"
+
+static int	syntax_check(char *__restrict *__restrict array)
+			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
+static char	*token_to_string(const char *__restrict token)
+			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
 
 int	simple_parcer(const char *__restrict input)
 {
@@ -68,4 +79,3 @@ static char	*token_to_string(const char *__restrict token)
 		return ((char *)"pipe");
 	return ((char *)"end of line");
 }
-

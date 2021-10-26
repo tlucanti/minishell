@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 18:15:13 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 22:47:59 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 23:47:49 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,16 @@
 
 static char	**push_back_null(char **__restrict array, size_t size)
 			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
-static char	**push_back_string(char **__restrict array, const char *__restrict input, size_t str_size,
-				size_t *array_size) __attribute__((warn_unused_result)) __attribute__((__nothrow__));
-static char	**push_back_token(char **__restrict array, const char *__restrict *__restrict input, size_t *__restrict size)
-			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
-static int	is_token(int c) __attribute__((warn_unused_result)) __attribute__((__nothrow__));
+static char	**push_back_string(char **__restrict array,
+				const char *__restrict input, size_t str_size,
+				size_t *array_size) __attribute__((
+					warn_unused_result)) __attribute__((__nothrow__));
+static char	**push_back_token(char **__restrict array,
+				const char *__restrict *__restrict input,
+				size_t *__restrict size) __attribute__((
+					warn_unused_result)) __attribute__((__nothrow__));
+static int	is_token(int c) __attribute__((
+					warn_unused_result)) __attribute__((__nothrow__));
 
 void	print_my_cool_split(char **p)
 {
@@ -34,7 +39,7 @@ void	print_my_cool_split(char **p)
 		printf("[%p, %p]\n", p[0], p[1]);
 		return ;
 	}
-	if ((size_t)*p > 100)
+	if ((size_t) * p > 100)
 		printf("['%s'", *p);
 	else
 		printf("[%p", *p);
@@ -52,6 +57,7 @@ void	print_my_cool_split(char **p)
 }
 
 // echo hello > lol << kek | lololol|lol<f>e
+// lol c++ comment
 char	**smart_split(const char *__restrict input, int (*skip)(int))
 {
 	size_t	size;
@@ -88,7 +94,9 @@ char	**smart_split(const char *__restrict input, int (*skip)(int))
 	return (ret);
 }
 
-static char	**push_back_token(char **array, const char *__restrict *__restrict input, size_t *__restrict size)
+static char	**push_back_token(char **array,
+				const char *__restrict *__restrict input,
+				size_t *__restrict size)
 {
 	array = push_back_null(array, *size);
 	if (input[0][0] == '>')
@@ -138,7 +146,8 @@ static char	**push_back_token(char **array, const char *__restrict *__restrict i
 	return (array);
 }
 
-static char	**push_back_string(char **__restrict array, const char *__restrict input, size_t str_size,
+static char	**push_back_string(char **__restrict array,
+				const char *__restrict input, size_t str_size,
 				size_t *__restrict array_size)
 {
 	if (!str_size)
