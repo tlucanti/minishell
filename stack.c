@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 22:46:59 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/08 17:07:54 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 22:48:21 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@
 #include "include/minishell.h"
 
 static t__internal_env_list	*__internal_new_node(void)
-							__attribute__((warn_unused_result));
-void						__internal_rm_node(t__internal_env_list *_node);
+							__attribute__((warn_unused_result)) __attribute__((__nothrow__));
+void						__internal_rm_node(t__internal_env_list *__restrict _node)
+							__attribute__((__nothrow__));
 // static int					__list_insert_extension(t__internal_env_list *ptr,
 								// t__internal_env_list *new_node,
 								// t__internal_env_list *prev,
 								// t_env *env);
 
-#include <string.h>
-#define ft_memcmp memcmp
 void	list_insert(t_env *env, const char *key, const char *value)
 {
 	t__internal_env_list	*prev;
@@ -134,12 +133,12 @@ void	list_insert(t_env *env, const char *key, const char *value)
 
 t_env	*env_init(void)
 {
-	char	*restrict	key;
-	char	*restrict	value;
+	char	*__restrict	key;
+	char	*__restrict	value;
 	t_env				*new_env;
 	size_t				it;
 
-	new_env = xmalloc(sizeof(t_env));
+	new_env = (t_env *)xmalloc(sizeof(t_env));
 	new_env->root = __internal_new_node();
 	new_env->back = new_env->root;
 	it = 0;
@@ -152,7 +151,7 @@ t_env	*env_init(void)
 	return (new_env);
 }
 
-void	list_remove(t_env *env, char *key)
+void	list_remove(t_env *__restrict env, char *__restrict key)
 {
 	t__internal_env_list	*prev;
 	t__internal_env_list	*ptr;
@@ -185,7 +184,7 @@ static t__internal_env_list	*__internal_new_node(void)
 {
 	t__internal_env_list	*new_node;
 
-	new_node = xmalloc(sizeof(t__internal_env_list));
+	new_node = (t__internal_env_list *)xmalloc(sizeof(t__internal_env_list));
 	new_node->key = NULL;
 	new_node->value = NULL;
 	new_node->next = NULL;

@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 12:16:21 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 20:03:00 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 21:44:42 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
-int complex_parser_decorator(char **array, int _do_pipe) __attribute__((warn_unused_result));
+int		complex_parser_decorator(char **__restrict array, int _do_pipe) __attribute__((warn_unused_result)) __attribute__((__nothrow__));
 
-void	print_my_cool_split(char **p);
-char	**clear_split_smart(char **array);
-void	enforce_env(char **array);
-char	*dollar_commutate(char *string);
-int		builtin(char **arr);
-char	*builtin_heredoc_prompt(int reset);
+void	print_my_cool_split(char **p) __attribute__((__nothrow__));
+char	**clear_split_smart(char **__restrict array) __attribute__((__nothrow__));
+void	enforce_env(char **__restrict array) __attribute__((__nothrow__));
+char	*dollar_commutate(char *__restrict string) __attribute__((warn_unused_result)) __attribute__((__nothrow__));
+int		builtin(char **__restrict arr) __attribute__((warn_unused_result)) __attribute__((__nothrow__));
+char	*builtin_heredoc_prompt(int reset) __attribute__((warn_unused_result)) __attribute__((__nothrow__));
 
 # define OUT_APPEND_PTR	(char *)OUT_APPEND
 # define OUT_WRITE_PTR	(char *)OUT_WRITE

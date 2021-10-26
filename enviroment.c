@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 20:05:35 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 14:11:52 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 22:45:50 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "include/minishell.h"
 #include "include/libft.h"
 
-char	*ft_getenv(const char *name, size_t *size)
+char	*ft_getenv(const char *__restrict name, size_t *__restrict size)
 /*
 ** function search and return variable in internal enviroment variable storage
 ** by `name`, size of found veriable saved in `size`
@@ -41,7 +41,7 @@ char	*ft_getenv(const char *name, size_t *size)
 	return (NULL);
 }
 
-char	*ft_getenv_s(const char *name, size_t *size)
+char	*ft_getenv_s(const char *__restrict name, size_t *__restrict size)
 /*
 ** function is safe analog of ft_getenv
 ** difference: if variable not found in internal enviroment variable storage -
@@ -52,7 +52,7 @@ char	*ft_getenv_s(const char *name, size_t *size)
 
 	ret = ft_getenv(name, size);
 	if (!ret)
-		return ("");
+		return ((char *)"");
 	return (ret);
 }
 

@@ -6,16 +6,17 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/10/25 21:21:45 by kostya           ###   ########.fr        #
+#    Updated: 2021/10/26 23:17:24 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			=	clang
 NAME		=	minishell
-CFLAGS		=	-Wall -Wextra
+CFLAGS		=	-Wall -Wextra -Werror -Wno-error=deprecated -Wno-error=missing-exception-spec
 COPTIONS	=	-O0
 RM			=	rm -f
-LIBRARY		=	-lreadline
+LIB_DIR		=	-L.
+LIBRARY		=	-lreadline -lft
 LIBFT_DIR	=	libft
 INCLUDE_DIR	=	include
 OBJS_DIR	=	objects
@@ -40,7 +41,7 @@ SRCS		=	\
 				split_smart		\
 				stack1			\
 				stack			\
-				parser			\
+				complex_parser	\
 				dollar
 # ------------------------------------------------------------------------------
 HDRS		=	\
@@ -54,9 +55,8 @@ HDRS		=	\
 # ------------------------------------------------------------------------------
 OBJS		=	$(addprefix ${OBJS_DIR}/,${SRCS:=.o})
 DEPS		=	$(addprefix ${INCLUDE_DIR}/,${HDRS:=.h})
-LIBRARY		=	-lreadline
-LIBFT		=	${LIBFT_DIR}/libft.a
-
+# LIBFT		=	${LIBFT_DIR}/libft.a
+LIBFT		=
 # ------------------------------------------------------------------------------
 all:
 	$(MAKE)		${NAME} -j
@@ -67,7 +67,7 @@ ${OBJS_DIR}/%.o: %.c Makefile
 
 # ------------------------------------------------------------------------------
 $(NAME):		${OBJS_DIR} libft ${OBJS}
-	${CC}		-o ${NAME} ${CFLAGS} ${COPTIONS} ${OBJS} ${LIBRARY} ${LIBFT}
+	${CC}		-o ${NAME} ${CFLAGS} ${COPTIONS} ${OBJS} ${LIB_DIR} ${LIBRARY} ${LIBFT}
 
 # ------------------------------------------------------------------------------
 clean:
@@ -78,11 +78,13 @@ clean:
 fclean:			clean
 	${MAKE}		-C ${LIBFT_DIR} fclean
 	${RM}		${NAME}
+	${RM}		libft.a
 
 # ------------------------------------------------------------------------------
 libft:
 	${MAKE}		-C ${LIBFT_DIR}
 	ln			-sf ../${LIBFT_DIR}/libft.h ${INCLUDE_DIR}/libft.h
+	cp			${LIBFT_DIR}/libft.a .
 
 # ------------------------------------------------------------------------------
 ${OBJS_DIR}:

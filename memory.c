@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 11:58:13 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/08 14:05:03 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 22:46:19 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*xmalloc(size_t size)
 	return (ptr);
 }
 
-inline uint	xfree(void *ptr)
+uint	xfree(void *__restrict ptr)
 /*
 ** function clears `ptr` memory and return `1`
 */

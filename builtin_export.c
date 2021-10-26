@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:38:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 17:04:10 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 22:44:15 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,18 @@
 #include "include/error.h"
 #include "include/libft.h"
 
-int	builtin_export_split(const char *string, char *restrict *key,
-		char *restrict *value);
+int	builtin_export_split(const char *__restrict string, char *__restrict *key,
+		char *__restrict *value)
+	__attribute__((warn_unused_result)) __attribute__((__nothrow__));
 
-int	builtin_export(char *const *argv)
+int	builtin_export(char *const *__restrict argv)
 /*
 ** function adds new enviroment variables provided in argv to internal shell
 ** storage with syntax [VAR_NAME]=[VALUE]
 */
 {
-	char	*restrict	key;
-	char	*restrict	value;
+	char *__restrict	key;
+	char *__restrict	value;
 	t_env				*env;
 
 	++argv;
@@ -50,8 +51,8 @@ int	builtin_export(char *const *argv)
 	return (0);
 }
 
-int	builtin_export_split(const char *string, char *restrict *key,
-		char *restrict *value)
+int	builtin_export_split(const char *__restrict string, char *__restrict *key,
+		char *__restrict *value)
 {
 	size_t	it;
 
@@ -66,12 +67,12 @@ int	builtin_export_split(const char *string, char *restrict *key,
 			break ;
 		++it;
 	}
-	*key = xmalloc(it + 1);
+	*key = (char *)xmalloc(it + 1);
 	ft_memcpy(*key, string, it);
 	(*key)[it] = 0;
 	string += it + 1;
 	it = ft_strlen(string);
-	*value = xmalloc(it + 1);
+	*value = (char *)xmalloc(it + 1);
 	ft_memcpy(*value, string, it + 1);
 	return (EXIT_SUCCESS);
 }

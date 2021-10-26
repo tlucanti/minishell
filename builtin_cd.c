@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:22:41 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/08 14:03:32 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 22:43:17 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "include/error.h"
 #include "include/libft.h"
 
-int	builtin_cd(char *const *argv)
+int	builtin_cd(char *__restrict const *__restrict argv)
 /*
 ** function changes current working dir (CWD) of shell to path in first argument
 ** if no arguments provided - changing to ~ (HOME)

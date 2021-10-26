@@ -1,6 +1,6 @@
 NAME = libft.a
 DIR = .
-COMPILER = gcc
+COMPILER = clang
 CFLAGS = -Wall -Wextra -Werror -I${DIR}
 OPTIONS = -c
 SRCS =	  ft_strnlen     ft_max        ft_min         ft_abs      ft_issmth1   \

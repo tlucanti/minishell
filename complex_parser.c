@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:32:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 20:15:00 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 22:47:10 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,21 @@
 #include "include/libft.h"
 #include "include/minishell.h"
 
-// #define dup(n)(n)
-// #define dup2(a, b) ((a) * 0 + (b) * 0)
-
-static char	**implement_redirect(char **ptr, int _in_out[2]) __attribute__((warn_unused_result));
-static int	implement_heredoc(const char *end) __attribute__((warn_unused_result));
-static char	**materialize_argv(char **start, uint argv_size) __attribute__((warn_unused_result));
-static char	**redirect_sharp(char **ptr, uint *argv_size, int _in_out[2], int *was_redirect) __attribute__((warn_unused_result));
-static int	pipe_sharp(char **ptr, int _in_out[2], int *_do_pipe, int was_redirect) __attribute__((warn_unused_result));
-static int	fork_sharp(char **array, int _in_out[2], char **end, uint argv_size) __attribute__((warn_unused_result));
-static int complex_parser(char **array, int _do_pipe) __attribute__((warn_unused_result));
+static char	**implement_redirect(char **__restrict ptr, int _in_out[2]) __attribute__((warn_unused_result));
+static int	implement_heredoc(const char *__restrict end) __attribute__((warn_unused_result));
+static char	**materialize_argv(char *__restrict *__restrict start, uint argv_size) __attribute__((warn_unused_result));
+static char	**redirect_sharp(char **__restrict ptr, uint *__restrict argv_size, int _in_out[2], int *__restrict was_redirect) __attribute__((warn_unused_result));
+static int	pipe_sharp(char *__restrict *__restrict ptr, int _in_out[2], int *__restrict _do_pipe, int was_redirect) __attribute__((warn_unused_result));
+static int	fork_sharp(char *__restrict *__restrict array, int _in_out[2], char *__restrict *__restrict end, uint argv_size) __attribute__((warn_unused_result));
+static int complex_parser(char **__restrict array, int _do_pipe) __attribute__((warn_unused_result));
 static int backup_fd_in_out(int _in_out[2], int init);
 
-int complex_parser_decorator(char **array, int _do_pipe)
+int complex_parser_decorator(char **__restrict array, int _do_pipe)
 {
-	int	_backup_in_out[2];
-	int	_status;
-	int	ret;
+	int		_backup_in_out[2];
+	int		_status;
+	int		ret;
+	void	*_;
 
 	backup_fd_in_out(_backup_in_out, 1);
 	if (_backup_in_out[0] == -1 || _backup_in_out[1] == -1)
@@ -41,7 +39,7 @@ int complex_parser_decorator(char **array, int _do_pipe)
 		ft_perror("dup", errno, NULL);
 		return (errno);
 	}
-	builtin_heredoc_prompt(1);
+	_ = builtin_heredoc_prompt(1);
 	ret = complex_parser(array, _do_pipe);
 	_status = 0;
 	_status |= dup2(_backup_in_out[1], STDOUT);
@@ -51,10 +49,11 @@ int complex_parser_decorator(char **array, int _do_pipe)
 		ft_perror("dup2", errno, NULL);
 		return (errno);
 	}
+	(void)_;
 	return (ret);
 }
 
-static char	**redirect_sharp(char **ptr, uint *argv_size, int _in_out[2], int *was_redirect)
+static char	**redirect_sharp(char **__restrict  ptr, uint *__restrict argv_size, int _in_out[2], int *__restrict was_redirect)
 {
 	while (*ptr && *ptr != PIPE_PTR)
 	{
@@ -76,7 +75,7 @@ static char	**redirect_sharp(char **ptr, uint *argv_size, int _in_out[2], int *w
 	return (ptr);
 }
 
-static int	pipe_sharp(char **ptr, int _in_out[2], int *_do_pipe, int was_redirect)
+static int	pipe_sharp(char *__restrict *__restrict ptr, int _in_out[2], int *__restrict _do_pipe, int was_redirect)
 {
 	int		_pipes_in_out[2];
 	int		_frk;
@@ -113,7 +112,7 @@ static int	pipe_sharp(char **ptr, int _in_out[2], int *_do_pipe, int was_redirec
 	return (0);
 }
 
-static int	fork_sharp(char **array, int _in_out[2], char **end, uint argv_size)
+static int	fork_sharp(char *__restrict *__restrict array, int _in_out[2], char *__restrict *__restrict end, uint argv_size)
 {
 	int	_status;
 	int	ret;
@@ -132,7 +131,7 @@ static int	fork_sharp(char **array, int _in_out[2], char **end, uint argv_size)
 	return (ret);
 }
 
-static int complex_parser(char **array, int _do_pipe)
+static int complex_parser(char **__restrict array, int _do_pipe)
 {
 	uint	argv_size;
 	char	**end;
@@ -159,7 +158,7 @@ static int complex_parser(char **array, int _do_pipe)
 		return (complex_parser_decorator(end + 1, _do_pipe));
 }
 
-static char	**implement_redirect(char **ptr, int _in_out[2])
+static char	**implement_redirect(char **__restrict ptr, int _in_out[2])
 {
 	const mode_t	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 
@@ -184,7 +183,7 @@ static char	**implement_redirect(char **ptr, int _in_out[2])
 	return (ptr + 2);
 }
 
-static int	implement_heredoc(const char *end)
+static int	implement_heredoc(const char *__restrict end)
 {
 	char	*heredoc_str;
 	int		_pipes_in_out[2];
@@ -217,7 +216,7 @@ static int	implement_heredoc(const char *end)
 	return 0;
 }
 
-static char	**materialize_argv(char **start, uint argv_size)
+static char	**materialize_argv(char *__restrict *__restrict start, uint argv_size)
 {
 	char	**argv;
 	char	**ptr;

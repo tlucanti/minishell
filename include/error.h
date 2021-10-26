@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 16:00:14 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 20:46:55 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 21:44:49 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # include <unistd.h>
 # include <signal.h>
 
-int		ft_perror(const char *parent, int errorcode, const char *arg);
-void	ft_psignal(int pid, int signum, const char *parent);
-void	xexit(int status) __attribute__((noreturn));
+int		ft_perror(const char *__restrict parent, int errorcode, const char *__restrict arg) __attribute__((__nothrow__));
+void	ft_psignal(int pid, int signum, const char *__restrict parent) __attribute__((__nothrow__));
+void	xexit(int status) __attribute__((noreturn)) __attribute__((__nothrow__));
 
 # define ECNF		-2		// ERROR COMMAND NOT FOUND
 # define ETMA		-3		// ERROR TOO MANY ARGUMENTS

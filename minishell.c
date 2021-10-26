@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:56:55 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 20:16:34 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 23:14:06 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,24 @@
 #include "include/color.h"
 #include "include/libft.h"
 #include "include/parser.h"
+#include "include/memory.h"
 
-static int	update_promt(char *promt);
-static int	syntax_check(char **array);
-static char	*token_to_string(const char *token);
+static void	update_promt(char *__restrict promt) __attribute__((__nothrow__));
+static int	syntax_check(char *__restrict *__restrict array)
+			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
+static char	*token_to_string(const char *__restrict token)
+			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
 
 int	main(void)
 {
 	char	*input;
 	char	promt[PATH_MAX];
+	void	*_;
 
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
 	set_autoattr(0, 0, ECHOCTL);
-	internal_env_storage();
+	_ = internal_env_storage();
 	while (1)
 	{
 		update_promt(promt);
@@ -40,29 +44,17 @@ int	main(void)
 		if (!input)
 		{
 			printf("exit\n");
-			free(input);
-			xexit(0);
+			xexit(xfree(input));
 		}
 		rl_bind_key('\t', rl_complete);
 		add_history(input);
 		exit_status_storage(simple_parcer(input), 1);
 		free(input);
 	}
+	(void)_;
 }
 
-int	__update_promt(char *promt)
-/*
-** "kostya:/media/kostya/Data/CLion/Minishell/cmake-build-debug $ "
-*/
-{
-	snprintf(promt, PATH_MAX, "%s%s%s:%s%s%s %s\001➜\002%s ",
-		READLINE_GREEN, ft_getenv_s("USER", NULL), READLINE_RESET,
-		READLINE_BLUE, getcwd(NULL, 1024), READLINE_RESET,
-		READLINE_YELLOW, READLINE_RESET);
-	return (0);
-}
-
-int	update_promt(char *promt)
+static void	update_promt(char *__restrict promt)
 /*
 ** tlucanti:/home/tlucanti $ 
 */
@@ -91,10 +83,9 @@ int	update_promt(char *promt)
 		shift += cwd_size - 1;
 	ft_memcpy(promt + shift + 1, " " READLINE_YELLOW "\001➜\002" READLINE_RESET
 		" ", sizeof(READLINE_YELLOW) + sizeof(READLINE_RESET) + 6);
-	return (0);
 }
 
-int	simple_parcer(const char *input)
+int	simple_parcer(const char *__restrict input)
 {
 	char	**arr;
 	int		ret;
@@ -110,7 +101,7 @@ int	simple_parcer(const char *input)
 	return (ret);
 }
 
-static int	syntax_check(char **array)
+static int	syntax_check(char *__restrict *__restrict array)
 {
 	int	not_empty_pipe;
 
@@ -138,22 +129,22 @@ static int	syntax_check(char **array)
 	return (1);
 }
 
-static char	*token_to_string(const char *token)
+static char	*token_to_string(const char *__restrict token)
 {
 	if (token == OUT_APPEND_PTR)
-		return (">>");
+		return ((char *)">>");
 	else if (token == OUT_WRITE_PTR)
-		return (">");
+		return ((char *)">");
 	else if (token == INPUT_PTR)
-		return ("<");
+		return ((char *)"<");
 	else if (token == HEREDOC_PTR)
-		return ("<<");
+		return ((char *)"<<");
 	else if (token == PIPE_PTR)
-		return ("pipe");
-	return ("end of line");
+		return ((char *)"pipe");
+	return ((char *)"end of line");
 }
 
-int	builtin(char **arr)
+int	builtin(char **__restrict arr)
 {
 	int	ret;
 
@@ -176,7 +167,7 @@ int	builtin(char **arr)
 	return (ret);
 }
 
-void	clear_split(char **array)
+void	clear_split(char **__restrict array)
 {
 	char	**ptr;
 

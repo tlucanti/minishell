@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 12:13:02 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 20:11:28 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 23:09:23 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,22 @@
 #include "include/enviroment.h"
 #include "include/minishell.h"
 
-static char	*dollar_commutate_extension_1(char *string, char *dollar_start, char **dollar_next);
-static char	*dollar_commutate_extension_2(char *string, char *dollar_start, char **dollar_next);
+static char	*dollar_commutate_extension_1(char *string, char *dollar_start,
+				char **dollar_next)
+			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
+static char	*dollar_commutate_extension_2(char *string, char *dollar_start,
+				char **dollar_next)
+			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
 
-void	enforce_env(char **array)
+void	enforce_env(char **__restrict array)
 {
 	while (*array)
 	{
-		if ((size_t)(*array) < ANY_TOKEN && (size_t)(*array) & DOUBLE_SKIP_DOLLAR)
+		if ((size_t)(*array) < ANY_TOKEN && (size_t)(*array)
+			& DOUBLE_SKIP_DOLLAR)
 			array += 2;
-		else if ((size_t)(*array) < ANY_TOKEN && (size_t)(*array) & SINGLE_SKIP_DOLLAR)
+		else if ((size_t)(*array) < ANY_TOKEN && (size_t)(*array)
+			& SINGLE_SKIP_DOLLAR)
 			++array;
 		else
 		{
@@ -55,7 +61,8 @@ char	*dollar_commutate(char *string)
 	}
 }
 
-static char	*dollar_commutate_extension_1(char *string, char *dollar_start, char **dollar_next)
+static char	*dollar_commutate_extension_1(char *string, char *dollar_start,
+				char **dollar_next)
 {
 	t_dollar	dollar;
 
@@ -70,7 +77,7 @@ static char	*dollar_commutate_extension_1(char *string, char *dollar_start, char
 	dollar.new_env = ft_getenv_s(dollar_start + 1, &dollar.env_size);
 	*dollar.dollar_end = dollar._saved_char;
 	dollar.residue_size = ft_strlen(dollar.dollar_end);
-	dollar.new_string = xmalloc(dollar_start - string + dollar.env_size
+	dollar.new_string = (char *)xmalloc(dollar_start - string + dollar.env_size
 			+ dollar.residue_size + 1);
 	ft_memcpy(dollar.new_string, string, dollar_start - string);
 	ft_memcpy(dollar.new_string + (dollar_start - string),
@@ -81,18 +88,18 @@ static char	*dollar_commutate_extension_1(char *string, char *dollar_start, char
 		+ dollar.env_size;
 	free(string);
 	return (dollar.new_string);
-
 }
 
-static char	*dollar_commutate_extension_2(char *string, char *dollar_start, char **dollar_next)
+static char	*dollar_commutate_extension_2(char *string, char *dollar_start,
+				char **dollar_next)
 {
 	t_dollar	dollar;
 
 	dollar.exit_status = ft_itoa(exit_status_storage(0, 0));
 	dollar.exit_status_size = ft_strlen(dollar.exit_status);
 	dollar.residue_size = ft_strlen(dollar_start + 1);
-	dollar.new_string = xmalloc(dollar_start - string + dollar.exit_status_size
-		+ dollar.residue_size + 1);
+	dollar.new_string = (char *)xmalloc(dollar_start - string
+			+ dollar.exit_status_size + dollar.residue_size + 1);
 	ft_memcpy(dollar.new_string, string, dollar_start - string);
 	ft_memcpy(dollar.new_string + (dollar_start - string), dollar.exit_status,
 		dollar.exit_status_size);
