@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 12:13:02 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 15:38:45 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 20:11:28 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 #include "include/memory.h"
 #include "include/libft.h"
 #include "include/enviroment.h"
+#include "include/minishell.h"
 
-static char	*_dollar_commutate_extension(char *string, char *dollar_start, char **dollar_next);
+static char	*dollar_commutate_extension_1(char *string, char *dollar_start, char **dollar_next);
+static char	*dollar_commutate_extension_2(char *string, char *dollar_start, char **dollar_next);
 
 void	enforce_env(char **array)
 {
@@ -45,13 +47,15 @@ char	*dollar_commutate(char *string)
 		dollar = ft_strchr(dollar, '$');
 		if (dollar == NULL)
 			return (string);
-		string = _dollar_commutate_extension(string, dollar, &dollar_next);
-		printf("next: %s\n", dollar_next);
+		if (dollar[1] == '?')
+			string = dollar_commutate_extension_2(string, dollar, &dollar_next);
+		else
+			string = dollar_commutate_extension_1(string, dollar, &dollar_next);
 		dollar = dollar_next;
 	}
 }
 
-static char	*_dollar_commutate_extension(char *string, char *dollar_start, char **dollar_next)
+static char	*dollar_commutate_extension_1(char *string, char *dollar_start, char **dollar_next)
 {
 	t_dollar	dollar;
 
@@ -72,10 +76,30 @@ static char	*_dollar_commutate_extension(char *string, char *dollar_start, char 
 	ft_memcpy(dollar.new_string + (dollar_start - string),
 		dollar.new_env, dollar.env_size);
 	ft_memcpy(dollar.new_string + (dollar_start - string)
-		+ dollar.env_size, dollar.dollar_end, dollar.residue_size);
+		+ dollar.env_size, dollar.dollar_end, dollar.residue_size + 1);
 	*dollar_next = dollar.new_string + (dollar_start - string)
 		+ dollar.env_size;
 	free(string);
 	return (dollar.new_string);
 
+}
+
+static char	*dollar_commutate_extension_2(char *string, char *dollar_start, char **dollar_next)
+{
+	t_dollar	dollar;
+
+	dollar.exit_status = ft_itoa(exit_status_storage(0, 0));
+	dollar.exit_status_size = ft_strlen(dollar.exit_status);
+	dollar.residue_size = ft_strlen(dollar_start + 1);
+	dollar.new_string = xmalloc(dollar_start - string + dollar.exit_status_size
+		+ dollar.residue_size + 1);
+	ft_memcpy(dollar.new_string, string, dollar_start - string);
+	ft_memcpy(dollar.new_string + (dollar_start - string), dollar.exit_status,
+		dollar.exit_status_size);
+	ft_memcpy(dollar.new_string + (dollar_start - string)
+		+ dollar.exit_status_size, dollar_start + 2, dollar.residue_size + 1);
+	free(dollar.exit_status);
+	free(string);
+	*dollar_next = dollar.new_string + (dollar_start - string) + 1;
+	return (dollar.new_string);
 }

@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 12:16:21 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 21:10:23 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 20:03:00 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	**clear_split_smart(char **array);
 void	enforce_env(char **array);
 char	*dollar_commutate(char *string);
 int		builtin(char **arr);
+char	*builtin_heredoc_prompt(int reset);
 
 # define OUT_APPEND_PTR	(char *)OUT_APPEND
 # define OUT_WRITE_PTR	(char *)OUT_WRITE
@@ -65,6 +66,9 @@ typedef struct s_dollar
 	size_t	env_size;
 
 	size_t	residue_size;
+
+	char	*exit_status;
+	size_t	exit_status_size;
 }	t_dollar;
 
 #endif // PARSER_H

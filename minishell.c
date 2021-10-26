@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:56:55 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 17:15:21 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 20:16:34 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(void)
 		}
 		rl_bind_key('\t', rl_complete);
 		add_history(input);
-		simple_parcer(input);
+		exit_status_storage(simple_parcer(input), 1);
 		free(input);
 	}
 }
@@ -102,7 +102,7 @@ int	simple_parcer(const char *input)
 	arr = smart_split(input, ft_isspace);
 	ret = syntax_check(arr);
 	if (!ret)
-		return (ret);
+		return (ret + 2);
 	enforce_env(arr);
 	ret = complex_parser_decorator(arr, -1);
 	clear_split_smart(arr);
@@ -210,4 +210,13 @@ int	set_autoattr(int desc, int value, int what)
 		return (1);
 	}
 	return (0);
+}
+
+int	exit_status_storage(int status, int set)
+{
+	static int	_internal_status = 0;
+
+	if (set)
+		_internal_status = status;
+	return (_internal_status);
 }

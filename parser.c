@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:32:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 18:26:28 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 20:15:00 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static char	**redirect_sharp(char **ptr, uint *argv_size, int _in_out[2], int *w
 static int	pipe_sharp(char **ptr, int _in_out[2], int *_do_pipe, int was_redirect) __attribute__((warn_unused_result));
 static int	fork_sharp(char **array, int _in_out[2], char **end, uint argv_size) __attribute__((warn_unused_result));
 static int complex_parser(char **array, int _do_pipe) __attribute__((warn_unused_result));
+static int backup_fd_in_out(int _in_out[2], int init);
 
 int complex_parser_decorator(char **array, int _do_pipe)
 {
@@ -34,13 +35,13 @@ int complex_parser_decorator(char **array, int _do_pipe)
 	int	_status;
 	int	ret;
 
-	_backup_in_out[0] = dup(STDIN);
-	_backup_in_out[1] = dup(STDOUT);
+	backup_fd_in_out(_backup_in_out, 1);
 	if (_backup_in_out[0] == -1 || _backup_in_out[1] == -1)
 	{
 		ft_perror("dup", errno, NULL);
 		return (errno);
 	}
+	builtin_heredoc_prompt(1);
 	ret = complex_parser(array, _do_pipe);
 	_status = 0;
 	_status |= dup2(_backup_in_out[1], STDOUT);
@@ -172,11 +173,9 @@ static char	**implement_redirect(char **ptr, int _in_out[2])
 	}
 	else if (*ptr == INPUT_PTR || *ptr == HEREDOC_PTR)
 	{
+		close(_in_out[0]);
 		if (*ptr == INPUT_PTR)
-		{
-			// close(_in_out[0]);
 			_in_out[0] = open(ptr[1], O_RDONLY);
-		}
 		else
 			_in_out[0] = implement_heredoc(ptr[1]);
 	}
@@ -190,8 +189,13 @@ static int	implement_heredoc(const char *end)
 	char	*heredoc_str;
 	int		_pipes_in_out[2];
 	int		_frk;
+	int		_backup_x2_in;
 
+	_backup_x2_in = dup(backup_fd_in_out(NULL, 0));
+	if (dup2(_backup_x2_in, STDIN) == -1)
+		return (ft_perror("dup2", errno, NULL) - 1);
 	heredoc_str = builtin_heredoc(end);
+	close(STDIN);
 	if (pipe(_pipes_in_out))
 		return (ft_perror("pipe", errno, NULL) - 1);
 	_frk = fork();
@@ -200,7 +204,6 @@ static int	implement_heredoc(const char *end)
 	if (!_frk) // CHILD process
 	{
 		close(_pipes_in_out[0]);
-		// close(STDIN);
 		putsfd(_pipes_in_out[1], heredoc_str);
 		free(heredoc_str);
 		close(_pipes_in_out[1]);
@@ -237,4 +240,23 @@ static char	**materialize_argv(char **start, uint argv_size)
 		}
 	}
 	return (argv);
+}
+
+static int backup_fd_in_out(int _in_out[2], int init)
+/*
+** function initialises backup values for descriptors to return them after
+** runnung execve or builtins (if `init` parameter is `true`) and returns
+** saved value of backup stdin file descriptor)
+*/
+{
+	static	int _in_out_backup_storage[2];
+
+	if (init)
+	{
+		_in_out[0] = dup(STDIN);
+		_in_out[1] = dup(STDOUT);
+		_in_out_backup_storage[0] = _in_out[0];
+		_in_out_backup_storage[1] = _in_out[1];
+	}
+	return (_in_out_backup_storage[0]);
 }

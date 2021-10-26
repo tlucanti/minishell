@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 16:34:56 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/08 17:01:23 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 19:33:07 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # include <signal.h>
 
-void	handler_signint_fork(int signum) __attribute__((noreturn));
-void	handler_signint_readline(int signum);
+void	handler_signint_fork(__attribute__((unused))int signum) __attribute__((noreturn));
+void	handler_signint_readline(__attribute__((unused))int signum);
+void	handler_signint_heredoc(__attribute__((unused)) int signum) /*__attribute__((noreturn))*/;
 
 #endif // HANDLER_H

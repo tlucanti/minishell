@@ -6,13 +6,17 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 13:58:07 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 17:12:56 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 20:15:28 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/memory.h"
 #include "include/minishell.h"
 #include "include/libft.h"
+#include "include/handler.h"
+
+static char	*ft_putunbr(char *string, int num);
+char	*builtin_heredoc_prompt(int reset);
 
 char	*builtin_heredoc(const char *end)
 /*
@@ -31,7 +35,11 @@ char	*builtin_heredoc(const char *end)
 	out[0] = 0;
 	while (1)
 	{
-		input = readline("> ");
+		signal(SIGINT, handler_signint_heredoc);
+		input = readline(builtin_heredoc_prompt(0));
+		signal(SIGINT, SIG_IGN);
+		if (!input)
+			return (NULL);
 		new_size = ft_strlen(input);
 		if (!ft_memcmp(input, end, new_size + 1))
 			return (out);
@@ -44,4 +52,36 @@ char	*builtin_heredoc(const char *end)
 		out[size - 1] = '\n';
 		out[size] = 0;
 	}
+}
+
+char	*builtin_heredoc_prompt(int reset)
+{
+	static int	count = 0;
+	static char	pattern[] = "heredoc (            ";
+
+	if (reset)
+	{
+		count = 0;
+		return (NULL);
+	}
+	ft_putunbr(pattern + 9, ++count);
+	return (pattern);
+}
+
+static char	*ft_putunbr(char *string, int num)
+{
+	char	*ptr;
+
+	ptr = string;
+	while (num)
+	{
+		*string++ = num % 10 + '0';
+		num /= 10;
+	}
+	string[0] = ')';
+	string[1] = ' ';
+	string[2] = '>';
+	string[3] = ' ';
+	string[4] = '\0';
+	return (ptr);
 }

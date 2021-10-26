@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:53:32 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 21:26:56 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 20:05:31 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,7 @@ int			builtin_env(char *const *argv);
 int			builtin_exit(char *const *argv);
 int			builtin_execve(char *const *argv);
 char		*builtin_heredoc(const char *end);
+
+int			exit_status_storage(int status, int set);
 
 #endif // MINISHELL_H
