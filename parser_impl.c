@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_implements.c                                :+:      :+:    :+:   */
+/*   parser_impl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:39:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 00:12:15 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 11:34:38 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "include/parser.h"
+#include "include/minishell.h"
+#include "include/error.h"
 
 static void	_implement_heredoc_extension(int _pipes_in_out[2],
 				char *heredoc_str) __attribute__((noreturn)) __attribute__((
 					__nothrow__));
 
-char	**implement_redirect(char **__restrict ptr, int _in_out[2])
+char	*__restrict	*implement_redirect(char *__restrict *__restrict ptr,
+						int _in_out[2])
 {
 	const mode_t	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 

@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:11:37 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 23:45:10 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 11:34:55 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static char	*token_to_string(const char *__restrict token)
 
 int	simple_parcer(const char *__restrict input)
 {
-	char	**arr;
-	int		ret;
+	char *__restrict	*arr;
+	int					ret;
 
 	arr = smart_split(input, ft_isspace);
 	ret = syntax_check(arr);

@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:08:10 by tlucanti          #+#    #+#             */
-/*   Updated: 2021/10/26 21:31:36 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 10:52:18 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int				ft_free(void *ptr);
 
 void			*ft_memset(void *s, int c, size_t n);
 void			ft_bzero(void *s, size_t n);
-void			*ft_memcpy(void *dst, const void *src, size_t n);
+void			*ft_memcpy(void *__restrict dst, const void *__restrict src, size_t n);
 void			*ft_memccpy(void *dst, const void *src, int c, size_t n);
 void			*ft_memmove(void *dest, const void *src, size_t n);
 void			*ft_memchr(const void *s, int c, size_t n);

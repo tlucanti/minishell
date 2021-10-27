@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 13:58:07 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 23:14:29 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 11:27:08 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,6 @@ char	*builtin_heredoc_prompt(int reset)
 
 static void	ft_putunbr(char *string, int num)
 {
-	char	*ptr;
-
-	ptr = string;
 	while (num)
 	{
 		*string++ = num % 10 + '0';

@@ -23,7 +23,7 @@ static char	*dollar_commutate_extension_2(char *string, char *dollar_start,
 				char **dollar_next)
 			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
 
-void	enforce_env(char **__restrict array)
+void	enforce_env(char *__restrict *__restrict array)
 {
 	while (*array)
 	{

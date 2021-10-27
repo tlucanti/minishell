@@ -6,14 +6,25 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:37:45 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 23:38:22 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 11:33:33 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/parser.h"
+#include "include/minishell.h"
+#include "include/error.h"
+#include "include/libft.h"
+#include "include/memory.h"
 
-char	**redirect_shard(char **__restrict ptr, uint *__restrict argv_size,
-				int _in_out[2], int *__restrict was_redirect)
+static int	builtin(char **__restrict arr) __attribute__((
+					warn_unused_result)) __attribute__((__nothrow__));
+static char	**materialize_argv(char *__restrict *__restrict start,
+				uint argv_size) __attribute__((
+					warn_unused_result)) __attribute__((__nothrow__));
+
+char	*__restrict	*redirect_shard(char *__restrict *__restrict ptr,
+				uint *__restrict argv_size, int _in_out[2],
+				int *__restrict was_redirect)
 {
 	while (*ptr && *ptr != PIPE_PTR)
 	{
@@ -81,4 +92,53 @@ int	fork_shard(char *__restrict *__restrict array, int _in_out[2],
 	if (*end == PIPE_PTR)
 		exit(0);
 	return (ret);
+}
+
+static int	builtin(char **__restrict arr)
+{
+	int	ret;
+
+	if (!ft_strcmp(arr[0], "echo"))
+		ret = builtin_echo(arr);
+	else if (!ft_strcmp(arr[0], "cd"))
+		ret = builtin_cd(arr);
+	else if (!ft_strcmp(arr[0], "pwd"))
+		ret = builtin_pwd(arr);
+	else if (!ft_strcmp(arr[0], "export"))
+		ret = builtin_export(arr);
+	else if (!ft_strcmp(arr[0], "unset"))
+		ret = builtin_unset(arr);
+	else if (!ft_strcmp(arr[0], "env"))
+		ret = builtin_env(arr);
+	else if (!ft_strcmp(arr[0], "exit"))
+		ret = builtin_exit(arr);
+	else
+		ret = builtin_execve(arr);
+	return (ret);
+}
+
+static char	**materialize_argv(char *__restrict *__restrict start,
+				uint argv_size)
+{
+	char	**argv;
+	char	**ptr;
+
+	argv = (char **)xmalloc(sizeof(char *) * (argv_size + 1));
+	ptr = argv;
+	argv[argv_size] = NULL;
+	while (argv_size)
+	{
+		if ((size_t)(*start) < ANY_TOKEN && (size_t)(*start) & REDIRECT)
+			start += 2;
+		else if ((size_t)(*start) < ANY_TOKEN && (size_t)(*start) & SKIP_PARSER)
+			++start;
+		else
+		{
+			*ptr = ft_strdup(*start);
+			argv_size--;
+			++ptr;
+			++start;
+		}
+	}
+	return (argv);
 }

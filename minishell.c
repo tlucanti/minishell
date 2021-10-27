@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:56:55 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 23:19:36 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 11:34:10 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ static void	update_promt(char *__restrict promt)
 		" ", sizeof(READLINE_YELLOW) + sizeof(READLINE_RESET) + 6);
 }
 
-void	clear_split(char **__restrict array)
+void	clear_split(char *__restrict *__restrict array)
 {
-	char	**ptr;
+	char *__restrict	*ptr;
 
 	ptr = array;
 	while (*array)
@@ -91,7 +91,7 @@ void	clear_split(char **__restrict array)
 		free(*array);
 		++array;
 	}
-	free(ptr);
+	free((void *)ptr);
 }
 
 int	set_autoattr(int desc, int value, int what)

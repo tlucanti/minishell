@@ -6,13 +6,13 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/10/26 23:31:50 by kostya           ###   ########.fr        #
+#    Updated: 2021/10/27 11:32:03 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			=	clang
 NAME		=	minishell
-CFLAGS		=	-Wall -Wextra -Werror -Wno-error=deprecated -Wno-error=missing-exception-spec
+CFLAGS		=	-Wall -Wextra -Werror
 COPTIONS	=	-O0
 RM			=	rm -f
 LIB_DIR		=	-L.
@@ -22,6 +22,7 @@ INCLUDE_DIR	=	include
 OBJS_DIR	=	objects
 # ------------------------------------------------------------------------------
 SRCS		=	\
+				ancient_shards	\
 				builtin_cd		\
 				builtin_echo	\
 				builtin_env		\
@@ -31,19 +32,22 @@ SRCS		=	\
 				builtin_heredoc	\
 				builtin_pwd		\
 				builtin_unset	\
+				complex_parser	\
+				dollar			\
 				enviroment		\
 				error			\
 				ft_atoi_s		\
 				handler			\
 				memory			\
 				minishell		\
+				parser_impl		\
 				signal			\
+				simple_parser	\
+				split_smart1	\
 				split_smart		\
 				stack1			\
-				stack			\
-				simple_parser	\
-				complex_parser	\
-				dollar
+				stack
+
 # ------------------------------------------------------------------------------
 HDRS		=	\
 				enviroment		\
@@ -56,7 +60,7 @@ HDRS		=	\
 # ------------------------------------------------------------------------------
 OBJS		=	$(addprefix ${OBJS_DIR}/,${SRCS:=.o})
 DEPS		=	$(addprefix ${INCLUDE_DIR}/,${HDRS:=.h})
-INCLUDE		=	$(addprefix -I ,${DEPS})
+INCLUDE		=	-I ${INCLUDE_DIR}
 # ------------------------------------------------------------------------------
 all:
 	$(MAKE)		${NAME} -j

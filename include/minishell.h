@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:53:32 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 23:57:36 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 10:58:35 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <unistd.h>
 # include <termios.h>
 
-char		**smart_split(const char *__restrict input,
+char		*__restrict *smart_split(const char *__restrict input,
 				int (*skip)(int)) __attribute__((
 					warn_unused_result)) __attribute__((__nothrow__));
 long long	ft_atol_s(const char *__restrict str,
@@ -34,7 +34,7 @@ long long	ft_atol_s(const char *__restrict str,
 int			ft_atoi_s(const char *__restrict str,
 				int *__restrict error) __attribute__((
 					warn_unused_result)) __attribute__((__nothrow__));
-void		clear_split(char **__restrict array) __attribute__((__nothrow__));
+void		clear_split(char *__restrict *__restrict array) __attribute__((__nothrow__));
 int			simple_parcer(const char *__restrict input) __attribute__((
 					warn_unused_result)) __attribute__((__nothrow__));
 int			set_autoattr(int desc, int value, int what) __attribute__((
