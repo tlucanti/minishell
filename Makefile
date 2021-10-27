@@ -6,7 +6,7 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/10/27 15:19:57 by kostya           ###   ########.fr        #
+#    Updated: 2021/10/27 15:36:30 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,8 +71,8 @@ all:
 	$(MAKE)		$(NAME) -j
 
 # ------------------------------------------------------------------------------
-${OBJS_DIR}/%.o: ${SCRS_DIR}/%.c ${DEPS}
-	${CC}		${CFLAGS}  ${COPTIONS} -c -o $@ $< ${INCLUDE}
+${OBJS_DIR}/%.o: ${SCRS_DIR}/%.c ${DEPS} Makefile
+	${CC}		${CFLAGS} ${COPTIONS} -c -o $@ $< ${INCLUDE}
 
 # ------------------------------------------------------------------------------
 $(NAME):		${OBJS_DIR} libft.a ${OBJS} ${DEPS}
@@ -80,7 +80,7 @@ $(NAME):		${OBJS_DIR} libft.a ${OBJS} ${DEPS}
 
 # ------------------------------------------------------------------------------
 libft.a:
-	${MAKE}		-C ${LIBFT}
+	$(MAKE)		-C ${LIBFT}
 	ln			-sf ../${LIBFT}/libft.h ${INCLUDE_DIR}/libft.h
 	cp			${LIBFT}/libft.a .
 
@@ -103,4 +103,4 @@ ${OBJS_DIR}:
 re:				fclean all
 
 # ------------------------------------------------------------------------------
-.PHONY:			all $(NAME) clean fclean re
+.PHONY:			all clean fclean re
