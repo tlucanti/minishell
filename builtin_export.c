@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:38:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 22:44:15 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 12:37:11 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int	builtin_export(char *const *__restrict argv)
 	{
 		if (builtin_export_split(*argv, &key, &value))
 		{
-			free(key);
-			free(value);
 			ft_perror("export", ENAVI, *argv);
 			return (1);
 		}

@@ -6,7 +6,7 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/10/27 11:32:03 by kostya           ###   ########.fr        #
+#    Updated: 2021/10/27 13:36:09 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,9 @@ LIBRARY		=	-lreadline -lft
 LIBFT_DIR	=	libft
 INCLUDE_DIR	=	include
 OBJS_DIR	=	objects
+ifeq (${CC}, clang++)
+	COPTIONS += -Wno-error=deprecated -Wno-error=missing-exception-spec
+endif
 # ------------------------------------------------------------------------------
 SRCS		=	\
 				ancient_shards	\

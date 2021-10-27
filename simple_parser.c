@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:11:37 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 11:34:55 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 12:34:10 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	simple_parcer(const char *__restrict input)
 	enforce_env(arr);
 	ret = complex_parser_decorator(arr, -1);
 	clear_split_smart(arr);
-	list_insert(internal_env_storage(), ft_strdup("?"), ft_itoa(ret));
 	return (ret);
 }
 

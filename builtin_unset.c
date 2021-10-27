@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 18:02:16 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 22:45:15 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 12:38:11 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	builtin_unset(char *__restrict const *__restrict argv)
 	char *__restrict	key;
 	char *__restrict	value;
 	t_env				*env;
-	uint				_;
 
 	++argv;
 	if (!*argv)
@@ -37,14 +36,11 @@ int	builtin_unset(char *__restrict const *__restrict argv)
 	while (*argv)
 	{
 		if (builtin_export_split(*argv, &key, &value))
-		{
-			_ = xfree(key) + xfree(value);
 			return (ft_perror("unset", ENAVI, *argv) + 1);
-		}
 		list_remove(env, key);
-		_ = xfree(key) + xfree(value);
+		free(key);
+		free(value);
 		++argv;
 	}
-	(void)_;
 	return (EXIT_SUCCESS);
 }
