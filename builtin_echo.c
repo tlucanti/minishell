@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:05:54 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 19:10:33 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 23:08:25 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 #include "include/minishell.h"
 #include "include/libft.h"
 
-static char *const	*__builtin_echo_arg_check(char *const *argv,
-						int *restrict n_opt)
-					__attribute__((warn_unused_result));
+static char *const	*__builtin_echo_arg_check(
+						char *const *__restrict argv,
+						int *__restrict n_opt) __attribute__((
+							warn_unused_result)) __attribute__((
+							__nothrow__));
 
-int	builtin_echo(char *const *argv)
+int	builtin_echo(char *const *__restrict argv)
 /*
 ** funcion prints to STDIN arguments in argv split by space
 ** if option `-n` provided - no "\n" (ENDL) printed
@@ -45,8 +47,9 @@ int	builtin_echo(char *const *argv)
 	return (EXIT_SUCCESS);
 }
 
-static char *const	*__builtin_echo_arg_check(char *const *argv,
-						int *restrict n_opt)
+static char *const	*__builtin_echo_arg_check(
+						char *const *__restrict argv,
+						int *__restrict n_opt)
 {
 	unsigned int	it;
 	int				got_n;

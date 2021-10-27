@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 22:46:59 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/08 17:07:54 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 12:55:18 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,29 @@
 #include "include/libft.h"
 #include "include/minishell.h"
 
-static t__internal_env_list	*__internal_new_node(void)
-							__attribute__((warn_unused_result));
-void						__internal_rm_node(t__internal_env_list *_node);
-// static int					__list_insert_extension(t__internal_env_list *ptr,
-								// t__internal_env_list *new_node,
-								// t__internal_env_list *prev,
-								// t_env *env);
+static t__internal_env_list	*__internal_new_node(void) __attribute__((
+									warn_unused_result)) __attribute__((
+									__nothrow__));
+void						__internal_rm_node(
+								t__internal_env_list *__restrict _node)
+							__attribute__((__nothrow__));
+static int					__list_insert_extension(
+								t__internal_env_list *__restrict
+								*__restrict p_ptr,
+								t__internal_env_list *__restrict
+								*__restrict p_new_node,
+								t__internal_env_list *__restrict
+								*__restrict p_prev,
+								t_env *__restrict env) __attribute__((
+									warn_unused_result)) __attribute__((
+									__nothrow__));
 
-#include <string.h>
-#define ft_memcmp memcmp
-void	list_insert(t_env *env, const char *key, const char *value)
+void	list_insert(t_env *__restrict env, const char *__restrict key,
+			const char *__restrict value)
 {
 	t__internal_env_list	*prev;
 	t__internal_env_list	*ptr;
 	t__internal_env_list	*new_node;
-	int						cmp;
 
 	++env->size;
 	new_node = __internal_new_node();
@@ -38,8 +45,8 @@ void	list_insert(t_env *env, const char *key, const char *value)
 	new_node->value = (char *)value;
 	new_node->key_size = ft_strlen(key);
 	new_node->value_size = ft_strlen(value);
-	if (env->root->next == NULL || ft_memcmp(env->root->key, new_node->key, env->root->key_size + 1) > 0)
-		// we need to insert node to the beginning of list
+	if (env->root->next == NULL || ft_memcmp(env->root->key, new_node->key,
+			env->root->key_size + 1) > 0)
 	{
 		new_node->next = env->root;
 		env->root = new_node;
@@ -47,99 +54,52 @@ void	list_insert(t_env *env, const char *key, const char *value)
 	}
 	prev = env->root;
 	ptr = prev->next;
-	while (ptr->next)
-	{
-		cmp = ft_memcmp(ptr->key, new_node->key, ptr->key_size + 1);
-		if (cmp == 0)
-			// we need to replace node if key exist
-		{
-			prev->next = new_node;
-			new_node->next = ptr->next;
-			__internal_rm_node(ptr);
-			--env->size;
-			return ;
-		}
-		if (cmp > 0)
-			// we need to insert key if we we found compare border
-		{
-			prev->next = new_node;
-			new_node->next = ptr;
-			return ;
-		}
-		prev = ptr;
-		ptr = ptr->next;
-	}
+	if (__list_insert_extension(&ptr, &new_node, &prev, env))
+		return ;
 	prev->next = new_node;
 	new_node->next = ptr;
 }
 
-// void	list_insert(t_env *env, const char *key, const char *value)
-// {
-	// t__internal_env_list	*prev;
-	// t__internal_env_list	*ptr;
-	// t__internal_env_list	*new_node;
-// 
-	// ++env->size;
-	// new_node = __internal_new_node();
-	// new_node->key = (char *)key;
-	// new_node->value = (char *)value;
-	// new_node->key_size = ft_strlen(key);
-	// new_node->value_size = ft_strlen(value);
-	// if (env->root->next == NULL || ft_memcmp(env->root->key, new_node->key,
-			// env->root->key_size + 1) > 0)
-		// // we need to insert node to the beginning of list
-	// {
-		// new_node->next = env->root;
-		// env->root = new_node;
-		// return ;
-	// }
-	// prev = env->root;
-	// ptr = prev->next;
-	// if (__list_insert_extension(ptr, new_node, prev, env))
-		// return ;
-	// prev->next = new_node;
-	// new_node->next = ptr;
-// }
-// 
-// static int	__list_insert_extension(t__internal_env_list *ptr,
-				// t__internal_env_list *new_node, t__internal_env_list *prev,
-				// t_env *env)
-// {
-	// int	cmp;
-// 
-	// while (ptr->next)
-	// {
-		// cmp = ft_memcmp(ptr->key, new_node->key, ptr->key_size + 1);
-		// if (cmp == 0)
-			// // we need to replace node if key exist
-		// {
-			// prev->next = new_node;
-			// new_node->next = ptr->next;
-			// __internal_rm_node(ptr);
-			// --env->size;
-			// return (1);
-		// }
-		// if (cmp > 0)
-			// // we need to insert key if we we found compare border
-		// {
-			// prev->next = new_node;
-			// new_node->next = ptr;
-			// return (1);
-		// }
-		// prev = ptr;
-		// ptr = ptr->next;
-	// }
-	// return (0);
-// }
+static int	__list_insert_extension(
+				t__internal_env_list *__restrict *__restrict p_ptr,
+				t__internal_env_list *__restrict *__restrict p_new_node,
+				t__internal_env_list *__restrict *__restrict p_prev,
+				t_env *__restrict env)
+{
+	int	cmp;
+
+	while ((*p_ptr)->next)
+	{
+		cmp = ft_memcmp((*p_ptr)->key, (*p_new_node)->key,
+				(*p_ptr)->key_size + 1);
+		if (cmp == 0)
+		{
+			(*p_prev)->next = (*p_new_node);
+			(*p_new_node)->next = (*p_ptr)->next;
+			__internal_rm_node((*p_ptr));
+			--env->size;
+			return (1);
+		}
+		if (cmp > 0)
+		{
+			(*p_prev)->next = (*p_new_node);
+			(*p_new_node)->next = (*p_ptr);
+			return (1);
+		}
+		(*p_prev) = (*p_ptr);
+		(*p_ptr) = (*p_ptr)->next;
+	}
+	return (0);
+}
 
 t_env	*env_init(void)
 {
-	char	*restrict	key;
-	char	*restrict	value;
+	char *__restrict	key;
+	char *__restrict	value;
 	t_env				*new_env;
 	size_t				it;
 
-	new_env = xmalloc(sizeof(t_env));
+	new_env = (t_env *)xmalloc(sizeof(t_env));
 	new_env->root = __internal_new_node();
 	new_env->back = new_env->root;
 	it = 0;
@@ -152,7 +112,7 @@ t_env	*env_init(void)
 	return (new_env);
 }
 
-void	list_remove(t_env *env, char *key)
+void	list_remove(t_env *__restrict env, char *__restrict key)
 {
 	t__internal_env_list	*prev;
 	t__internal_env_list	*ptr;
@@ -185,7 +145,7 @@ static t__internal_env_list	*__internal_new_node(void)
 {
 	t__internal_env_list	*new_node;
 
-	new_node = xmalloc(sizeof(t__internal_env_list));
+	new_node = (t__internal_env_list *)xmalloc(sizeof(t__internal_env_list));
 	new_node->key = NULL;
 	new_node->value = NULL;
 	new_node->next = NULL;

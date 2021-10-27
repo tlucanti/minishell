@@ -6,21 +6,26 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/10/25 21:21:45 by kostya           ###   ########.fr        #
+#    Updated: 2021/10/27 13:36:09 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			=	clang
 NAME		=	minishell
-CFLAGS		=	-Wall -Wextra
+CFLAGS		=	-Wall -Wextra -Werror
 COPTIONS	=	-O0
 RM			=	rm -f
-LIBRARY		=	-lreadline
+LIB_DIR		=	-L.
+LIBRARY		=	-lreadline -lft
 LIBFT_DIR	=	libft
 INCLUDE_DIR	=	include
 OBJS_DIR	=	objects
+ifeq (${CC}, clang++)
+	COPTIONS += -Wno-error=deprecated -Wno-error=missing-exception-spec
+endif
 # ------------------------------------------------------------------------------
 SRCS		=	\
+				ancient_shards	\
 				builtin_cd		\
 				builtin_echo	\
 				builtin_env		\
@@ -30,18 +35,22 @@ SRCS		=	\
 				builtin_heredoc	\
 				builtin_pwd		\
 				builtin_unset	\
+				complex_parser	\
+				dollar			\
 				enviroment		\
 				error			\
 				ft_atoi_s		\
 				handler			\
 				memory			\
 				minishell		\
+				parser_impl		\
 				signal			\
+				simple_parser	\
+				split_smart1	\
 				split_smart		\
 				stack1			\
-				stack			\
-				parser			\
-				dollar
+				stack
+
 # ------------------------------------------------------------------------------
 HDRS		=	\
 				enviroment		\
@@ -54,20 +63,18 @@ HDRS		=	\
 # ------------------------------------------------------------------------------
 OBJS		=	$(addprefix ${OBJS_DIR}/,${SRCS:=.o})
 DEPS		=	$(addprefix ${INCLUDE_DIR}/,${HDRS:=.h})
-LIBRARY		=	-lreadline
-LIBFT		=	${LIBFT_DIR}/libft.a
-
+INCLUDE		=	-I ${INCLUDE_DIR}
 # ------------------------------------------------------------------------------
 all:
 	$(MAKE)		${NAME} -j
 
 # ------------------------------------------------------------------------------
 ${OBJS_DIR}/%.o: %.c Makefile
-	${CC}		${CFLAGS}  ${COPTIONS} -c -o $@ $<
+	${CC}		${CFLAGS}  ${COPTIONS} -c -o $@ $< ${INCLUDE}
 
 # ------------------------------------------------------------------------------
-$(NAME):		${OBJS_DIR} libft ${OBJS}
-	${CC}		-o ${NAME} ${CFLAGS} ${COPTIONS} ${OBJS} ${LIBRARY} ${LIBFT}
+$(NAME):		${OBJS_DIR} ${OBJS} libft
+	${CC}		-o ${NAME} ${CFLAGS} ${COPTIONS} ${OBJS} ${LIB_DIR} ${LIBRARY} ${LIBFT}
 
 # ------------------------------------------------------------------------------
 clean:
@@ -78,11 +85,13 @@ clean:
 fclean:			clean
 	${MAKE}		-C ${LIBFT_DIR} fclean
 	${RM}		${NAME}
+	${RM}		libft.a
 
 # ------------------------------------------------------------------------------
 libft:
 	${MAKE}		-C ${LIBFT_DIR}
 	ln			-sf ../${LIBFT_DIR}/libft.h ${INCLUDE_DIR}/libft.h
+	cp			${LIBFT_DIR}/libft.a .
 
 # ------------------------------------------------------------------------------
 ${OBJS_DIR}:
@@ -98,4 +107,4 @@ pvs:
 	plog-converter -a GA:1,2 -t tasklist -o /media/kostya/Data/CLion/Minishell/project.tasks /media/kostya/Data/CLion/Minishell/project.log
 
 # ------------------------------------------------------------------------------
-.PHONY:			all clean fclean re pvs libft ${OBJS_DIR}
+.PHONY:			all clean fclean re pvs libft ${OBJS_DIR} ${NAME}

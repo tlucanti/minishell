@@ -6,19 +6,19 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 12:41:54 by tlucanti          #+#    #+#             */
-/*   Updated: 2021/10/08 14:04:42 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 22:46:12 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
 #include "include/libft.h"
 
-int	ft_atoi_s(const char *str, int *error)
+int	ft_atoi_s(const char *__restrict str, int *__restrict error)
 {
 	return ((int)ft_atol_s(str, error));
 }
 
-long long	ft_atol_s(const char *str, int *error)
+long long	ft_atol_s(const char *__restrict str, int *__restrict error)
 {
 	long long	ans;
 	long long	sign;

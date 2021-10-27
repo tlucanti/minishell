@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:59:44 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/25 21:35:39 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/26 23:09:55 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@
 #include "include/minishell.h"
 #include "include/libft.h"
 
-static const char	*xstrerror(int errorcode);
+static const char	*xstrerror(int errorcode) __attribute__((
+							warn_unused_result)) __attribute__((
+							__nothrow__));
 
-int	ft_perror(const char *parent, int errorcode, const char *arg)
+int	ft_perror(const char *__restrict parent, int errorcode,
+		const char *__restrict arg)
 /*
 ** function prints error message to STDOUT by `errorcode` in format:
 ** {RED_COLOR}[`parent`]: {WHITE_COLOR}[ERROR_MESSAGE]: {YELLOW_COLOR}[`arg`]\n
@@ -51,7 +54,7 @@ void	xexit(int status)
 	exit(status);
 }
 
-void	putsfd(int fd, const char *str)
+void	putsfd(int fd, const char *__restrict str)
 {
 	size_t	size;
 

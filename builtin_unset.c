@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 18:02:16 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/08 14:50:28 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 12:38:11 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,16 @@
 #include "include/memory.h"
 #include "include/error.h"
 
-int	builtin_unset(char *const *argv)
+int	builtin_unset(char *__restrict const *__restrict argv)
 /*
 ** function remove envroment variable provided in argv from internal shell
 ** storage
 ** variable may not be in enviroment
 */
 {
-	char	*restrict	key;
-	char	*restrict	value;
+	char *__restrict	key;
+	char *__restrict	value;
 	t_env				*env;
-	uint				_;
 
 	++argv;
 	if (!*argv)
@@ -37,13 +36,10 @@ int	builtin_unset(char *const *argv)
 	while (*argv)
 	{
 		if (builtin_export_split(*argv, &key, &value))
-		{
-			_ += xfree(key) + xfree(value);
-			ft_perror("unset", ENAVI, *argv);
-			return (EXIT_FAILURE);
-		}
+			return (ft_perror("unset", ENAVI, *argv) + 1);
 		list_remove(env, key);
-		_ += xfree(key) + xfree(value);
+		free(key);
+		free(value);
 		++argv;
 	}
 	return (EXIT_SUCCESS);

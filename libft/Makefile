@@ -1,7 +1,7 @@
 NAME = libft.a
 DIR = .
-COMPILER = gcc
-CFLAGS = -Wall -Wextra -Werror -I${DIR}
+COMPILER =	clang
+CFLAGS =	-Wall -Wextra -Werror -I${DIR}
 OPTIONS = -c
 SRCS =	  ft_strnlen     ft_max        ft_min         ft_abs      ft_issmth1   \
           \
@@ -31,7 +31,7 @@ BUILD_FLAGS = -L. -l
 
 
 .c.o:
-	${COMPILER} ${CFLAGS} ${OPTIONS} $< -o ${<:.c=.o}
+	${COMPILER}		${CFLAGS} ${OPTIONS} $< -o ${<:.c=.o}
 
 $(NAME): ${DEPS} ${OBJECTS}
 	${LIB_INIT} ${NAME} ${OBJECTS}
