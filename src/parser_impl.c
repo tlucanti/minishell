@@ -6,13 +6,13 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:39:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 11:34:38 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:35 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/parser.h"
-#include "include/minishell.h"
-#include "include/error.h"
+#include "../inc/parser.h"
+#include "../inc/minishell.h"
+#include "../inc/error.h"
 
 static void	_implement_heredoc_extension(int _pipes_in_out[2],
 				char *heredoc_str) __attribute__((noreturn)) __attribute__((

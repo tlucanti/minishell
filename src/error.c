@@ -6,15 +6,15 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:59:44 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 23:09:55 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:44 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/error.h"
-#include "include/color.h"
-#include "include/enviroment.h"
-#include "include/minishell.h"
-#include "include/libft.h"
+#include "../inc/error.h"
+#include "../inc/color.h"
+#include "../inc/enviroment.h"
+#include "../inc/minishell.h"
+#include "../inc/libft.h"
 
 static const char	*xstrerror(int errorcode) __attribute__((
 							warn_unused_result)) __attribute__((

@@ -1,40 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/08 13:18:44 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 22:44:11 by kostya           ###   ########.fr       */
+/*   Created: 2021/09/09 13:05:54 by kostya            #+#    #+#             */
+/*   Updated: 2021/10/27 14:55:46 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
-#include "include/error.h"
+#include "../inc/minishell.h"
+#include "../inc/error.h"
 
-int	builtin_exit(char *__restrict const *__restrict argv)
+int	builtin_pwd(char *__restrict const *__restrict argv)
 /*
-** function termitates work of current shell and clearing memory
+** function prints to STDOUT current working directory (CWD)
+** if arguments provided - prints error to STDERR
 */
 {
-	int	status;
-	int	error;
+	char	buff[PATH_MAX];
+	char	*_;
 
-	++argv;
-	if (!*argv)
-		xexit(1);
 	if (argv[1])
 	{
-		ft_perror("exit", ETMA, NULL);
+		ft_perror("cd", ETMA, NULL);
 		return (EXIT_FAILURE);
 	}
-	error = 0;
-	status = ft_atoi_s(*argv, &error);
-	if (error)
-	{
-		ft_perror("exit", ENUMR, *argv);
-		xexit(2);
-	}
-	xexit(status);
+	_ = getcwd(buff, PATH_MAX);
+	(void)_;
+	printf("%s\n", buff);
+	return (EXIT_SUCCESS);
 }

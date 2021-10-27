@@ -6,16 +6,16 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 22:22:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 22:42:08 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:48 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/enviroment.h"
-#include "include/minishell.h"
-#include "include/memory.h"
-#include "include/handler.h"
-#include "include/error.h"
-#include "include/libft.h"
+#include "../inc/enviroment.h"
+#include "../inc/minishell.h"
+#include "../inc/memory.h"
+#include "../inc/handler.h"
+#include "../inc/error.h"
+#include "../inc/libft.h"
 
 static int	ft_iscolon(int c);
 static char	*__builtin_execve_strsum(const char *__restrict str1,

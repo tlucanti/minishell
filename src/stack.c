@@ -6,14 +6,14 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 22:46:59 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 12:55:18 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:33 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/enviroment.h"
-#include "include/memory.h"
-#include "include/libft.h"
-#include "include/minishell.h"
+#include "../inc/enviroment.h"
+#include "../inc/memory.h"
+#include "../inc/libft.h"
+#include "../inc/minishell.h"
 
 static t__internal_env_list	*__internal_new_node(void) __attribute__((
 									warn_unused_result)) __attribute__((

@@ -6,15 +6,15 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 12:13:02 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 23:09:23 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:45 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/parser.h"
-#include "include/memory.h"
-#include "include/libft.h"
-#include "include/enviroment.h"
-#include "include/minishell.h"
+#include "../inc/parser.h"
+#include "../inc/memory.h"
+#include "../inc/libft.h"
+#include "../inc/enviroment.h"
+#include "../inc/minishell.h"
 
 static char	*dollar_commutate_extension_1(char *string, char *dollar_start,
 				char **dollar_next)

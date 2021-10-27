@@ -6,13 +6,13 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 22:50:35 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 23:48:39 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:33 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/enviroment.h"
-#include "include/memory.h"
-#include "include/libft.h"
+#include "../inc/enviroment.h"
+#include "../inc/memory.h"
+#include "../inc/libft.h"
 
 static char	*__mas_gen_extension(const char *str1, const char *str2,
 				size_t size1, size_t size2) __attribute__((

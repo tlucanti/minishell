@@ -6,24 +6,22 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/10/27 13:36:09 by kostya           ###   ########.fr        #
+#    Updated: 2021/10/27 15:19:57 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			=	clang
+# ------------------------------ compiler options ------------------------------
 NAME		=	minishell
+CC			=	clang
 CFLAGS		=	-Wall -Wextra -Werror
-COPTIONS	=	-O0
-RM			=	rm -f
-LIB_DIR		=	-L.
-LIBRARY		=	-lreadline -lft
-LIBFT_DIR	=	libft
-INCLUDE_DIR	=	include
-OBJS_DIR	=	objects
-ifeq (${CC}, clang++)
-	COPTIONS += -Wno-error=deprecated -Wno-error=missing-exception-spec
-endif
-# ------------------------------------------------------------------------------
+COPTIONS	=	-O3 -ffast-math
+# ------------------------------- linker options -------------------------------
+LIBRARY		=	-L. -lreadline -lft
+OBJS_DIR	=	obj
+INCLUDE_DIR	=	inc
+SCRS_DIR	=	src
+LIBFT		=	libft
+# ------------------------------- project sorces -------------------------------
 SRCS		=	\
 				ancient_shards	\
 				builtin_cd		\
@@ -50,61 +48,59 @@ SRCS		=	\
 				split_smart		\
 				stack1			\
 				stack
-
 # ------------------------------------------------------------------------------
 HDRS		=	\
+				color			\
 				enviroment		\
-				global 			\
+				error			\
+				handler			\
+				libft			\
 				memory			\
 				minishell		\
-				error			\
-				colors			\
 				parser
+
+# ======================= UNCHANGEABLE PART OF MAKEFILE ========================
 # ------------------------------------------------------------------------------
+RM			=	rm -f
 OBJS		=	$(addprefix ${OBJS_DIR}/,${SRCS:=.o})
 DEPS		=	$(addprefix ${INCLUDE_DIR}/,${HDRS:=.h})
 INCLUDE		=	-I ${INCLUDE_DIR}
-# ------------------------------------------------------------------------------
-all:
-	$(MAKE)		${NAME} -j
 
 # ------------------------------------------------------------------------------
-${OBJS_DIR}/%.o: %.c Makefile
+all:
+	$(MAKE)		$(NAME) -j
+
+# ------------------------------------------------------------------------------
+${OBJS_DIR}/%.o: ${SCRS_DIR}/%.c ${DEPS}
 	${CC}		${CFLAGS}  ${COPTIONS} -c -o $@ $< ${INCLUDE}
 
 # ------------------------------------------------------------------------------
-$(NAME):		${OBJS_DIR} ${OBJS} libft
-	${CC}		-o ${NAME} ${CFLAGS} ${COPTIONS} ${OBJS} ${LIB_DIR} ${LIBRARY} ${LIBFT}
+$(NAME):		${OBJS_DIR} libft.a ${OBJS} ${DEPS}
+	${CC}		-o ${NAME} ${CFLAGS} ${COPTIONS} ${OBJS} ${LIBRARY}
+
+# ------------------------------------------------------------------------------
+libft.a:
+	${MAKE}		-C ${LIBFT}
+	ln			-sf ../${LIBFT}/libft.h ${INCLUDE_DIR}/libft.h
+	cp			${LIBFT}/libft.a .
 
 # ------------------------------------------------------------------------------
 clean:
-	${MAKE}		-C ${LIBFT_DIR} clean
 	${RM}		${OBJS}
+	$(MAKE)		-C ${LIBFT} clean
 
 # ------------------------------------------------------------------------------
 fclean:			clean
-	${MAKE}		-C ${LIBFT_DIR} fclean
 	${RM}		${NAME}
 	${RM}		libft.a
-
-# ------------------------------------------------------------------------------
-libft:
-	${MAKE}		-C ${LIBFT_DIR}
-	ln			-sf ../${LIBFT_DIR}/libft.h ${INCLUDE_DIR}/libft.h
-	cp			${LIBFT_DIR}/libft.a .
+	$(MAKE)		-C ${LIBFT} fclean
 
 # ------------------------------------------------------------------------------
 ${OBJS_DIR}:
-	mkdir -p	${OBJS_DIR}
+	mkdir		-p ${OBJS_DIR}
 
 # ------------------------------------------------------------------------------
-re:			fclean all
+re:				fclean all
 
 # ------------------------------------------------------------------------------
-pvs:
-	pvs-studio-analyzer trace -- make
-	pvs-studio-analyzer analyze --disableLicenseExpirationCheck --compiler gcc -l/home/kostya/.config/PVS-Studio/PVS-Studio.lic -o /media/kostya/Data/CLion/Minishell/project.log -j2
-	plog-converter -a GA:1,2 -t tasklist -o /media/kostya/Data/CLion/Minishell/project.tasks /media/kostya/Data/CLion/Minishell/project.log
-
-# ------------------------------------------------------------------------------
-.PHONY:			all clean fclean re pvs libft ${OBJS_DIR} ${NAME}
+.PHONY:			all $(NAME) clean fclean re

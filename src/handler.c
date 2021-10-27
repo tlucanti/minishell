@@ -6,12 +6,12 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 16:34:34 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 22:46:16 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:43 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/error.h"
-#include "include/minishell.h"
+#include "../inc/error.h"
+#include "../inc/minishell.h"
 
 void	handler_signint_fork(__attribute__((unused)) int signum)
 {

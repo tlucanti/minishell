@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   memory.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/08 13:12:43 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 21:44:51 by kostya           ###   ########.fr       */
+/*   Created: 2021/09/08 11:58:13 by kostya            #+#    #+#             */
+/*   Updated: 2021/10/27 14:55:43 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/enviroment.h"
-#include "include/error.h"
+#include "../inc/memory.h"
+#include "../inc/error.h"
 
-int	builtin_env(char *__restrict const *__restrict argv)
+void	*xmalloc(size_t size)
 /*
-** function prints to STDIN all enviroment variables sorted by lexical order
-** if arguments provided - prints error to STDERR
+** function allocates memory or terminates program if allocation faled
 */
 {
-	if (argv[1])
-	{
-		ft_perror("env", ETMA, NULL);
-		return (EXIT_FAILURE);
-	}
-	print_env();
-	return (EXIT_SUCCESS);
+	register void	*ptr;
+
+	ptr = malloc(size);
+	if (!ptr)
+		xexit(1);
+	return (ptr);
+}
+
+uint	xfree(void *__restrict ptr)
+/*
+** function clears `ptr` memory and return `1`
+*/
+{
+	free(ptr);
+	return (1);
 }

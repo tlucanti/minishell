@@ -6,18 +6,18 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:56:55 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 11:34:10 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:41 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
-#include "include/enviroment.h"
-#include "include/error.h"
-#include "include/handler.h"
-#include "include/color.h"
-#include "include/libft.h"
-#include "include/parser.h"
-#include "include/memory.h"
+#include "../inc/minishell.h"
+#include "../inc/enviroment.h"
+#include "../inc/error.h"
+#include "../inc/handler.h"
+#include "../inc/color.h"
+#include "../inc/libft.h"
+#include "../inc/parser.h"
+#include "../inc/memory.h"
 
 static void	update_promt(char *__restrict promt) __attribute__((__nothrow__));
 

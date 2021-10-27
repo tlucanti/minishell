@@ -6,13 +6,13 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:22:41 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 22:43:17 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:50 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/enviroment.h"
-#include "include/error.h"
-#include "include/libft.h"
+#include "../inc/enviroment.h"
+#include "../inc/error.h"
+#include "../inc/libft.h"
 
 int	builtin_cd(char *__restrict const *__restrict argv)
 /*

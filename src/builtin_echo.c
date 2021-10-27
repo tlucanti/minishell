@@ -6,13 +6,13 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:05:54 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 23:08:25 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:49 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/error.h"
-#include "include/minishell.h"
-#include "include/libft.h"
+#include "../inc/error.h"
+#include "../inc/minishell.h"
+#include "../inc/libft.h"
 
 static char *const	*__builtin_echo_arg_check(
 						char *const *__restrict argv,

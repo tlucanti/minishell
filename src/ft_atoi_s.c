@@ -6,12 +6,12 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 12:41:54 by tlucanti          #+#    #+#             */
-/*   Updated: 2021/10/26 22:46:12 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:44 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
-#include "include/libft.h"
+#include "../inc/minishell.h"
+#include "../inc/libft.h"
 
 int	ft_atoi_s(const char *__restrict str, int *__restrict error)
 {

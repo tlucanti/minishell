@@ -6,15 +6,15 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:37:45 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 11:33:33 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:50 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/parser.h"
-#include "include/minishell.h"
-#include "include/error.h"
-#include "include/libft.h"
-#include "include/memory.h"
+#include "../inc/parser.h"
+#include "../inc/minishell.h"
+#include "../inc/error.h"
+#include "../inc/libft.h"
+#include "../inc/memory.h"
 
 static int	builtin(char **__restrict arr) __attribute__((
 					warn_unused_result)) __attribute__((__nothrow__));

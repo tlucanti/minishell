@@ -6,12 +6,12 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 10:19:08 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 11:37:44 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:34 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/parser.h"
-#include "include/memory.h"
+#include "../inc/parser.h"
+#include "../inc/memory.h"
 
 char *__restrict	*push_back_null(char *__restrict *__restrict array,
 						size_t size) __attribute__((warn_unused_result)

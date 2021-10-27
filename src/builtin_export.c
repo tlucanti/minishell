@@ -6,14 +6,14 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:38:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 12:37:11 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:47 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/enviroment.h"
-#include "include/memory.h"
-#include "include/error.h"
-#include "include/libft.h"
+#include "../inc/enviroment.h"
+#include "../inc/memory.h"
+#include "../inc/error.h"
+#include "../inc/libft.h"
 
 int	builtin_export_split(const char *__restrict string, char *__restrict *key,
 		char *__restrict *value)

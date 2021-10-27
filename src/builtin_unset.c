@@ -6,14 +6,14 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 18:02:16 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 12:38:11 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:46 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/enviroment.h"
-#include "include/minishell.h"
-#include "include/memory.h"
-#include "include/error.h"
+#include "../inc/enviroment.h"
+#include "../inc/minishell.h"
+#include "../inc/memory.h"
+#include "../inc/error.h"
 
 int	builtin_unset(char *__restrict const *__restrict argv)
 /*

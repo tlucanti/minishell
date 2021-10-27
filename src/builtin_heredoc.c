@@ -6,14 +6,14 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 13:58:07 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 11:27:08 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:47 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/memory.h"
-#include "include/minishell.h"
-#include "include/libft.h"
-#include "include/handler.h"
+#include "../inc/memory.h"
+#include "../inc/minishell.h"
+#include "../inc/libft.h"
+#include "../inc/handler.h"
 
 static void	ft_putunbr(char *__restrict string, int num)
 			__attribute__((__nothrow__));

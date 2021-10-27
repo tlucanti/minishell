@@ -6,15 +6,15 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:11:37 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 12:34:10 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:34 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
-#include "include/libft.h"
-#include "include/parser.h"
-#include "include/enviroment.h"
-#include "include/error.h"
+#include "../inc/minishell.h"
+#include "../inc/libft.h"
+#include "../inc/parser.h"
+#include "../inc/enviroment.h"
+#include "../inc/error.h"
 
 static int	syntax_check(char *__restrict *__restrict array)
 			__attribute__((warn_unused_result)) __attribute__((__nothrow__));

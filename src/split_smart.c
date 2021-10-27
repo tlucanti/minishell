@@ -6,13 +6,13 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 18:15:13 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 11:45:53 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:34 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/memory.h"
-#include "include/libft.h"
-#include "include/parser.h"
+#include "../inc/memory.h"
+#include "../inc/libft.h"
+#include "../inc/parser.h"
 
 char *__restrict			*push_back_token(char *__restrict *__restrict array,
 								const char *__restrict *__restrict input,

@@ -6,14 +6,14 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 20:05:35 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/26 22:45:50 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:44 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/enviroment.h"
-#include "include/memory.h"
-#include "include/minishell.h"
-#include "include/libft.h"
+#include "../inc/enviroment.h"
+#include "../inc/memory.h"
+#include "../inc/minishell.h"
+#include "../inc/libft.h"
 
 char	*ft_getenv(const char *__restrict name, size_t *__restrict size)
 /*

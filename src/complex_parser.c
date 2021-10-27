@@ -6,16 +6,16 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:32:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 11:33:52 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/27 14:55:45 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/parser.h"
-#include "include/enviroment.h"
-#include "include/memory.h"
-#include "include/error.h"
-#include "include/libft.h"
-#include "include/minishell.h"
+#include "../inc/parser.h"
+#include "../inc/enviroment.h"
+#include "../inc/memory.h"
+#include "../inc/error.h"
+#include "../inc/libft.h"
+#include "../inc/minishell.h"
 
 static int	complex_parser(char *__restrict *__restrict array,
 				int _do_pipe) __attribute__((warn_unused_result));
