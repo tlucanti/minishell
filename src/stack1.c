@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 22:50:35 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 14:55:33 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/28 17:52:06 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	list_clear(t_env *__restrict env)
 	t__internal_env_list	*next;
 
 	ptr = env->root;
-	while (ptr->next)
+	while (ptr)
 	{
 		next = ptr->next;
 		__internal_rm_node(ptr);

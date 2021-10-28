@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:37:45 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/28 16:32:50 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/28 17:48:57 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,13 @@ int	pipe_shard(char *__restrict *__restrict ptr)
 		{
 			close(_pipes_in_out[1]);
 			close(STDIN);
-			int _dd = dup(_pipes_in_out[0]);
-			// fprintf(stderr, "out pipe opened at %d\n", _dd);
-			(void)_dd;
+			dup(_pipes_in_out[0]);
 		}
 		else
 		{
 			close(_pipes_in_out[0]);
 			close(STDOUT);
-			int _dd = dup(_pipes_in_out[1]);
-			// fprintf(stderr, "inp pipe opened at %d\n", _dd);
-			(void)_dd;
+			dup(_pipes_in_out[1]);
 		}
 		return (_frk);
 	}
@@ -80,9 +76,16 @@ int	pipe_shard(char *__restrict *__restrict ptr)
 int	fork_shard(char *__restrict *__restrict array,
 		char *__restrict *__restrict end, uint argv_size)
 {
-	int	ret;
+	int		ret;
+	char	**argv;
+	uint	i;
 
-	ret = builtin(materialize_argv(array, argv_size));
+	argv = materialize_argv(array, argv_size);
+	ret = builtin(argv);
+	i = 0;
+	while (i < argv_size)
+		free(argv[i++]);
+	free(argv);
 	if (*end == PIPE_PTR)
 		exit(0);
 	return (ret);

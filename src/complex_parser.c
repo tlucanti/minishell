@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:32:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/28 16:32:30 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/28 16:38:53 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include "../inc/libft.h"
 #include "../inc/minishell.h"
 
-static int	complex_parser(char *__restrict *__restrict array, pid_t pid) __attribute__((warn_unused_result));
+static int	complex_parser(char *__restrict *__restrict array, pid_t pid)
+			__attribute__((warn_unused_result));
 
 int	complex_parser_decorator(char *__restrict *__restrict array)
 {
@@ -27,7 +28,6 @@ int	complex_parser_decorator(char *__restrict *__restrict array)
 	void	*_;
 
 	backup_fd_in_out(_backup_in_out, 1);
-	// printf("backup %d %d\n", _backup_in_out[0], _backup_in_out[1]);
 	if (_backup_in_out[0] == -1 || _backup_in_out[1] == -1)
 	{
 		ft_perror("dup", errno, NULL);
@@ -53,7 +53,7 @@ static int	complex_parser(char *__restrict *__restrict array, pid_t pid)
 {
 	char *__restrict	*end;
 	uint				argv_size;
-	pid_t					_frk;
+	pid_t				_frk;
 
 	if (pid != -1)
 	{
@@ -70,10 +70,7 @@ static int	complex_parser(char *__restrict *__restrict array, pid_t pid)
 	if (!_frk)
 		return (fork_shard(array, end, argv_size));
 	else
-	{
-		int __ret = complex_parser(end + 1, _frk);
-		return __ret;
-	}
+		return (complex_parser(end + 1, _frk));
 }
 
 int	backup_fd_in_out(int _in_out[2], int init)

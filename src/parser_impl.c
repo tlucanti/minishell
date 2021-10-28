@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:39:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/28 15:48:19 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/28 16:39:16 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	_implement_heredoc_extension(int _pipes_in_out[2],
 char	*__restrict	*implement_redirect(char *__restrict *__restrict ptr)
 {
 	const mode_t	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-	int	error;
+	int				error;
 
 	error = 0;
 	if (*ptr == OUT_WRITE_PTR || *ptr == OUT_APPEND_PTR)
@@ -40,7 +40,6 @@ char	*__restrict	*implement_redirect(char *__restrict *__restrict ptr)
 		else
 			error = implement_heredoc(ptr[1]);
 	}
-	// fprintf(stderr, "redir opened %d\n", error);
 	if (error == -1)
 		return ((char **)(size_t)ft_perror("open", errno, ptr[1]));
 	return (ptr + 2);
