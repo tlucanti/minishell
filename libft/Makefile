@@ -2,7 +2,7 @@ NAME = libft.a
 DIR = .
 COMPILER =	clang
 CFLAGS =	-Wall -Wextra -Werror -I${DIR}
-OPTIONS = -c
+OPTIONS = -O3 -ffast-math
 SRCS =	  ft_strnlen     ft_max        ft_min         ft_abs      ft_issmth1   \
           \
           ft_memset      ft_bzero      ft_memcpy      ft_memccpy  ft_memmove   \
@@ -29,14 +29,14 @@ RM = rm -rf
 LIB_INIT = ar rc
 BUILD_FLAGS = -L. -l
 
+all: ${NAME}
 
-.c.o:
-	${COMPILER}		${CFLAGS} ${OPTIONS} $< -o ${<:.c=.o}
+%.o: %.c ${DEPS} Makefile
+	${COMPILER}		${CFLAGS} ${OPTIONS} -c -o $@ $<
 
 $(NAME): ${DEPS} ${OBJECTS}
 	${LIB_INIT} ${NAME} ${OBJECTS}
 
-all: ${NAME}
 
 bonus: ${BONUS_OBJECTS}
 	${LIB_INIT} ${NAME} ${BONUS_OBJECTS}
