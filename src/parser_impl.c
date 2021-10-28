@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:39:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 14:55:35 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/28 15:48:19 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,30 @@ static void	_implement_heredoc_extension(int _pipes_in_out[2],
 				char *heredoc_str) __attribute__((noreturn)) __attribute__((
 					__nothrow__));
 
-char	*__restrict	*implement_redirect(char *__restrict *__restrict ptr,
-						int _in_out[2])
+char	*__restrict	*implement_redirect(char *__restrict *__restrict ptr)
 {
 	const mode_t	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	int	error;
 
+	error = 0;
 	if (*ptr == OUT_WRITE_PTR || *ptr == OUT_APPEND_PTR)
 	{
-		close(_in_out[1]);
+		close(STDOUT);
 		if (*ptr == OUT_WRITE_PTR)
-			_in_out[1] = open(ptr[1], O_CREAT | O_RDWR | O_TRUNC, mode);
+			error = open(ptr[1], O_CREAT | O_RDWR | O_TRUNC, mode);
 		else
-			_in_out[1] = open(ptr[1], O_CREAT | O_RDWR | O_APPEND, mode);
+			error = open(ptr[1], O_CREAT | O_RDWR | O_APPEND, mode);
 	}
 	else if (*ptr == INPUT_PTR || *ptr == HEREDOC_PTR)
 	{
-		close(_in_out[0]);
+		close(STDIN);
 		if (*ptr == INPUT_PTR)
-			_in_out[0] = open(ptr[1], O_RDONLY);
+			error = open(ptr[1], O_RDONLY);
 		else
-			_in_out[0] = implement_heredoc(ptr[1]);
+			error = implement_heredoc(ptr[1]);
 	}
-	if (_in_out[0] == -1 || _in_out[1] == -1)
+	// fprintf(stderr, "redir opened %d\n", error);
+	if (error == -1)
 		return ((char **)(size_t)ft_perror("open", errno, ptr[1]));
 	return (ptr + 2);
 }

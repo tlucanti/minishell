@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 12:16:21 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 13:29:28 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/28 16:33:24 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
-int				complex_parser_decorator(char *__restrict *__restrict array,
-					int _do_pipe) __attribute__((warn_unused_result)
-					) __attribute__((
+int				complex_parser_decorator(char *__restrict *__restrict array) __attribute__((warn_unused_result))
+					__attribute__((
 						__nothrow__));
 char *__restrict	*clear_split_smart(char *__restrict *__restrict array
 					) __attribute__((__nothrow__));
@@ -31,19 +30,17 @@ char			*dollar_commutate(char *__restrict string) __attribute__((
 						warn_unused_result)) __attribute__((__nothrow__));
 char			*builtin_heredoc_prompt(int reset) __attribute__((
 						warn_unused_result)) __attribute__((__nothrow__));
-char *__restrict	*implement_redirect(char *__restrict *__restrict ptr,
-					int _in_out[2]) __attribute__((warn_unused_result)
-					) __attribute__((__nothrow__));
+char *__restrict	*implement_redirect(char *__restrict *__restrict ptr)
+					 __attribute__((warn_unused_result))
+					 __attribute__((__nothrow__));
 int				implement_heredoc(const char *__restrict end) __attribute__((
 						warn_unused_result)) __attribute__((__nothrow__));
 char *__restrict	*redirect_shard(char *__restrict *__restrict ptr,
-					uint *__restrict argv_size, int _in_out[2],
-					int *__restrict was_redirect) __attribute__((
+					uint *__restrict argv_size) __attribute__((
 						warn_unused_result)) __attribute__((__nothrow__));
-int				pipe_shard(char *__restrict *__restrict ptr, int _in_out[2],
-					int *__restrict _do_pipe, int was_redirect) __attribute__((
+int				pipe_shard(char *__restrict *__restrict ptr) __attribute__((
 						warn_unused_result)) __attribute__((__nothrow__));
-int				fork_shard(char *__restrict *__restrict array, int _in_out[2],
+int				fork_shard(char *__restrict *__restrict array, 
 					char *__restrict *__restrict end, uint argv_size
 					) __attribute__((warn_unused_result)) __attribute__((
 						__nothrow__));

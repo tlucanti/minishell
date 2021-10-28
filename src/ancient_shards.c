@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:37:45 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 14:55:50 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/28 16:32:50 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,13 @@ static char	**materialize_argv(char *__restrict *__restrict start,
 					warn_unused_result)) __attribute__((__nothrow__));
 
 char	*__restrict	*redirect_shard(char *__restrict *__restrict ptr,
-				uint *__restrict argv_size, int _in_out[2],
-				int *__restrict was_redirect)
+				uint *__restrict argv_size)
 {
 	while (*ptr && *ptr != PIPE_PTR)
 	{
 		if ((size_t)(*ptr) < ANY_TOKEN && (size_t)(*ptr) & REDIRECT)
 		{
-			*was_redirect = 1;
-			ptr = implement_redirect(ptr, _in_out);
+			ptr = implement_redirect(ptr);
 			if (!ptr)
 				return ((char **)1);
 		}
@@ -46,8 +44,7 @@ char	*__restrict	*redirect_shard(char *__restrict *__restrict ptr,
 	return (ptr);
 }
 
-int	pipe_shard(char *__restrict *__restrict ptr, int _in_out[2],
-				int *__restrict _do_pipe, int was_redirect)
+int	pipe_shard(char *__restrict *__restrict ptr)
 {
 	int		_pipes_in_out[2];
 	int		_frk;
@@ -56,38 +53,35 @@ int	pipe_shard(char *__restrict *__restrict ptr, int _in_out[2],
 	{
 		if (pipe(_pipes_in_out))
 			return (ft_perror("pipe", errno, NULL) - 1);
-		*_do_pipe = _pipes_in_out[0];
-		if (!was_redirect)
-		{
-			close(_in_out[1]);
-			_in_out[1] = _pipes_in_out[1];
-		}
 		_frk = fork();
 		if (_frk == -1)
 			return (ft_perror("fork", errno, NULL) - 1);
 		if (_frk)
+		{
 			close(_pipes_in_out[1]);
+			close(STDIN);
+			int _dd = dup(_pipes_in_out[0]);
+			// fprintf(stderr, "out pipe opened at %d\n", _dd);
+			(void)_dd;
+		}
 		else
+		{
 			close(_pipes_in_out[0]);
+			close(STDOUT);
+			int _dd = dup(_pipes_in_out[1]);
+			// fprintf(stderr, "inp pipe opened at %d\n", _dd);
+			(void)_dd;
+		}
 		return (_frk);
 	}
 	return (0);
 }
 
-int	fork_shard(char *__restrict *__restrict array, int _in_out[2],
-				char *__restrict *__restrict end, uint argv_size)
+int	fork_shard(char *__restrict *__restrict array,
+		char *__restrict *__restrict end, uint argv_size)
 {
-	int	_status;
 	int	ret;
 
-	_status = 0;
-	_status |= dup2(_in_out[0], STDIN);
-	_status |= dup2(_in_out[1], STDOUT);
-	if (_status == -1)
-	{
-		ft_perror("dup2", errno, NULL);
-		return (errno);
-	}
 	ret = builtin(materialize_argv(array, argv_size));
 	if (*end == PIPE_PTR)
 		exit(0);
