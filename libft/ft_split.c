@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kostya <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 11:16:40 by tlucanti          #+#    #+#             */
-/*   Updated: 2021/03/20 18:20:33 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/29 18:25:11 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	**ft_str_append_sized(char **arr, char *str, size_t size, size_t arrlen)
 {
 	char	*new_s;
 
-	new_s = (char *)malloc(size + 1);
+	new_s = (char *)xmalloc(size + 1);
 	if (new_s == NULLPTR)
 		return ((char **)ft_arr_clear(arr));
 	ft_memcpy(new_s, str, size + 1);
@@ -80,7 +80,7 @@ char	**ft_push_back_char_ss(char **arr, char *new_s, size_t arrlen)
 	else
 	{
 		old_arr_ptr = arr;
-		new_arr = (char **)malloc(sizeof(char *) * (arrlen + 2));
+		new_arr = (char **)xmalloc(sizeof(char *) * (arrlen + 2));
 		if (new_arr == NULLPTR)
 			return ((char **)ft_arr_clear(arr));
 		new_arr_ptr = new_arr;

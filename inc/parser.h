@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 12:16:21 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/28 17:11:53 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/29 16:44:49 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int				backup_fd_in_out(int _in_out[2], int init)
 # define ANY_TOKEN		0b01111111
 
 # define REDIRECT		0b00001111
-# define SKIP_PARSER	0b01100000
+# define ANY_QUOTE		0b01100000
+# define NOT_QUOTE		0b00011111
 
 # define DOUBLE_SKIP_DOLLAR	0b00101111
 # define SINGLE_SKIP_DOLLAR	0b01010000
@@ -93,5 +94,6 @@ typedef struct s_dollar
 	char	*exit_status;
 	size_t	exit_status_size;
 }	t_dollar;
+
 
 #endif // PARSER_H

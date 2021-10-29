@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsub.c                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlucanti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 18:03:30 by tlucanti          #+#    #+#             */
-/*   Updated: 2020/11/14 11:50:31 by tlucanti         ###   ########.fr       */
+/*   Updated: 2021/10/29 18:25:25 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		size = 1;
 	else
 		size = ft_strnlen(s + start, len) + 1;
-	new_s = (char *)malloc(size);
+	new_s = (char *)xmalloc(size);
 	if (new_s == NULLPTR)
 		return (NULLPTR);
 	ft_strlcpy(new_s, s + start, size);

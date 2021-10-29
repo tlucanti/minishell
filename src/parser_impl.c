@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:39:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/28 16:39:16 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/29 13:06:51 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,27 @@ char	*__restrict	*implement_redirect(char *__restrict *__restrict ptr)
 {
 	const mode_t	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	int				error;
+	char			*fname;
 
 	error = 0;
+	fname = ptr[1];
+	if ((size_t)(ptr[1]) < ANY_TOKEN && (size_t)(ptr[1]) & ANY_QUOTE)
+		fname = ptr[2];
 	if (*ptr == OUT_WRITE_PTR || *ptr == OUT_APPEND_PTR)
 	{
 		close(STDOUT);
 		if (*ptr == OUT_WRITE_PTR)
-			error = open(ptr[1], O_CREAT | O_RDWR | O_TRUNC, mode);
+			error = open(fname, O_CREAT | O_RDWR | O_TRUNC, mode);
 		else
-			error = open(ptr[1], O_CREAT | O_RDWR | O_APPEND, mode);
+			error = open(fname, O_CREAT | O_RDWR | O_APPEND, mode);
 	}
 	else if (*ptr == INPUT_PTR || *ptr == HEREDOC_PTR)
 	{
 		close(STDIN);
 		if (*ptr == INPUT_PTR)
-			error = open(ptr[1], O_RDONLY);
+			error = open(fname, O_RDONLY);
 		else
-			error = implement_heredoc(ptr[1]);
+			error = implement_heredoc(fname);
 	}
 	if (error == -1)
 		return ((char **)(size_t)ft_perror("open", errno, ptr[1]));

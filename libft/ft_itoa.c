@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 11:12:21 by tlucanti          #+#    #+#             */
-/*   Updated: 2021/10/25 19:01:28 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/29 18:24:52 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_itoa(int n)
 	int		dn;
 
 	dn = ft_digit_num(n);
-	ans = (char *)malloc(dn + (n < 0) + 1);
+	ans = (char *)xmalloc(dn + (n < 0) + 1);
 	if (ans == NULLPTR)
 		return (NULLPTR);
 	if (n == 0)

@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:53:32 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/28 16:49:55 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/29 17:26:46 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int				ft_atoi_s(const char *__restrict str, int *__restrict error)
 							__nothrow__));
 void			clear_split(char *__restrict *__restrict array)
 					__attribute__((__nothrow__));
-int				simple_parcer(const char *__restrict input)
+int				simple_parcer(char *__restrict *__restrict input)
 					__attribute__((warn_unused_result)) __attribute__((
 							__nothrow__));
 int				set_autoattr(int desc, int value, int what)

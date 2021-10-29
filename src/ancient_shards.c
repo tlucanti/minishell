@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:37:45 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/28 17:48:57 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/29 14:52:24 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*__restrict	*redirect_shard(char *__restrict *__restrict ptr,
 			if (!ptr)
 				return ((char **)1);
 		}
-		else if ((size_t)(*ptr) < ANY_TOKEN && (size_t)(*ptr) & SKIP_PARSER)
+		else if ((size_t)(*ptr) < ANY_TOKEN && (size_t)(*ptr) & ANY_QUOTE)
 			++ptr;
 		else
 		{
@@ -127,8 +127,6 @@ static char	**materialize_argv(char *__restrict *__restrict start,
 	{
 		if ((size_t)(*start) < ANY_TOKEN && (size_t)(*start) & REDIRECT)
 			start += 2;
-		else if ((size_t)(*start) < ANY_TOKEN && (size_t)(*start) & SKIP_PARSER)
-			++start;
 		else
 		{
 			*ptr = ft_strdup(*start);

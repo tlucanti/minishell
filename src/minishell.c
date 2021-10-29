@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:56:55 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 14:55:41 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/29 17:35:54 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,30 @@ int	main(void)
 
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
-	set_autoattr(0, 0, ECHOCTL);
+	// set_autoattr(0, 0, ECHOCTL);
 	_ = internal_env_storage();
 	while (1)
 	{
-		update_promt(promt);
 		signal(SIGINT, handler_signint_readline);
-		input = readline(promt);
+		if (!isatty(0))
+			input = readline(NULL);
+		else
+		{
+			update_promt(promt);
+			input = readline(promt);
+			if (input && input[0])
+				add_history(input);
+		}
+		// if (isatty(0))
+			// rl_replace_line(NULL, 0);
 		signal(SIGINT, SIG_IGN);
 		if (!input)
 		{
 			printf("exit\n");
 			xexit(xfree(input));
 		}
-		rl_bind_key('\t', rl_complete);
-		add_history(input);
-		exit_status_storage(simple_parcer(input), 1);
+		/* rl_bind_key('\t', rl_complete); */
+		exit_status_storage(simple_parcer(&input), 1);
 		free(input);
 	}
 	(void)_;

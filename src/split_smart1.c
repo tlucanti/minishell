@@ -90,6 +90,8 @@ char *__restrict	*clear_split_smart(char *__restrict *__restrict array)
 {
 	char *__restrict	*ptr;
 
+	if (!array)
+		return (NULL);
 	ptr = array;
 	while (*array)
 	{

@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 21:08:10 by tlucanti          #+#    #+#             */
-/*   Updated: 2021/10/27 12:55:49 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/29 18:29:46 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <zconf.h>
 # include <stdlib.h>
 # include <unistd.h>
-
 # define NULLPTR 0
 
 typedef struct s_list
@@ -115,5 +114,6 @@ void			ft_lstclear(t_list **lst, void (*del)(void*));
 void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *));
+void			*xmalloc(size_t size);
 
 #endif // LIBFT_H
