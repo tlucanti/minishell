@@ -42,4 +42,4 @@ add_executable(Minishell
 
 target_link_libraries(Minishell
         readline
-        /media/kostya/Data/CLion/Minishell/libft/libft.a)
+        /media/kostya/Data/CLion/Minishell/libft.a)

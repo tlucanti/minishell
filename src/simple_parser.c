@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:11:37 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/29 18:15:25 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/30 15:45:14 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static char	*token_to_string(const char *__restrict token)
 			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
 static char *del_quotes(char *__restrict input)
 			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
+static void	del_quotes_arr(char *__restrict *__restrict array)
+			__attribute__((__nothrow__));
 
 void	print_my_cool_split(char **p)
 {
@@ -53,30 +55,41 @@ void	print_my_cool_split(char **p)
 	printf("]\n");
 }
 
-int	simple_parcer(char *__restrict *__restrict input_ptr)
+int	simple_parcer(char *__restrict input)
 {
 	char *__restrict	*arr;
 	int					ret;
 
-	*input_ptr = del_quotes(*input_ptr);
-	if (!*input_ptr)
-		return (2);
-	arr = smart_split(*input_ptr, ft_isspace);
-	ret = syntax_check(arr);
-	if (!ret)
-	{
-		clear_split_smart(arr);
-		return (ret + 2);
-	}
+
+	arr = smart_split(input, ft_isspace);
+	if (!arr)
+		return (ft_perror("minishell", ESYNT, "unclosed quote"));
 	if (!*arr)
 	{
 		clear_split_smart(arr);
 		return (0);
 	}
-	enforce_env(arr);
+
+
 	print_my_cool_split((void *)arr);
-	// arr = del_quotes(arr);
+	del_quotes_arr(arr);
 	print_my_cool_split((void *)arr);
+	if ((size_t)(*arr) > ANY_TOKEN && !**arr)
+	{
+		clear_split_smart(arr);
+		ft_perror("minishell", ECNF, "\'\'");
+		return (127);
+	}
+
+
+	ret = syntax_check(arr);
+	if (!ret)
+	{
+		clear_split_smart(arr);
+		return (2);
+	}
+
+
 	ret = complex_parser_decorator(arr);
 	clear_split_smart(arr);
 	return (ret);
@@ -87,11 +100,9 @@ static int	syntax_check(char *__restrict *__restrict array)
 	int	not_empty_pipe;
 
 	not_empty_pipe = 0;
-	if (!array)
-		return (ft_perror("minishell", ESYNT, "unclosed quote"));
 	if (*array == PIPE_PTR)
 		return (ft_perror("minishell", ESYNT, "empty pipe"));
-	if ((size_t)(*array) < ANY_TOKEN && (size_t)(*array) & NOT_QUOTE)
+	if ((size_t)(*array) < ANY_TOKEN)
 		return (ft_perror("minishell", ESYNT, "token without command"));
 	while (*array)
 	{
@@ -103,7 +114,7 @@ static int	syntax_check(char *__restrict *__restrict array)
 			return (ft_perror("minishell", ESYNT, "empty pipe"));
 		if (array[-1] == PIPE_PTR)
 			return (ft_perror("minishell", ESYNT, "token without command"));
-		else if ((size_t)array[1] < ANY_TOKEN && (size_t)(array[1]) & NOT_QUOTE)
+		else if ((size_t)array[1] < ANY_TOKEN)
 			return (ft_perror("minishell", ETOKEN, token_to_string(array[1])));
 		++array;
 	}
@@ -136,6 +147,17 @@ typedef struct s_quote
 	char	*input;
 	char	*quote_index;
 }	t_quote;
+
+
+static void	del_quotes_arr(char *__restrict *__restrict array)
+{
+	while (*array)
+	{
+		if ((size_t)(*array) > ANY_TOKEN)
+			*array = del_quotes(*array);
+		++array;
+	}
+}
 
 static char *del_quotes(char *__restrict input)
 {
@@ -173,7 +195,25 @@ static char *del_quotes(char *__restrict input)
 			}
 		}
 		else
-			++quote.s_size;
+		{
+			if (input[quote.s_size] == '$')
+			{
+				quote.string = input + quote.s_size + 1;
+				if (input[quote.s_size + 1] == '?')
+					input = dollar_commutate_extension_2(input, input + quote.s_size, &quote.string);
+				else if (ft_isalnum(input[quote.s_size + 1]))
+					input = dollar_commutate_extension_1(input, input + quote.s_size, &quote.string);
+				else if (!ft_isspace(input[quote.s_size + 1]) && input[quote.s_size + 1])
+				{
+					fprintf(stderr, "now on %s %d\n", input + quote.s_size + 1, input[quote.s_size + 1]);
+					ft_memmove(input + quote.s_size, input + quote.s_size + 1, ft_strlen(input + quote.s_size));
+					continue;
+				}
+				quote.s_size = quote.string - input;
+			}
+			else
+				++quote.s_size;
+		}
 	}
 	return (input);
 }

@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:56:55 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/29 17:35:54 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/30 16:42:16 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 #include "../inc/memory.h"
 
 static void	update_promt(char *__restrict promt) __attribute__((__nothrow__));
+static char	*ft_readline(void) __attribute__((warn_unused_result)) __attribute__((__nothrow__));
 
 int	main(void)
 {
 	char	*input;
-	char	promt[PATH_MAX];
 	void	*_;
 
 	signal(SIGQUIT, SIG_IGN);
@@ -34,25 +34,16 @@ int	main(void)
 	while (1)
 	{
 		signal(SIGINT, handler_signint_readline);
-		if (!isatty(0))
-			input = readline(NULL);
-		else
-		{
-			update_promt(promt);
-			input = readline(promt);
-			if (input && input[0])
-				add_history(input);
-		}
-		// if (isatty(0))
-			// rl_replace_line(NULL, 0);
+		input = ft_readline();
 		signal(SIGINT, SIG_IGN);
 		if (!input)
 		{
+			if (isatty(0))
 			printf("exit\n");
 			xexit(xfree(input));
 		}
 		/* rl_bind_key('\t', rl_complete); */
-		exit_status_storage(simple_parcer(&input), 1);
+		exit_status_storage(simple_parcer(input), 1);
 		free(input);
 	}
 	(void)_;
@@ -65,7 +56,7 @@ static void	update_promt(char *__restrict promt)
 {
 	const char		*env;
 	size_t			user_size;
-	unsigned int	cwd_size;
+	size_t			cwd_size;
 	size_t			home_size;
 	size_t			shift;
 
@@ -77,9 +68,10 @@ static void	update_promt(char *__restrict promt)
 	ft_memcpy(promt + shift, READLINE_WHITE ":" READLINE_BLUE,
 		sizeof(READLINE_WHITE) + sizeof(READLINE_BLUE) - 1);
 	shift += sizeof(READLINE_WHITE) + sizeof(READLINE_BLUE) - 1;
-	env = getcwd(promt + shift, PATH_MAX);
-	(void)env;
-	cwd_size = ft_strlen(promt + shift);
+	if (!getcwd(promt + shift, PATH_MAX))
+		return ;
+	env = ft_getenv_s("PWD", &cwd_size);
+	ft_memcpy(promt + shift, env, cwd_size);
 	env = ft_getenv_s("HOME", &home_size);
 	if (!ft_memcmp(promt + shift, env, home_size + 1))
 		promt[shift] = '~';
@@ -87,6 +79,28 @@ static void	update_promt(char *__restrict promt)
 		shift += cwd_size - 1;
 	ft_memcpy(promt + shift + 1, " " READLINE_YELLOW "\001➜\002" READLINE_RESET
 		" ", sizeof(READLINE_YELLOW) + sizeof(READLINE_RESET) + 6);
+}
+
+static char	*ft_readline(void)
+{
+	char	promt[PATH_MAX];
+	char	*input;
+
+	fprintf(stderr, "isatty %d\n", isatty(0));
+	if (isatty(0))
+	{
+		update_promt(promt);
+		input = readline(promt);
+		if (input && input[0])
+			add_history(input);
+	}
+	else
+	{
+		int ret = get_next_line(0, &input);
+		if (ret == 0)
+			return (NULL);
+	}
+	return (input);
 }
 
 void	clear_split(char *__restrict *__restrict array)

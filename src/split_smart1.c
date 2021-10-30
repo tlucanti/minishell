@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 10:19:08 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 14:55:34 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/30 14:27:05 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #include "../inc/memory.h"
 
 char *__restrict	*push_back_null(char *__restrict *__restrict array,
-						size_t size) __attribute__((warn_unused_result)
-						) __attribute__((__nothrow__));
+						size_t size) __attribute__((warn_unused_result))
+						 __attribute__((__nothrow__));
 char *__restrict	*push_back_string(char *__restrict *__restrict array,
 						const char *__restrict input, size_t str_size,
 						size_t *array_size) __attribute__((

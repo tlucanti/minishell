@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 12:13:02 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/29 18:03:07 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/30 15:07:49 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,6 @@
 #include "../inc/libft.h"
 #include "../inc/enviroment.h"
 #include "../inc/minishell.h"
-
-static char	*dollar_commutate_extension_1(char *string, char *dollar_start,
-				char **dollar_next)
-			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
-static char	*dollar_commutate_extension_2(char *string, char *dollar_start,
-				char **dollar_next)
-			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
 
 void	enforce_env(char *__restrict *__restrict array)
 {
@@ -61,7 +54,7 @@ char	*dollar_commutate(char *string)
 	}
 }
 
-static char	*dollar_commutate_extension_1(char *string, char *dollar_start,
+char	*dollar_commutate_extension_1(char *string, char *dollar_start,
 				char **dollar_next)
 {
 	t_dollar	dollar;
@@ -90,7 +83,7 @@ static char	*dollar_commutate_extension_1(char *string, char *dollar_start,
 	return (dollar.new_string);
 }
 
-static char	*dollar_commutate_extension_2(char *string, char *dollar_start,
+char	*dollar_commutate_extension_2(char *string, char *dollar_start,
 				char **dollar_next)
 {
 	t_dollar	dollar;
