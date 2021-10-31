@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:22:41 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/29 19:06:43 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/31 20:05:00 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,25 @@ int	builtin_cd(char *__restrict const *__restrict argv)
 {
 	int			ret;
 	const char	*togo;
+	const char	*cwd;
 
+	if (argv[2])
+		return (ft_perror("cd", ETMA, NULL) + 1);
 	togo = *(++argv);
 	if (togo == NULL)
 		togo = "~";
-	if (!ft_memcmp("~", togo, 2))
-		togo = ft_getenv("HOME", NULL);
+	if (togo[0] == '~')
+		togo = ft_strjoin(ft_getenv_s("HOME", NULL), togo + 1);
 	if (togo == NULL)
 		togo = "";
 	if (!*togo)
 		return (EXIT_SUCCESS);
 	ret = chdir(togo);
-	list_insert(internal_env_storage(), ft_strdup("PWD"), getcwd(NULL, 0));
+	cwd = getcwd(NULL, 0);
+	if (cwd == NULL)
+		list_insert(internal_env_storage(), ft_strdup("PWD"), ft_strdup("."));
+	else
+		list_insert(internal_env_storage(), ft_strdup("PWD"), getcwd(NULL, 0));
 	if (ret == 0)
 		return (EXIT_SUCCESS);
 	ft_perror("cd", errno, *argv);

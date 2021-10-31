@@ -6,7 +6,7 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/10/30 16:41:04 by kostya           ###   ########.fr        #
+#    Updated: 2021/10/31 15:01:49 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,28 +68,32 @@ DEPS		=	$(addprefix ${INCLUDE_DIR}/,${HDRS:=.h})
 INCLUDE		=	-I ${INCLUDE_DIR}
 
 # ------------------------------------------------------------------------------
-all:
-	$(MAKE)		$(NAME) -j
+all: libft_ libgnl
+	@$(MAKE)	$(NAME) -j
+
+# ------------------------------------------------------------------------------
+install: libft_ libgnl
+	mkdir		-p ${OBJS_DIR}
+	ln			-sf ../${GNL}/get_next_line.h ${INCLUDE_DIR}/get_next_line.h
+	ln			-sf ${GNL}/libgnl.a libgnl.a
+	ln			-sf ../${LIBFT}/libft.h ${INCLUDE_DIR}/libft.h
+	ln			-sf ${LIBFT}/libft.a libft.a
 
 # ------------------------------------------------------------------------------
 ${OBJS_DIR}/%.o: ${SCRS_DIR}/%.c ${DEPS} Makefile
 	${CC}		${CFLAGS} ${COPTIONS} -c -o $@ $< ${INCLUDE}
 
 # ------------------------------------------------------------------------------
-$(NAME):		${OBJS_DIR} libft.a gnl.a ${OBJS} ${DEPS}
+$(NAME):		${OBJS} ${DEPS} libft.a libgnl.a
 	${CC}		-o ${NAME} ${CFLAGS} ${COPTIONS} ${OBJS} ${LIBRARY}
 
 # ------------------------------------------------------------------------------
-libft.a:
-	$(MAKE)		-C ${LIBFT}
-	ln			-sf ../${LIBFT}/libft.h ${INCLUDE_DIR}/libft.h
-	cp			${LIBFT}/libft.a .
+libft_:
+	@$(MAKE)	-C ${LIBFT}
 
 # ------------------------------------------------------------------------------
-gnl.a:
-	$(MAKE)		-C ${GNL}
-	ln			-sf ../${GNL}/get_next_line.h ${INCLUDE_DIR}/get_next_line.h
-	cp			${GNL}/libgnl.a .
+libgnl:
+	@$(MAKE)	-C ${GNL}
 
 # ------------------------------------------------------------------------------
 clean:
@@ -104,10 +108,6 @@ fclean:			clean
 	${RM}		libgnl.a
 	$(MAKE)		-C ${LIBFT} fclean
 	$(MAKE)		-C ${GNL} fclean
-
-# ------------------------------------------------------------------------------
-${OBJS_DIR}:
-	mkdir		-p ${OBJS_DIR}
 
 # ------------------------------------------------------------------------------
 re:				fclean all

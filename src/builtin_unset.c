@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 18:02:16 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 14:55:46 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/31 20:06:54 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,6 @@ int	builtin_unset(char *__restrict const *__restrict argv)
 	t_env				*env;
 
 	++argv;
-	if (!*argv)
-	{
-		ft_perror("unset", ENEA, NULL);
-		return (EXIT_FAILURE);
-	}
 	env = internal_env_storage();
 	while (*argv)
 	{

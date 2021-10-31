@@ -29,7 +29,8 @@ RM = rm -rf
 LIB_INIT = ar rc
 BUILD_FLAGS = -L. -l
 
-all: ${NAME}
+all:
+	@$(MAKE)	$(NAME) -j
 
 %.o: %.c ${DEPS} Makefile
 	${COMPILER}		${CFLAGS} ${OPTIONS} -c -o $@ $<

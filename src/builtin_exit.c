@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 13:18:44 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/28 22:18:48 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/31 16:03:21 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	builtin_exit(char *__restrict const *__restrict argv)
 	if (argv[1])
 	{
 		ft_perror("exit", ETMA, NULL);
-		return (EXIT_FAILURE);
+		xexit(2);
 	}
 	error = 0;
 	status = ft_atoi_s(*argv, &error);

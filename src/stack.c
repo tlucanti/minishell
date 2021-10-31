@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 22:46:59 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/28 17:44:26 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/31 19:12:27 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,9 @@ void	list_remove(t_env *__restrict env, char *__restrict key)
 		env->root = ptr;
 		return ;
 	}
-	while (!ptr->next)
+	while (ptr->next)
 	{
-		if (!ft_memcmp(env->root->key, key, env->root->key_size + 1))
+		if (!ft_memcmp(ptr->key, key, ptr->key_size + 1))
 		{
 			prev->next = ptr->next;
 			__internal_rm_node(ptr);
