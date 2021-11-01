@@ -6,7 +6,7 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/10/31 15:01:49 by kostya           ###   ########.fr        #
+#    Updated: 2021/10/31 21:19:01 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,12 +43,14 @@ SRCS		=	\
 				memory			\
 				minishell		\
 				parser_impl		\
+				rl_bind_key		\
 				signal			\
 				simple_parser	\
 				split_smart1	\
 				split_smart		\
 				stack1			\
-				stack
+				stack			\
+				del_quotes
 # ------------------------------------------------------------------------------
 HDRS		=	\
 				color			\

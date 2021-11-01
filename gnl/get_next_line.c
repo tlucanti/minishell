@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 22:55:29 by tlucanti          #+#    #+#             */
-/*   Updated: 2021/10/30 16:25:37 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/01 14:30:10 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ int	get_next_line(int fd, char **line)
 		return (-1);
 	l_l = NULL;
 	if (buff[fd] == NULL)
-		buff[fd] = (t_buffer *)ft_calloc1(sizeof(t_buffer));
+		buff[fd] = (t_buffer *)xmalloc(sizeof(t_buffer));
 	if (buff[fd] == NULL)
 		return (-1);
+	ft_memset(buff[fd], 0, sizeof(t_buffer));
 	ret = gnl_loop(fd, line, buff, &l_l);
 	if ((ret & 0xffffffff) != 2)
 		return (ret);
@@ -48,9 +49,8 @@ size_t	gnl_loop(int fd, char **line, t_buffer **buff, t_deque **l_l)
 	while (end_ind == -1)
 	{
 		if (ft_lpf(l_l, buff[fd]->buffer + buff[fd]->start, buff[fd]->read_bytes
-				 - buff[fd]->start) || ((buff[fd]->read_bytes = (
-						read(fd, buff[fd]->buffer, BUFFER_SIZE)))
-				 		 == (size_t)(-1)))
+				- buff[fd]->start) || ft_assign64(&buff[fd]->read_bytes,
+				read(fd, buff[fd]->buffer, BUFFER_SIZE)) == (size_t)(-1))
 			return (ft_c(*l_l, buff, fd));
 		else if (buff[fd]->read_bytes == 0)
 		{
@@ -76,10 +76,10 @@ int	ft_lpf(t_deque **list, const char *str, size_t size)
 		return (0);
 	if (str[size] != 0xa)
 		size++;
-	new_str = (char *)malloc(size);
+	new_str = (char *)xmalloc(size);
 	if (new_str == NULL)
 		return (1);
-	new_lst = (t_deque *)malloc(sizeof(t_deque));
+	new_lst = (t_deque *)xmalloc(sizeof(t_deque));
 	if (new_lst == NULL)
 		return (1);
 	new_lst->str = new_str;
@@ -131,7 +131,7 @@ int	ft_lm(t_deque *list, char **line, int fd, t_buffer **tbuff)
 			break ;
 		lst_ptr = lst_ptr->next;
 	}
-	*line = (char *)malloc(total_size + 1);
+	*line = (char *)xmalloc(total_size + 1);
 	if (*line == NULL)
 		return (ft_c(list, tbuff, fd));
 	line_ptr = *line;

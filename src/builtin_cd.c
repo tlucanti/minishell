@@ -13,7 +13,7 @@
 #include "../inc/enviroment.h"
 #include "../inc/error.h"
 #include "../inc/libft.h"
-#include <stdio.h>
+
 int	builtin_cd(char *__restrict const *__restrict argv)
 /*
 ** function changes current working dir (CWD) of shell to path in first argument

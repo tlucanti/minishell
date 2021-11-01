@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:59:44 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/28 22:28:43 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/31 21:06:24 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	xexit(int status)
 */
 {
 	list_clear(internal_env_storage());
-	// set_autoattr(0, 1, ECHOCTL);
 	exit(status);
 }
 
@@ -79,4 +78,13 @@ static const char	*xstrerror(int errorcode)
 	else if (errorcode == ESYNT)
 		return ("syntax error");
 	return (strerror(errorcode));
+}
+
+int	exit_status_storage(int status, int set)
+{
+	static int	_internal_status = 0;
+
+	if (set)
+		_internal_status = status;
+	return (_internal_status);
 }
