@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:39:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/29 13:06:51 by kostya           ###   ########.fr       */
+/*   Updated: 2021/10/31 21:07:56 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ char	*__restrict	*implement_redirect(char *__restrict *__restrict ptr)
 
 	error = 0;
 	fname = ptr[1];
-	if ((size_t)(ptr[1]) < ANY_TOKEN && (size_t)(ptr[1]) & ANY_QUOTE)
-		fname = ptr[2];
 	if (*ptr == OUT_WRITE_PTR || *ptr == OUT_APPEND_PTR)
 	{
 		close(STDOUT);

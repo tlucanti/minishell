@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 16:55:48 by tlucanti          #+#    #+#             */
-/*   Updated: 2021/10/30 16:38:56 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/01 14:25:12 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,6 @@ void	ft_memcpy_fast_gnl(unsigned char **dst, unsigned char **src,
 	*src = (unsigned char *)src_ptr;
 }
 
-void	*ft_calloc1(size_t nmeb)
-{
-	char	*arr;
-
-	arr = (char *)malloc(nmeb);
-	if (arr == NULL)
-		return (NULL);
-	while (nmeb--)
-		arr[nmeb] = 0;
-	return (arr);
-}
-
 size_t	ft_find_end(char *str, size_t size)
 {
 	size_t	i;
@@ -92,4 +80,10 @@ size_t	ft_find_end(char *str, size_t size)
 		str++;
 	}
 	return (-1);
+}
+
+size_t	ft_assign64(size_t *dest, size_t source)
+{
+	*dest = source;
+	return (source);
 }

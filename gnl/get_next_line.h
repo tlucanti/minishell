@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlucanti <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 12:00:38 by tlucanti          #+#    #+#             */
-/*   Updated: 2021/01/20 12:00:43 by tlucanti         ###   ########.fr       */
+/*   Updated: 2021/11/01 14:28:16 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ int					ft_lm(t_deque *list, char **line, int fd, t_buffer **tbuff);
 void				*ft_memcpy_gnl(void *dst, const void *src, size_t size);
 void				ft_memcpy_fast_gnl(unsigned char **dst, unsigned char **src,
 						size_t xlen);
-void				*ft_calloc1(size_t nmeb);
+
+void				*xmalloc(size_t size);
+void				*ft_memset(void *s, int c, size_t n);
+size_t				ft_assign64(size_t *dest, size_t source);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 12:16:21 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/30 15:37:48 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/01 13:07:01 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int				complex_parser_decorator(char *__restrict *__restrict array)
 char *__restrict	*clear_split_smart(char *__restrict *__restrict array)
 				__attribute__((__nothrow__));
 char *__restrict	*smart_split(const char *__restrict input, int (*skip)(int))
-					__attribute__((warn_unused_result)) __attribute__((
-							__nothrow__));
+				__attribute__((warn_unused_result)) __attribute__((
+						__nothrow__));
 void			enforce_env(char *__restrict *__restrict array)
 				__attribute__((__nothrow__));
 char			*dollar_commutate(char *__restrict string)
@@ -55,13 +55,15 @@ int				fork_shard(char *__restrict *__restrict array,
 int				backup_fd_in_out(int _in_out[2], int init)
 				__attribute__((__nothrow__));
 char			*dollar_commutate_extension_1(char *string, char *dollar_start,
-				char **dollar_next)
+					char **dollar_next)
 				__attribute__((warn_unused_result)) __attribute__((
 						__nothrow__));
 char			*dollar_commutate_extension_2(char *string, char *dollar_start,
-				char **dollar_next)
+					char **dollar_next)
 				__attribute__((warn_unused_result)) __attribute__((
 						__nothrow__));
+void			del_quotes_arr(char *__restrict *__restrict array)
+				__attribute__((__nothrow__));
 
 # define OUT_APPEND_PTR	(char *)OUT_APPEND
 # define OUT_WRITE_PTR	(char *)OUT_WRITE
@@ -106,5 +108,16 @@ typedef struct s_dollar
 	size_t	exit_status_size;
 }	t_dollar;
 
+typedef struct s_quote
+{
+	size_t	s_size;
+	size_t	r_size;
+	size_t	q_size;
+	size_t	e_size;
+
+	char	*string;
+	char	*input;
+	char	*quote_index;
+}	t_quote;
 
 #endif // PARSER_H
