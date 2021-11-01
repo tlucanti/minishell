@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:05:54 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/29 18:47:55 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/01 16:36:38 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	builtin_pwd(char *__restrict const *__restrict argv)
 	char	buff[PATH_MAX];
 	char	*_;
 
-	if (argv[1])
+	if (argv && argv[1])
 	{
 		ft_perror("pwd", ETMA, NULL);
 		return (EXIT_FAILURE);

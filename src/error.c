@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 15:59:44 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/31 21:06:24 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/01 17:44:58 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ static const char	*xstrerror(int errorcode)
 		return ("syntax error, unexpected token");
 	else if (errorcode == ESYNT)
 		return ("syntax error");
+	else if (errorcode == EOLDPWD)
+		return ("OLDPWD not set");
 	return (strerror(errorcode));
 }
 

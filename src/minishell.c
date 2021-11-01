@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:56:55 by kostya            #+#    #+#             */
-/*   Updated: 2021/11/01 14:31:13 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/01 17:49:38 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,11 @@ promt.shift_0 + promt.user_size, ft_memcpy(buff + promt.shift_1, READLINE_WHITE
 ":" READLINE_BLUE, sizeof(READLINE_WHITE) + sizeof(READLINE_BLUE) - 1), promt.
 shift_1 + sizeof(READLINE_WHITE) + sizeof(READLINE_BLUE) - 1, getcwd(buff +
 promt.shift, PATH_MAX), ft_memcpy(buff + promt.shift, promt.cwd, promt.cwd_size)
-, ft_getenv_s("HOME", (size_t *)&promt.home_size), promt.home_size, 0, (t_promt
+, ft_getenv("HOME", (size_t *)&promt.home_size), promt.home_size, 0, (t_promt
 *)&promt};
 
-	if (!ft_memcmp(buff + promt.shift, promt.home, promt.home_size))
+	if (promt.home && !ft_memcmp(buff + promt.shift, promt.home,
+			promt.home_size))
 	{
 		buff[promt.shift] = '~';
 		promt.self->r_size = ft_strlen(buff + promt.shift + promt.home_size);
@@ -96,7 +97,7 @@ static char	*ft_readline(void)
 	}
 	else
 	{
-		if (!get_next_line(0, &input))
+		if (get_next_line(0, &input) != 1)
 			return (NULL);
 	}
 	return (input);

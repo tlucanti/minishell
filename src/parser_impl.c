@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:39:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/31 21:07:56 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/01 17:32:19 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ int	implement_heredoc(const char *__restrict end)
 	int		_pipes_in_out[2];
 	int		_frk;
 	int		_backup_x2_in;
+	char	*_;
 
+	_ = builtin_heredoc_prompt(2);
 	_backup_x2_in = dup(backup_fd_in_out(NULL, 0));
 	if (dup2(_backup_x2_in, STDIN) == -1)
 		return (ft_perror("dup2", errno, NULL) - 1);

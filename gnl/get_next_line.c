@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 22:55:29 by tlucanti          #+#    #+#             */
-/*   Updated: 2021/11/01 14:30:10 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/01 15:55:59 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int	get_next_line(int fd, char **line)
 		return (-1);
 	l_l = NULL;
 	if (buff[fd] == NULL)
+	{
 		buff[fd] = (t_buffer *)xmalloc(sizeof(t_buffer));
-	if (buff[fd] == NULL)
-		return (-1);
-	ft_memset(buff[fd], 0, sizeof(t_buffer));
+		ft_memset(buff[fd], 0, sizeof(t_buffer));
+	}
 	ret = gnl_loop(fd, line, buff, &l_l);
 	if ((ret & 0xffffffff) != 2)
 		return (ret);

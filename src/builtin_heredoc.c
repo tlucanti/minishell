@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 13:58:07 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 14:55:47 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/01 17:37:14 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,25 +71,42 @@ char	*builtin_heredoc_prompt(int reset)
 	static int	count = 0;
 	static char	pattern[] = "heredoc (            ";
 
-	if (reset)
+	if (reset == 1)
 	{
 		count = 0;
 		return (NULL);
 	}
-	ft_putunbr(pattern + 9, ++count);
+	else if (reset == 2)
+	{
+		++count;
+		return (NULL);
+	}
+	ft_putunbr(pattern + 9, count);
 	return (pattern);
 }
 
 static void	ft_putunbr(char *string, int num)
 {
+	int	dn;
+	int	dn2;
+	int	n;
+
+	n = num;
+	dn = 0;
+	while (n)
+	{
+		++dn;
+		n /= 10;
+	}
+	dn2 = dn;
 	while (num)
 	{
-		*string++ = num % 10 + '0';
+		string[--dn] = num % 10 + '0';
 		num /= 10;
 	}
-	string[0] = ')';
-	string[1] = ' ';
-	string[2] = '>';
-	string[3] = ' ';
-	string[4] = '\0';
+	string[dn2 + 0] = ')';
+	string[dn2 + 1] = ' ';
+	string[dn2 + 2] = '>';
+	string[dn2 + 3] = ' ';
+	string[dn2 + 4] = '\0';
 }

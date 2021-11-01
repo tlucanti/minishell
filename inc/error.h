@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 16:00:14 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/28 16:51:15 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/01 16:13:00 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	xexit(int status)
 # define ENUMR		-6		// ERROR NUMERIC ARGUMENT REQUIRED
 # define ETOKEN		-7		// ERROR UNEXPECTED TOKEN IN PARSE
 # define ESYNT		-8		// ERROR INVALID SYNTAX
+# define EOLDPWD	-9		// ERROR $OLDPWD NOT SET
 
 # ifndef EXIT_FAILURE
 #  define EXIT_FAILURE 1
