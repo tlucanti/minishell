@@ -6,7 +6,7 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/11/01 20:10:15 by kostya           ###   ########.fr        #
+#    Updated: 2021/11/01 20:16:07 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,8 +74,7 @@ all: libft_ libgnl
 	@$(MAKE)	$(NAME) -j
 
 # ------------------------------------------------------------------------------
-install: libft_ libgnl
-	mkdir		-p ${OBJS_DIR}
+install: ${OBJS_DIR} libft_ libgnl
 	ln			-sf ../${GNL}/get_next_line.h ${INCLUDE_DIR}/get_next_line.h
 	ln			-sf ${GNL}/libgnl.a libgnl.a
 	ln			-sf ../${LIBFT}/libft.h ${INCLUDE_DIR}/libft.h
@@ -113,6 +112,10 @@ fclean:			clean
 
 # ------------------------------------------------------------------------------
 re:				fclean install all
+
+# ------------------------------------------------------------------------------
+${OBJS_DIR}:
+	mkdir		-p ${OBJS_DIR}
 
 # ------------------------------------------------------------------------------
 .PHONY:			all clean fclean re
