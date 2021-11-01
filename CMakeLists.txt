@@ -15,6 +15,7 @@ add_executable(Minishell
         src/builtin_pwd.c
         src/builtin_unset.c
         src/complex_parser.c
+        src/del_quotes.c
         src/dollar.c
         src/enviroment.c
         src/error.c
@@ -23,6 +24,7 @@ add_executable(Minishell
         src/memory.c
         src/minishell.c
         src/parser_impl.c
+        src/rl_bind_key.c
         src/signal.c
         src/simple_parser.c
         src/split_smart.c
@@ -38,8 +40,10 @@ add_executable(Minishell
         inc/memory.h
         inc/minishell.h
         inc/parser.h
+
 )
 
 target_link_libraries(Minishell
         readline
-        /media/kostya/Data/CLion/Minishell/libft.a)
+        /media/kostya/Data/CLion/Minishell/libft.a
+        /media/kostya/Data/CLion/Minishell/libgnl.a)

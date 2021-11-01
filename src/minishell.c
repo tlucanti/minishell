@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:56:55 by kostya            #+#    #+#             */
-/*   Updated: 2021/11/01 17:49:38 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/01 18:43:25 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ int	main(void)
 		{
 			if (isatty(0))
 				printf("exit\n");
-			free(input);
-			xexit(0);
+			xexit(exit_status_storage(0, 0));
 		}
 		ft_rl_bind_key();
 		exit_status_storage(simple_parcer(input), 1);

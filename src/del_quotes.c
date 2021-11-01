@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 21:09:58 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/31 21:45:36 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/01 19:15:59 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static void	__del_quotes_extension_2(t_quote *__restrict quote,
 	ft_memcpy(quote->input, (*input_ptr), quote->s_size);
 	ft_memcpy(quote->input + quote->s_size, quote->string, quote->e_size);
 	ft_memcpy(quote->input + quote->s_size + quote->e_size, quote->quote_index
-		+ 1, quote->r_size);
+		+ 1, quote->r_size + 1);
 	free((*input_ptr));
 	(*input_ptr) = quote->input;
 	quote->s_size = quote->s_size + quote->e_size;

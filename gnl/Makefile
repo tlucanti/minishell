@@ -6,13 +6,13 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/10/31 19:09:15 by kostya           ###   ########.fr        #
+#    Updated: 2021/11/01 18:56:58 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # ------------------------------ compiler options ------------------------------
 NAME		=	libgnl.a
-CC			=	clang
+CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror
 COPTIONS	=	-O3 -ffast-math
 # ------------------------------- linker options -------------------------------

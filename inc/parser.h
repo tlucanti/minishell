@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 12:16:21 by kostya            #+#    #+#             */
-/*   Updated: 2021/11/01 13:07:01 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/01 19:57:21 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <stdio.h>
 
 int				complex_parser_decorator(char *__restrict *__restrict array)
 				__attribute__((warn_unused_result)) __attribute__((
@@ -119,5 +120,34 @@ typedef struct s_quote
 	char	*input;
 	char	*quote_index;
 }	t_quote;
+
+inline void	print_my_cool_split(char *__restrict *__restrict p)
+{
+	if (!p)
+	{
+		printf("syntax error\n");
+		return ;
+	}
+	if (!*p)
+	{
+		printf("[%p, %p]\n", p[0], p[1]);
+		return ;
+	}
+	if ((size_t) * p > 100)
+		printf("['%s'", *p);
+	else
+		printf("[%p", *p);
+	++p;
+	while (*p)
+	{
+		if ((size_t) * p > 100)
+			printf(", '%s'", *p);
+		else
+			printf(", %p", *p);
+		++p;
+	}
+	printf(", %p, %p", p[0], p[1]);
+	printf("]\n");
+}
 
 #endif // PARSER_H

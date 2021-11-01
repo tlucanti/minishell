@@ -6,11 +6,13 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 20:16:36 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/31 21:08:19 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/01 19:57:35 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef RLBINDKEY
+#include "../inc/minishell.h"
+
+#ifndef RLBINDKEY
 
 void	ft_rl_bind_key(void)
 {
