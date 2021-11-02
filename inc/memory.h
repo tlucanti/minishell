@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 22:35:26 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/28 16:52:03 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/02 13:13:53 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 void	*xmalloc(size_t size) __attribute__((malloc)) __attribute__((
 				warn_unused_result)) __attribute__((__nothrow__));
 uint	xfree(void *__restrict ptr)
+		__attribute__((__nothrow__));
+void	free_s(void *__restrict ptr)
 		__attribute__((__nothrow__));
 
 #endif // MEMORY_H

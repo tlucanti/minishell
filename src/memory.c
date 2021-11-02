@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 11:58:13 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 14:55:43 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/02 13:14:29 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,13 @@ uint	xfree(void *__restrict ptr)
 {
 	free(ptr);
 	return (1);
+}
+
+void	free_s(void *__restrict ptr)
+{
+	void	**__ptr;
+
+	__ptr = (void **)ptr;
+	free(*__ptr);
+	*__ptr = NULL;
 }

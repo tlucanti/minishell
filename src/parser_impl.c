@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:39:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/11/01 17:32:19 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/02 13:32:13 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,12 @@ char	*__restrict	*implement_redirect(char *__restrict *__restrict ptr)
 
 int	implement_heredoc(const char *__restrict end)
 {
-	char	*heredoc_str;
-	int		_pipes_in_out[2];
-	int		_frk;
-	int		_backup_x2_in;
-	char	*_;
+	char		*heredoc_str;
+	int			_pipes_in_out[2];
+	int			_frk;
+	int			_backup_x2_in;
 
-	_ = builtin_heredoc_prompt(2);
+	builtin_heredoc_prompt(2);
 	_backup_x2_in = dup(backup_fd_in_out(NULL, 0));
 	if (dup2(_backup_x2_in, STDIN) == -1)
 		return (ft_perror("dup2", errno, NULL) - 1);
@@ -70,6 +69,7 @@ int	implement_heredoc(const char *__restrict end)
 		_implement_heredoc_extension(_pipes_in_out, heredoc_str);
 	else
 	{
+		free(heredoc_str);
 		close(_pipes_in_out[1]);
 		return (_pipes_in_out[0]);
 	}

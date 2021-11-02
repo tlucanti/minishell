@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 12:16:21 by kostya            #+#    #+#             */
-/*   Updated: 2021/11/01 19:57:21 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/02 13:33:02 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ char			*dollar_commutate(char *__restrict string)
 				__attribute__((warn_unused_result)) __attribute__((
 						__nothrow__));
 char			*builtin_heredoc_prompt(int reset)
-				__attribute__((warn_unused_result)) __attribute__((
-						__nothrow__));
+				__attribute__((__nothrow__));
 char *__restrict	*implement_redirect(char *__restrict *__restrict ptr)
 				__attribute__((warn_unused_result)) __attribute__((
 						__nothrow__));
