@@ -6,7 +6,7 @@
 #    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/11/01 20:16:07 by kostya           ###   ########.fr        #
+#    Updated: 2021/11/05 17:56:40 by kostya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@
 NAME		=	minishell
 CC			=	clang
 CFLAGS		=	-Wall -Wextra -Werror
-COPTIONS	=	-O3 -ffast-math
+COPTIONS	=	-g3
+# -ffast-math
 # ------------------------------- linker options -------------------------------
 LIBRARY		=	-L. -lreadline -lft -lgnl
 OBJS_DIR	=	obj

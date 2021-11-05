@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 23:11:37 by kostya            #+#    #+#             */
-/*   Updated: 2021/11/01 19:55:23 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/05 16:08:13 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static int	syntax_check(char *__restrict *__restrict array)
 			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
 static char	*token_to_string(const char *__restrict token)
 			__attribute__((warn_unused_result)) __attribute__((__nothrow__));
+
+extern void	print_my_cool_split(char *__restrict *__restrict p);
 
 int	simple_parcer(char *__restrict input)
 {

@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 12:38:52 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 14:55:47 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/05 17:56:21 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	builtin_export(char *const *__restrict argv)
 			ft_perror("export", ENAVI, *argv);
 			return (1);
 		}
+		if (ft_strchr(*argv, '=') == NULL)
+			value = ft_strdup(ft_getenv_s(key, NULL));
 		list_insert(env, key, value);
 		++argv;
 	}
@@ -68,7 +70,10 @@ int	builtin_export_split(const char *__restrict string, char *__restrict *key,
 	*key = (char *)xmalloc(it + 1);
 	ft_memcpy(*key, string, it);
 	(*key)[it] = 0;
-	string += it + 1;
+	*value = NULL;
+	if (!string[it])
+		return (EXIT_SUCCESS);
+	string += it + (string[it] == '=');
 	it = ft_strlen(string);
 	*value = (char *)xmalloc(it + 1);
 	ft_memcpy(*value, string, it + 1);

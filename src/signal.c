@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 13:23:17 by kostya            #+#    #+#             */
-/*   Updated: 2021/10/27 14:55:35 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/05 16:42:28 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,20 @@ void	ft_psignal(int pid, int signum, const char *__restrict parent)
 */
 {
 	const char	*message;
+	char		*pid_str;
 
 	message = xstrsignal(signum);
 	if (!message)
 		return ;
+	pid_str = ft_itoa(pid);
 	ft_putstr_fd(TERM_BLUE "[2]\t" ERROR, 2);
-	ft_putstr_fd(ft_itoa(pid), 2);
+	ft_putstr_fd(pid_str, 2);
 	ft_putstr_fd(TERM_WHITE ": ", 2);
 	ft_putstr_fd(xstrsignal(signum), 2);
 	ft_putstr_fd("\t" WARNING, 2);
 	ft_putstr_fd(parent, 2);
 	ft_putstr_fd(RESET "\n", 2);
+	free(pid_str);
 }
 
 static const char	*xstrsignal(int signum)

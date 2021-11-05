@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 22:22:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/11/01 18:10:07 by kostya           ###   ########.fr       */
+/*   Updated: 2021/11/05 16:19:33 by kostya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,7 @@ static char	*__builtin_execve_strsum(const char *__restrict str1,
 	sum = (char *)xmalloc(sizeof(char) * (size1 + size2 + 2));
 	ft_memcpy(sum, str1, size1);
 	sum[size1] = '/';
-	ft_memcpy(sum + size1 + 1, str2, size2);
-	sum[size1 + size2 + 2] = '\0';
+	ft_memcpy(sum + size1 + 1, str2, size2 + 1);
 	return (sum);
 }
 
