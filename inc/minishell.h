@@ -6,14 +6,18 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:53:32 by kostya            #+#    #+#             */
-/*   Updated: 2021/11/01 13:06:36 by kostya           ###   ########.fr       */
+/*   Updated: 2022/06/29 11:50:09 by tlucanti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <linux/limits.h>
+# ifdef __linux__
+#  include <linux/limits.h>
+# else
+#  include <limits.h>
+# endif
 
 # include <stdlib.h>
 # include <stdio.h>
