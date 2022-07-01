@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tlucanti <tlucanti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:53:32 by kostya            #+#    #+#             */
-/*   Updated: 2022/06/29 11:50:09 by tlucanti         ###   ########.fr       */
+/*   Updated: 2022/07/01 12:56:55 by tlucanti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include <readline.h>
+# include <history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -78,7 +78,8 @@ char			*builtin_heredoc(const char *__restrict end)
 int				exit_status_storage(int status, int set)
 				__attribute__((__nothrow__));
 int				get_next_line(int fd, char **line);
-void			ft_rl_bind_key(void);
+void			ft_rl_bind_key(void)
+				__attribute__((__nothrow__));
 
 typedef struct s_promt
 {
@@ -99,5 +100,8 @@ typedef struct s_promt
 	size_t			r_size;
 	struct s_promt	*self;
 }	t_promt;
+
+void			update_promt_init(t_promt *promt_ptr, char *__restrict buff)
+				__attribute__((__nothrow__));
 
 #endif // MINISHELL_H

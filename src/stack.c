@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tlucanti <tlucanti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 22:46:59 by kostya            #+#    #+#             */
-/*   Updated: 2021/11/05 16:35:05 by kostya           ###   ########.fr       */
+/*   Updated: 2022/07/01 12:53:01 by tlucanti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 #include "../inc/memory.h"
 #include "../inc/libft.h"
 #include "../inc/minishell.h"
+
+#if __APPLE__
+
+extern char	**environ;
+#else
+
+const char	**environ = __environ;
+#endif
 
 static t__internal_env_list	*__internal_new_node(void) __attribute__((
 									warn_unused_result)) __attribute__((
@@ -103,9 +111,9 @@ t_env	*env_init(void)
 	new_env->root = __internal_new_node();
 	new_env->back = new_env->root;
 	it = 0;
-	while (__environ[it])
+	while (environ[it])
 	{
-		builtin_export_split(__environ[it], &key, &value);
+		builtin_export_split(environ[it], &key, &value);
 		list_insert(new_env, key, value);
 		++it;
 	}

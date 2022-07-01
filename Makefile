@@ -3,19 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kostya <kostya@student.42.fr>              +#+  +:+       +#+         #
+#    By: tlucanti <tlucanti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/08 23:21:10 by kostya            #+#    #+#              #
-#    Updated: 2021/11/05 17:56:40 by kostya           ###   ########.fr        #
+#    Updated: 2022/07/01 12:57:22 by tlucanti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+OS			=	$(shell uname -s | tr A-Z a-z)
 # ------------------------------ compiler options ------------------------------
 NAME		=	minishell
 CC			=	clang
 CFLAGS		=	-Wall -Wextra -Werror
-COPTIONS	=	-g3
-# -ffast-math
+COPTIONS	=	-O3
 # ------------------------------- linker options -------------------------------
 LIBRARY		=	-L. -lreadline -lft -lgnl
 OBJS_DIR	=	obj
@@ -44,6 +44,7 @@ SRCS		=	\
 				memory			\
 				minishell		\
 				parser_impl		\
+				promt			\
 				rl_bind_key		\
 				signal			\
 				simple_parser	\
@@ -62,6 +63,11 @@ HDRS		=	\
 				memory			\
 				minishell		\
 				parser
+
+ifeq ($(OS), darwin)
+	LIBRARY	+=  -I ~/.brew/opt/readline/include/readline -I ~/.brew/opt/readline/include/ -L ~/.brew/opt/readline/lib
+	CFLAGS	+= 	-I ~/.brew/opt/readline/include/readline -I ~/.brew/opt/readline/include/
+endif
 
 # ======================= UNCHANGEABLE PART OF MAKEFILE ========================
 # ------------------------------------------------------------------------------

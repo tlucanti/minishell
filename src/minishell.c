@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tlucanti <tlucanti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:56:55 by kostya            #+#    #+#             */
-/*   Updated: 2021/11/01 18:43:25 by kostya           ###   ########.fr       */
+/*   Updated: 2022/07/01 12:35:30 by tlucanti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,9 @@ static void	update_promt(char *__restrict buff)
 ** tlucanti:/home/tlucanti $ 
 */
 {
-	const t_promt	promt = (t_promt){ft_getenv_s("USER", (size_t *)&promt.
-user_size), promt.user_size, ft_getenv_s("PWD", (size_t *)&promt.cwd_size),
-promt.cwd_size, sizeof(READLINE_GREEN) - 1, ft_memcpy(buff, READLINE_GREEN,
-promt.shift_0), ft_memcpy(buff + promt.shift_0, promt.user, promt.user_size),
-promt.shift_0 + promt.user_size, ft_memcpy(buff + promt.shift_1, READLINE_WHITE
-":" READLINE_BLUE, sizeof(READLINE_WHITE) + sizeof(READLINE_BLUE) - 1), promt.
-shift_1 + sizeof(READLINE_WHITE) + sizeof(READLINE_BLUE) - 1, getcwd(buff +
-promt.shift, PATH_MAX), ft_memcpy(buff + promt.shift, promt.cwd, promt.cwd_size)
-, ft_getenv("HOME", (size_t *)&promt.home_size), promt.home_size, 0, (t_promt
-*)&promt};
+	t_promt	promt;
 
+	update_promt_init(&promt, buff);
 	if (promt.home && !ft_memcmp(buff + promt.shift, promt.home,
 			promt.home_size))
 	{

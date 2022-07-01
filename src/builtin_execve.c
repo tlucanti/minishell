@@ -6,7 +6,7 @@
 /*   By: kostya <kostya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 22:22:39 by kostya            #+#    #+#             */
-/*   Updated: 2021/11/05 16:19:33 by kostya           ###   ########.fr       */
+/*   Updated: 2022/06/29 13:02:10 by tlucanti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	builtin_execve(char *const *__restrict argv)
 	else
 	{
 		waitpid(p_id, &status, 0);
-		ft_psignal(p_id, status & 0x7f, argv[0]);
+		status >>= 8;
+		ft_psignal(p_id, status, argv[0]);
 		return (status);
 	}
 }
