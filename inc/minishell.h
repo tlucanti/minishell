@@ -15,15 +15,17 @@
 
 # ifdef __linux__
 #  include <linux/limits.h>
+#  include <readline/readline.h>
+#  include <readline/history.h>
 # else
 #  include <limits.h>
+#  include <readline.h>
+#  include <history.h>
 # endif
 
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
-# include <readline.h>
-# include <history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>

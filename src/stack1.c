@@ -75,3 +75,32 @@ static char	*__mas_gen_extension(const char *str1, const char *str2,
 	sum[size1 + size2 + 1] = '\0';
 	return (sum);
 }
+
+void	list_remove(t_env *__restrict env, char *__restrict key)
+{
+	t__internal_env_list	*prev;
+	t__internal_env_list	*ptr;
+
+	if (env->root == env->back)
+		return ;
+	prev = env->root;
+	ptr = prev->next;
+	if (!ft_memcmp(prev->key, key, prev->key_size + 1))
+	{
+		__internal_rm_node(prev);
+		env->root = ptr;
+		return ;
+	}
+	while (ptr->next)
+	{
+		if (!ft_memcmp(ptr->key, key, ptr->key_size + 1))
+		{
+			prev->next = ptr->next;
+			__internal_rm_node(ptr);
+			--env->size;
+			return ;
+		}
+		ptr = ptr->next;
+		prev = prev->next;
+	}
+}

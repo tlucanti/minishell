@@ -15,12 +15,9 @@
 #include "../inc/libft.h"
 #include "../inc/minishell.h"
 
-#if __APPLE__
+#ifdef __APPLE__
 
 extern char	**environ;
-#else
-
-const char	**environ = __environ;
 #endif
 
 static t__internal_env_list	*__internal_new_node(void) __attribute__((
@@ -100,6 +97,8 @@ static int	__list_insert_extension(
 	return (0);
 }
 
+#ifdef __APPLE__
+
 t_env	*env_init(void)
 {
 	char *__restrict	key;
@@ -119,35 +118,29 @@ t_env	*env_init(void)
 	}
 	return (new_env);
 }
+#else
 
-void	list_remove(t_env *__restrict env, char *__restrict key)
+t_env	*env_init(void)
 {
-	t__internal_env_list	*prev;
-	t__internal_env_list	*ptr;
+	char *__restrict	key;
+	char *__restrict	value;
+	t_env				*new_env;
+	size_t				it;
 
-	if (env->root == env->back)
-		return ;
-	prev = env->root;
-	ptr = prev->next;
-	if (!ft_memcmp(prev->key, key, prev->key_size + 1))
+	new_env = (t_env *)xmalloc(sizeof(t_env));
+	new_env->root = __internal_new_node();
+	new_env->back = new_env->root;
+	it = 0;
+	while (__environ[it])
 	{
-		__internal_rm_node(prev);
-		env->root = ptr;
-		return ;
+		builtin_export_split(__environ[it], &key, &value);
+		list_insert(new_env, key, value);
+		++it;
 	}
-	while (ptr->next)
-	{
-		if (!ft_memcmp(ptr->key, key, ptr->key_size + 1))
-		{
-			prev->next = ptr->next;
-			__internal_rm_node(ptr);
-			--env->size;
-			return ;
-		}
-		ptr = ptr->next;
-		prev = prev->next;
-	}
+	return (new_env);
 }
+
+#endif
 
 static t__internal_env_list	*__internal_new_node(void)
 {
