@@ -6,12 +6,14 @@
 /*   By: tlucanti <tlucanti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 13:53:32 by kostya            #+#    #+#             */
-/*   Updated: 2022/07/01 12:56:55 by tlucanti         ###   ########.fr       */
+/*   Updated: 2022/07/06 15:03:29 by tlucanti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# include <stdio.h>
 
 # ifdef __linux__
 #  include <linux/limits.h>
@@ -23,7 +25,6 @@
 #  include <history.h>
 # endif
 
-# include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <sys/types.h>
